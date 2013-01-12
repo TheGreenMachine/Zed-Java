@@ -1,6 +1,7 @@
 ﻿/__MACOSX
 /build
 /j2meclasses
+/nbproject
 /nbproject/private
 /suite
 *.bak*
