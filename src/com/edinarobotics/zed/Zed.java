@@ -23,7 +23,7 @@ public class Zed extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-
+        Components.getInstance(); //Create all robot subsystems.
     }
 
     /**
