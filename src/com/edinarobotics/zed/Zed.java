@@ -9,6 +9,7 @@ package com.edinarobotics.zed;
 
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class Zed extends IterativeRobot {
     
@@ -24,21 +25,21 @@ public class Zed extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-
+        Scheduler.getInstance().run();
     }
 
     /**
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        
+        Scheduler.getInstance().run();
     }
     
     /**
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
-    
+        Scheduler.getInstance().run();
     }
     
 }
