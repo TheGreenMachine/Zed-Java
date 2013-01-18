@@ -1,6 +1,7 @@
 package com.edinarobotics.utils.gamepad;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * Represents a gamepad with two joysticks and several buttons.
@@ -27,6 +28,19 @@ public class Gamepad extends Joystick{
     public static final int BUTTON_9 = 9;
     public static final int BUTTON_10 = 10;
     
+    public final JoystickButton LEFT_BUMPER_BUTTON;
+    public final JoystickButton LEFT_TRIGGER_BUTTON;
+    public final JoystickButton RIGHT_BUMPER_BUTTON;
+    public final JoystickButton RIGHT_TRIGGER_BUTTON;
+    public final JoystickButton BUTTON_1_BUTTON;
+    public final JoystickButton BUTTON_2_BUTTON;
+    public final JoystickButton BUTTON_3_BUTTON;
+    public final JoystickButton BUTTON_4_BUTTON;
+    public final JoystickButton BUTTON_9_BUTTON;
+    public final JoystickButton BUTTON_10_BUTTON;
+    public final JoystickButton LEFT_JOYSTICK_BUTTON_BUTTON;
+    public final JoystickButton RIGHT_JOYSTICK_BUTTON_BUTTON;
+    
     public static final int LEFT_JOYSTICK_BUTTON = 11;
     public static final int RIGHT_JOYSTICK_BUTTON = 12;
                     
@@ -34,6 +48,18 @@ public class Gamepad extends Joystick{
     
     public Gamepad(int port){
         super(port);
+        LEFT_BUMPER_BUTTON = new JoystickButton(this, LEFT_BUMPER);
+        LEFT_TRIGGER_BUTTON = new JoystickButton(this, LEFT_TRIGGER);
+        RIGHT_BUMPER_BUTTON = new JoystickButton(this, RIGHT_BUMPER);
+        RIGHT_TRIGGER_BUTTON = new JoystickButton(this, RIGHT_TRIGGER);
+        BUTTON_1_BUTTON = new JoystickButton(this, BUTTON_1);
+        BUTTON_2_BUTTON = new JoystickButton(this, BUTTON_2);
+        BUTTON_3_BUTTON = new JoystickButton(this, BUTTON_3);
+        BUTTON_4_BUTTON = new JoystickButton(this, BUTTON_4);
+        BUTTON_9_BUTTON = new JoystickButton(this, BUTTON_9);
+        BUTTON_10_BUTTON = new JoystickButton(this, BUTTON_10);
+        LEFT_JOYSTICK_BUTTON_BUTTON = new JoystickButton(this, LEFT_JOYSTICK_BUTTON);
+        RIGHT_JOYSTICK_BUTTON_BUTTON = new JoystickButton(this, RIGHT_JOYSTICK_BUTTON);
     }
     
     public double getLeftX(){
