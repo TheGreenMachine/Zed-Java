@@ -24,7 +24,7 @@ public class Controls {
      * and returns that object for each subsequent call.
      * @return The current instance of Controls.
      */
-    public Controls getInstance(){
+    public static Controls getInstance(){
         if(instance == null){
             instance = new Controls();
         }
