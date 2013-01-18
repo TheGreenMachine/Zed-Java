@@ -10,9 +10,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  * @author Eric
  */
-public class DriveTrain extends Subsystem {
+public class Drivetrain extends Subsystem {
     
-    public DriveTrain() {
+    public Drivetrain() {
         
     }
     
