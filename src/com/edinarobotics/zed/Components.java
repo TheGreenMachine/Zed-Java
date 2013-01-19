@@ -2,6 +2,8 @@
 package com.edinarobotics.zed;
 
 import com.edinarobotics.zed.subsystems.Drivetrain;
+import com.edinarobotics.zed.subsystems.DrivetrainRotation;
+import com.edinarobotics.zed.subsystems.DrivetrainStrafe;
 import com.edinarobotics.zed.subsystems.Shooter;
 
 public class Components {
@@ -20,6 +22,8 @@ public class Components {
     
     //Subsystem objects
     public final Drivetrain drivetrain;
+    public final DrivetrainStrafe drivetrainStrafe;
+    public final DrivetrainRotation drivetrainRotation;
     public final Shooter shooter;
     
     /**
@@ -29,6 +33,8 @@ public class Components {
     private Components(){
         drivetrain = new Drivetrain(FRONT_LEFT_DRIVE_JAGUAR, FRONT_RIGHT_DRIVE_JAGUAR,
                 BACK_LEFT_DRIVE_JAGUAR, BACK_RIGHT_DRIVE_JAGUAR);
+        drivetrainStrafe = new DrivetrainStrafe(drivetrain);
+        drivetrainRotation = new DrivetrainRotation(drivetrain);
         shooter = new Shooter(SHOOTER_JAGUAR_FIRST, SHOOTER_JAGUAR_SECOND, SHOOTER_ANGLING_JAGUAR);
     }
     
