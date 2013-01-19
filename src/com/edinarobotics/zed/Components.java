@@ -14,7 +14,9 @@ public class Components {
     private static final int BACK_RIGHT_DRIVE_JAGUAR = 4;
     
     //Shooter constants
-    private static final int SHOOTER_JAGUAR = 1;
+    private static final int SHOOTER_JAGUAR_FIRST = 1;
+    private static final int SHOOTER_JAGUAR_SECOND = 2;
+    private static final int SHOOTER_ANGLING_JAGUAR = 3;
     
     //Subsystem objects
     public final Drivetrain drivetrain;
@@ -27,7 +29,7 @@ public class Components {
     private Components(){
         drivetrain = new Drivetrain(FRONT_LEFT_DRIVE_JAGUAR, FRONT_RIGHT_DRIVE_JAGUAR,
                 BACK_LEFT_DRIVE_JAGUAR, BACK_RIGHT_DRIVE_JAGUAR);
-        shooter = new Shooter(SHOOTER_JAGUAR);
+        shooter = new Shooter(SHOOTER_JAGUAR_FIRST, SHOOTER_JAGUAR_SECOND, SHOOTER_ANGLING_JAGUAR);
     }
     
     /**
