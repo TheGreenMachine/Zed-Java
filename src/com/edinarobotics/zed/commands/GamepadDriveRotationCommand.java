@@ -6,17 +6,18 @@ import com.edinarobotics.utils.gamepad.GamepadResult;
 import com.edinarobotics.utils.gamepad.filters.DeadzoneFilter;
 import com.edinarobotics.utils.gamepad.filters.ScalingFilter;
 import com.edinarobotics.zed.subsystems.Drivetrain;
+import com.edinarobotics.zed.subsystems.DrivetrainRotation;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  * This {@link Command} allows a gamepad to control the {@link Drivetrain}.
  * It gets the current values from the gamepad and sends them to the drivetrain.
  */
-public class GamepadDriveCommand extends Command{
-    private static final String COMMAND_NAME = "GamepadDrive";
+public class GamepadDriveRotationCommand extends Command{
+    private static final String COMMAND_NAME = "GamepadDriveRotation";
     Gamepad gamepad;
     FilterSet filters;
-    Drivetrain drivetrain;
+    DrivetrainRotation drivetrainRotation;
     
     /**
      * Construct a new GamepadDriveCommand using the given gamepad, filters
@@ -25,12 +26,12 @@ public class GamepadDriveCommand extends Command{
      * @param filters The set of filters to use when filtering gamepad output.
      * @param drivetrain The drivetrain object to control.
      */
-    public GamepadDriveCommand(Gamepad gamepad, FilterSet filters, Drivetrain drivetrain){
+    public GamepadDriveRotationCommand(Gamepad gamepad, FilterSet filters, DrivetrainRotation drivetrainRotation){
         super(COMMAND_NAME);
         this.gamepad = gamepad;
         this.filters = filters;
-        this.drivetrain = drivetrain;
-        requires(drivetrain);
+        this.drivetrainRotation = drivetrainRotation;
+        requires(drivetrainRotation);
     }
     
     /**
@@ -39,14 +40,14 @@ public class GamepadDriveCommand extends Command{
      * @param gamepad The Gamepad object to read for control values.
      * @param drivetrain The drivetrain object to control.
      */
-    public GamepadDriveCommand(Gamepad gamepad, Drivetrain drivetrain){
+    public GamepadDriveRotationCommand(Gamepad gamepad, DrivetrainRotation drivetrainRotation){
         super(COMMAND_NAME);
         filters = new FilterSet();
         filters.addFilter(new DeadzoneFilter(0.15));
         filters.addFilter(new ScalingFilter());
         this.gamepad = gamepad;
-        this.drivetrain = drivetrain;
-        requires(drivetrain);
+        this.drivetrainRotation = drivetrainRotation;
+        requires(drivetrainRotation);
     }
 
     protected void initialize() {
@@ -58,10 +59,9 @@ public class GamepadDriveCommand extends Command{
      * {@code drivetrain}.
      */
     protected void execute() {
+        System.out.println("Gamepad");
         GamepadResult gamepadState = filters.filter(gamepad.getJoysticks());
-        drivetrain.mecanumPolar(gamepadState.getLeftMagnitude(),
-                gamepadState.getLeftDirection(), 
-                gamepadState.getRightX());
+        drivetrainRotation.mecanumPolarRotate(gamepadState.getRightX());
     }
 
     protected boolean isFinished() {
