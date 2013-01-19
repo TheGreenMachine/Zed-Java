@@ -14,6 +14,11 @@ public class DrivetrainStrafe extends Subsystem1816 {
         this.drivetrain = drivetrain;
     }
     
+    public void mecanumPolarStrafe(double magnitude, double direction) {
+        this.magnitude = magnitude;
+        this.direction = direction;
+    }
+    
     public void update() {
         drivetrain.mecanumPolarStrafe(magnitude, direction);
     }

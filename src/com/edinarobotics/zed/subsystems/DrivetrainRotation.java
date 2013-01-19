@@ -13,6 +13,10 @@ public class DrivetrainRotation extends Subsystem1816 {
         this.drivetrain = drivetrain;
     }
     
+    public void mecanumPolarRotate(double rotation) {
+        this.rotation = rotation;
+    }
+    
     public void update() {
         drivetrain.mecanumPolarRotation(rotation);
     }
