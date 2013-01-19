@@ -10,8 +10,11 @@ package com.edinarobotics.zed;
 
 import com.edinarobotics.utils.commands.MaintainStateCommand;
 import com.edinarobotics.utils.gamepad.Gamepad;
-import com.edinarobotics.zed.commands.GamepadDriveCommand;
+import com.edinarobotics.zed.commands.GamepadDriveStrafeCommand;
+import com.edinarobotics.zed.commands.GamepadDriveRotationCommand;
 import com.edinarobotics.zed.subsystems.Drivetrain;
+import com.edinarobotics.zed.subsystems.DrivetrainRotation;
+import com.edinarobotics.zed.subsystems.DrivetrainStrafe;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
@@ -29,8 +32,10 @@ public class Zed extends IterativeRobot {
      * This function is called once at the start of autonomous mode.
      */
     public void autonomousInit(){
-        Drivetrain drivetrain = Components.getInstance().drivetrain;
-        drivetrain.setDefaultCommand(new MaintainStateCommand(drivetrain));
+        DrivetrainStrafe drivetrainStrafe = Components.getInstance().drivetrainStrafe;
+        drivetrainStrafe.setDefaultCommand(new MaintainStateCommand(drivetrainStrafe));
+        DrivetrainRotation drivetrainRotation = Components.getInstance().drivetrainRotation;
+        drivetrainRotation.setDefaultCommand(new MaintainStateCommand(drivetrainRotation));
     }
 
     /**
@@ -44,9 +49,12 @@ public class Zed extends IterativeRobot {
      * This function is called once at the start of teleop mode.
      */
     public void teleopInit(){
-        Drivetrain drivetrain = Components.getInstance().drivetrain;
+        DrivetrainStrafe drivetrainStrafe = Components.getInstance().drivetrainStrafe;
+        DrivetrainRotation drivetrainRotation = Components.getInstance().drivetrainRotation;
         Gamepad driveGamepad = Controls.getInstance().gamepad1;
-        drivetrain.setDefaultCommand(new GamepadDriveCommand(driveGamepad, drivetrain));
+        
+        drivetrainStrafe.setDefaultCommand(new GamepadDriveStrafeCommand(driveGamepad, drivetrainStrafe));
+        drivetrainRotation.setDefaultCommand(new GamepadDriveRotationCommand(driveGamepad, drivetrainRotation));
     }
 
     /**
@@ -60,9 +68,12 @@ public class Zed extends IterativeRobot {
      * This function is called once at the start of test mode.
      */
     public void testInit(){
-        Drivetrain drivetrain = Components.getInstance().drivetrain;
+        DrivetrainStrafe drivetrainStrafe = Components.getInstance().drivetrainStrafe;
+        DrivetrainRotation drivetrainRotation = Components.getInstance().drivetrainRotation;
         Gamepad driveGamepad = Controls.getInstance().gamepad1;
-        drivetrain.setDefaultCommand(new GamepadDriveCommand(driveGamepad, drivetrain));
+        
+        drivetrainStrafe.setDefaultCommand(new GamepadDriveStrafeCommand(driveGamepad, drivetrainStrafe));
+        drivetrainRotation.setDefaultCommand(new GamepadDriveRotationCommand(driveGamepad, drivetrainRotation));
     }
     
     /**
