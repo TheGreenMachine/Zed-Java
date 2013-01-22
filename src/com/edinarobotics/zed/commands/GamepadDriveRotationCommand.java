@@ -59,7 +59,6 @@ public class GamepadDriveRotationCommand extends Command{
      * {@code drivetrain}.
      */
     protected void execute() {
-        System.out.println("Gamepad");
         GamepadResult gamepadState = filters.filter(gamepad.getJoysticks());
         drivetrainRotation.mecanumPolarRotate(gamepadState.getRightX());
     }
