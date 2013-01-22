@@ -17,6 +17,7 @@ public class DrivetrainStrafe extends Subsystem1816 {
     public void mecanumPolarStrafe(double magnitude, double direction) {
         this.magnitude = magnitude;
         this.direction = direction;
+        update();
     }
     
     public void update() {
@@ -29,6 +30,9 @@ public class DrivetrainStrafe extends Subsystem1816 {
     
     
     public void setDefaultCommand(Command command){
+        if(getDefaultCommand() != null){
+            super.getDefaultCommand().cancel();
+        }
         super.setDefaultCommand(command);
     }
 }

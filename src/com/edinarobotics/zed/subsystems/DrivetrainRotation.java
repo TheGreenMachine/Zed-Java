@@ -15,6 +15,7 @@ public class DrivetrainRotation extends Subsystem1816 {
     
     public void mecanumPolarRotate(double rotation) {
         this.rotation = rotation;
+        update();
     }
     
     public void update() {
@@ -27,6 +28,9 @@ public class DrivetrainRotation extends Subsystem1816 {
     
     
     public void setDefaultCommand(Command command){
+        if(getDefaultCommand() != null){
+            super.getDefaultCommand().cancel();
+        }
         super.setDefaultCommand(command);
     }
     
