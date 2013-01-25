@@ -2,9 +2,10 @@ package com.edinarobotics.zed.subsystems;
 
 import com.edinarobotics.utils.commands.MaintainStateCommand;
 import com.edinarobotics.utils.subsystems.Subsystem1816;
+import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DrivetrainRotation extends Subsystem1816 {
+public class DrivetrainRotation extends Subsystem1816 implements PIDOutput {
     private double rotation;
     private Drivetrain drivetrain;
     
@@ -32,6 +33,10 @@ public class DrivetrainRotation extends Subsystem1816 {
             super.getDefaultCommand().cancel();
         }
         super.setDefaultCommand(command);
+    }
+
+    public void pidWrite(double d) {
+        mecanumPolarRotate(d);
     }
     
 }
