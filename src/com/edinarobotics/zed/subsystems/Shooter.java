@@ -17,6 +17,7 @@ public class Shooter extends Subsystem1816 {
     private final double P_ANGLE = 1;
     private final double I_ANGLE = 0;
     private final double D_ANGLE = 0;
+    private final int NUM_RETRIES = 10;
     
     private double velocity;
     private double position;
@@ -26,41 +27,24 @@ public class Shooter extends Subsystem1816 {
     
     public Shooter(int firstShooterJaguarNum, int secondShooterJaguarNum, int anglingJaguarNum) {
         super("Shooter");
-        
-        try {
-            shooterJaguarFirst = new CANJaguar(firstShooterJaguarNum);
-            shooterJaguarFirst.setSpeedReference(CANJaguar.SpeedReference.kQuadEncoder);
-            shooterJaguarFirst.configEncoderCodesPerRev(ENCODER_TICKS_PER_REV_1);
-            shooterJaguarFirst.changeControlMode(CANJaguar.ControlMode.kSpeed);
-            shooterJaguarFirst.setPID(P_SHOOTER_1, I_SHOOTER_1, D_SHOOTER_1);
-        }
-        catch(Exception e) {
-            System.err.println("Failed to create first shooter Jaguar.");
-            e.printStackTrace();
-        }
-        try {
-            shooterJaguarSecond = new CANJaguar(secondShooterJaguarNum);
-            shooterJaguarSecond.setSpeedReference(CANJaguar.SpeedReference.kQuadEncoder);
-            shooterJaguarSecond.configEncoderCodesPerRev(ENCODER_TICKS_PER_REV_2);
-            shooterJaguarSecond.changeControlMode(CANJaguar.ControlMode.kSpeed);
-            shooterJaguarSecond.setPID(P_SHOOTER_2, I_SHOOTER_2, D_SHOOTER_2);
-        }
-        catch(Exception e) {
-            System.err.println("Failed to create second shooter Jaguar.");
-            e.printStackTrace();
-        }
-        
-        try {
-            anglingJaguar = new CANJaguar(anglingJaguarNum);
-            anglingJaguar.setPositionReference(CANJaguar.PositionReference.kPotentiometer);
-            anglingJaguar.configPotentiometerTurns(ANGLE_POTENTIOMETER_TURNS);
-            anglingJaguar.changeControlMode(CANJaguar.ControlMode.kPosition);
-            anglingJaguar.setPID(P_ANGLE, I_ANGLE, D_ANGLE);
-        }
-        catch (Exception e) {
-            System.err.println("Failed to create Angling Jaguar.");
-            e.printStackTrace();
-        }
+        shooterJaguarFirst = createCANJaguar(firstShooterJaguarNum,
+                CANJaguar.SpeedReference.kQuadEncoder,
+                ENCODER_TICKS_PER_REV_1,
+                CANJaguar.ControlMode.kSpeed,
+                P_SHOOTER_1, I_SHOOTER_1, D_SHOOTER_1,
+                NUM_RETRIES);
+        shooterJaguarSecond = createCANJaguar(secondShooterJaguarNum,
+                CANJaguar.SpeedReference.kQuadEncoder,
+                ENCODER_TICKS_PER_REV_2,
+                CANJaguar.ControlMode.kSpeed,
+                P_SHOOTER_2, I_SHOOTER_2, D_SHOOTER_2,
+                NUM_RETRIES);
+        anglingJaguar = createCANJaguar(anglingJaguarNum,
+                CANJaguar.PositionReference.kPotentiometer,
+                ANGLE_POTENTIOMETER_TURNS,
+                CANJaguar.ControlMode.kPosition,
+                P_ANGLE, I_ANGLE, D_ANGLE,
+                NUM_RETRIES);
     }
     
     protected void initDefaultCommand() {
@@ -93,5 +77,51 @@ public class Shooter extends Subsystem1816 {
             System.err.println("Failed to update shooter Jaguars.");
             e.printStackTrace();
         }
+    }
+    
+    private CANJaguar createCANJaguar(int id, CANJaguar.SpeedReference speedReference,
+            int codesPerRev, CANJaguar.ControlMode controlMode,
+            double P, double I, double D, int numRetries) {
+        CANJaguar canJaguar = null;
+        try {
+            for(int i = 0; i < numRetries; i++) {
+                canJaguar = new CANJaguar(id);
+                if(canJaguar != null) {
+                    break;
+                }
+            }
+            canJaguar.setSpeedReference(speedReference);
+            canJaguar.configEncoderCodesPerRev(codesPerRev);
+            canJaguar.changeControlMode(controlMode);
+            canJaguar.setPID(P, I, D);
+        }
+        catch(Exception e) {
+            System.err.println("Failed to create Jaguar.");
+            e.printStackTrace();
+        }
+        return canJaguar;
+    }
+    
+    private CANJaguar createCANJaguar(int id, CANJaguar.PositionReference positionReference,
+            int codesPerRev, CANJaguar.ControlMode controlMode,
+            double P, double I, double D, int numRetries) {
+        CANJaguar canJaguar = null;
+        try {
+            for(int i = 0; i < numRetries; i++) {
+                canJaguar = new CANJaguar(id);
+                if(canJaguar != null) {
+                    break;
+                }
+            }
+            canJaguar.setPositionReference(positionReference);
+            canJaguar.configEncoderCodesPerRev(codesPerRev);
+            canJaguar.changeControlMode(controlMode);
+            canJaguar.setPID(P, I, D);
+        }
+        catch(Exception e) {
+            System.err.println("Failed to create Jaguar.");
+            e.printStackTrace();
+        }
+        return canJaguar;
     }
 }
