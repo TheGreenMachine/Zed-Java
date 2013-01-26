@@ -60,7 +60,7 @@ public class GamepadDriveStrafeCommand extends Command{
      */
     protected void execute() {
         GamepadResult gamepadState = filters.filter(gamepad.getJoysticks());
-        drivetrainStrafe.mecanumPolarStrafe(gamepadState.getLeftMagnitude(), gamepadState.getLeftDirection());
+        drivetrainStrafe.mecanumPolarStrafe(gamepadState.getLeftMagnitude(), -gamepadState.getLeftDirection());
     }
 
     protected boolean isFinished() {
