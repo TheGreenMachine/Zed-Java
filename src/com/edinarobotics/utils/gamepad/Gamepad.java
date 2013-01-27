@@ -44,6 +44,10 @@ public class Gamepad extends Joystick{
     public final JoystickButton BUTTON_10_BUTTON;
     public final JoystickButton LEFT_JOYSTICK_BUTTON_BUTTON;
     public final JoystickButton RIGHT_JOYSTICK_BUTTON_BUTTON;
+    public final JoystickButton DPAD_UP_BUTTON;
+    public final JoystickButton DPAD_DOWN_BUTTON;
+    public final JoystickButton DPAD_RIGHT_BUTTON;
+    public final JoystickButton DPAD_LEFT_BUTTON;
     
     public static final int LEFT_JOYSTICK_BUTTON = 11;
     public static final int RIGHT_JOYSTICK_BUTTON = 12;
@@ -64,6 +68,10 @@ public class Gamepad extends Joystick{
         BUTTON_10_BUTTON = new JoystickButton(this, BUTTON_10);
         LEFT_JOYSTICK_BUTTON_BUTTON = new JoystickButton(this, LEFT_JOYSTICK_BUTTON);
         RIGHT_JOYSTICK_BUTTON_BUTTON = new JoystickButton(this, RIGHT_JOYSTICK_BUTTON);
+        DPAD_UP_BUTTON = new JoystickButton(this, DPAD_UP);
+        DPAD_DOWN_BUTTON = new JoystickButton(this, DPAD_DOWN);
+        DPAD_RIGHT_BUTTON = new JoystickButton(this, DPAD_RIGHT);
+        DPAD_LEFT_BUTTON = new JoystickButton(this, DPAD_LEFT);
     }
     
     public double getLeftX(){
