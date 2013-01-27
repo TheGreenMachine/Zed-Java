@@ -20,7 +20,11 @@ public class TargetCollection {
             int currentTarget = 0;
             try {
                 while(targetTokenizer.hasMoreTokens()) {
-                    StringTokenizer targetDataTokenizer = new StringTokenizer(targetTokenizer.nextToken(), ",");
+                    String dataBlock = targetTokenizer.nextToken();
+                    if(dataBlock.equals("")){
+                        continue;
+                    }
+                    StringTokenizer targetDataTokenizer = new StringTokenizer(dataBlock, ",");
                     double x = Double.parseDouble(targetDataTokenizer.nextToken());
                     double y = Double.parseDouble(targetDataTokenizer.nextToken());
                     double distance = Double.parseDouble(targetDataTokenizer.nextToken());
