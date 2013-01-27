@@ -10,6 +10,7 @@ public class TargetCollection {
     public TargetCollection(String targetData) {
         if(!(targetData.equals(""))) {
             StringTokenizer targetTokenizer = new StringTokenizer(targetData, ":");
+            targets = new Target[targetTokenizer.countTokens()];
             int currentTarget = 0;
             try {
                 while(targetTokenizer.hasMoreTokens()) {
