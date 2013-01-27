@@ -59,7 +59,10 @@ public class PIDTuningManager {
      */
     private String getConfigNames(){
         String names = "";
-        for(int i = 0; i < pidConfigNames.size(); i++){
+        if(pidConfigNames.size() > 0){
+            names = (String)pidConfigNames.elementAt(0);
+        }
+        for(int i = 1; i < pidConfigNames.size(); i++){
             names += (","+pidConfigNames.elementAt(i));
         }
         return names;
