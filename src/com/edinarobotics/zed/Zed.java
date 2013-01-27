@@ -69,19 +69,14 @@ public class Zed extends IterativeRobot {
      * This function is called once at the start of test mode.
      */
     public void testInit(){
-        DrivetrainStrafe drivetrainStrafe = Components.getInstance().drivetrainStrafe;
-        DrivetrainRotation drivetrainRotation = Components.getInstance().drivetrainRotation;
-        Gamepad driveGamepad = Controls.getInstance().gamepad1;
-        
-        drivetrainStrafe.setDefaultCommand(new GamepadDriveStrafeCommand(driveGamepad, drivetrainStrafe));
-        drivetrainRotation.setDefaultCommand(new GamepadDriveRotationCommand(driveGamepad, drivetrainRotation));
+        teleopInit();
     }
     
     /**
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
-        Scheduler.getInstance().run();
+        teleopPeriodic();
         PIDTuningManager.getInstance().runTuning();
     }
     
