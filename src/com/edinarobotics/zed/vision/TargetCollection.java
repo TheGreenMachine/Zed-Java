@@ -7,6 +7,12 @@ import com.sun.squawk.util.StringTokenizer;
 public class TargetCollection {
     private Target[] targets;
     
+    /**
+     * Creates a new TargetCollection with Target objects created from the String,
+     * {@code targetData}. The string has the format
+     * "[x(double)],[y(double)],[distance(double)],[isCenter(1/0)]:[repeat]:[...]:".
+     * @param targetData The Target data string to be parsed into a new TargetCollection.
+     */
     public TargetCollection(String targetData) {
         if(!(targetData.equals(""))) {
             StringTokenizer targetTokenizer = new StringTokenizer(targetData, ":");
@@ -28,6 +34,23 @@ public class TargetCollection {
                 e.printStackTrace();
             }
         }
+    }
+    
+    /**
+     * Constructs a new TargetCollection containing the Target
+     * objects given in {@code targets}.
+     * @param targets The Target objects to be stored in the new TargetCollection.
+     */
+    public TargetCollection(Target[] targets){
+        this.targets = (Target[])Arrays.copy(targets);
+    }
+    
+    /**
+     * Clones a given TargetCollection.
+     * @param targetCollection The TargetCollection instance to be cloned.
+     */
+    public TargetCollection(TargetCollection targetCollection){
+        targets = targetCollection.getTargets();
     }
     
     /**
