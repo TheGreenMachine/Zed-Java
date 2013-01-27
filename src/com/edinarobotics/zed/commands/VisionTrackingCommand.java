@@ -1,5 +1,7 @@
 package com.edinarobotics.zed.commands;
 
+import com.edinarobotics.utils.pid.PIDConfig;
+import com.edinarobotics.utils.pid.PIDTuningManager;
 import com.edinarobotics.zed.Components;
 import com.edinarobotics.zed.subsystems.DrivetrainRotation;
 import com.edinarobotics.zed.vision.PIDTargetX;
@@ -17,6 +19,8 @@ public class VisionTrackingCommand extends Command {
     public PIDTargetX pidTargetX;
     public PIDTargetY pidTargetY;
     public DrivetrainRotation drivetrainRotation;
+    private PIDConfig xPIDConfig;
+    private PIDConfig yPIDConfig;
     
     private final double X_P = 1;
     private final double X_I = 0;
@@ -31,6 +35,8 @@ public class VisionTrackingCommand extends Command {
         pidTargetY = new PIDTargetY();
         pidControllerX = new PIDController(X_P, X_I, X_D, pidTargetX, drivetrainRotation);
         pidControllerY = new PIDController(Y_P, Y_I, Y_D, pidTargetY, drivetrainRotation);
+        xPIDConfig = PIDTuningManager.getInstance().getPIDConfig("Vision Horizontal");
+        yPIDConfig = PIDTuningManager.getInstance().getPIDConfig("Vision Vertical");
     }
     
     protected void initialize() {
@@ -43,6 +49,13 @@ public class VisionTrackingCommand extends Command {
         targetCollection = new TargetCollection(visionTable.getString("vtdata"));
         pidControllerX.setSetpoint(0);
         pidControllerY.setSetpoint(0);
+        //PID tuning code
+        pidControllerX.setPID(xPIDConfig.getP(X_P), xPIDConfig.getI(X_I), xPIDConfig.getD(X_D));
+        xPIDConfig.setSetpoint(pidControllerX.getSetpoint());
+        xPIDConfig.setValue(pidTargetX.pidGet());
+        pidControllerY.setPID(yPIDConfig.getP(Y_P), yPIDConfig.getI(Y_I), yPIDConfig.getD(Y_D));
+        yPIDConfig.setSetpoint(pidControllerY.getSetpoint());
+        yPIDConfig.setValue(pidTargetY.pidGet());
     }
 
     protected boolean isFinished() {
