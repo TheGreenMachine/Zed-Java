@@ -1,6 +1,8 @@
 package com.edinarobotics.zed.subsystems;
 
 import com.edinarobotics.utils.commands.MaintainStateCommand;
+import com.edinarobotics.utils.pid.PIDConfig;
+import com.edinarobotics.utils.pid.PIDTuningManager;
 import com.edinarobotics.utils.subsystems.Subsystem1816;
 import edu.wpi.first.wpilibj.CANJaguar;
 
@@ -18,6 +20,9 @@ public class Shooter extends Subsystem1816 {
     private final double I_ANGLE = 0;
     private final double D_ANGLE = 0;
     private final int NUM_RETRIES = 10;
+    private PIDConfig firstShooterPIDConfig;
+    private PIDConfig secondShooterPIDConfig;
+    private PIDConfig anglingPIDConfig;
     
     private double velocity;
     private double position;
@@ -45,6 +50,9 @@ public class Shooter extends Subsystem1816 {
                 CANJaguar.ControlMode.kPosition,
                 P_ANGLE, I_ANGLE, D_ANGLE,
                 NUM_RETRIES);
+        firstShooterPIDConfig = PIDTuningManager.getInstance().getPIDConfig("First Shooter");
+        secondShooterPIDConfig = PIDTuningManager.getInstance().getPIDConfig("Second Shooter");
+        anglingPIDConfig = PIDTuningManager.getInstance().getPIDConfig("Shooter Angle");
     }
     
     protected void initDefaultCommand() {
@@ -65,12 +73,30 @@ public class Shooter extends Subsystem1816 {
         try {
             if(shooterJaguarFirst != null) {
                 shooterJaguarFirst.setX(velocity);
+                //PID tuning code
+                shooterJaguarFirst.setPID(firstShooterPIDConfig.getP(P_SHOOTER_1),
+                        firstShooterPIDConfig.getI(I_SHOOTER_1),
+                        firstShooterPIDConfig.getD(D_SHOOTER_1));
+                firstShooterPIDConfig.setSetpoint(velocity);
+                firstShooterPIDConfig.setValue(shooterJaguarFirst.getSpeed());
             }
             if(shooterJaguarSecond != null) {
                 shooterJaguarSecond.setX(velocity);
+                //PID tuning code
+                shooterJaguarSecond.setPID(secondShooterPIDConfig.getP(P_SHOOTER_2),
+                        secondShooterPIDConfig.getI(I_SHOOTER_2),
+                        secondShooterPIDConfig.getD(D_SHOOTER_2));
+                secondShooterPIDConfig.setSetpoint(velocity);
+                secondShooterPIDConfig.setValue(shooterJaguarSecond.getSpeed());
             }
             if(anglingJaguar != null) {
                 anglingJaguar.setX(position);
+                //PID tuning code
+                anglingJaguar.setPID(anglingPIDConfig.getP(P_ANGLE),
+                        anglingPIDConfig.getI(I_ANGLE),
+                        anglingPIDConfig.getD(D_ANGLE));
+                anglingPIDConfig.setSetpoint(velocity);
+                anglingPIDConfig.setValue(anglingJaguar.getPosition());
             }
         }
         catch(Exception e) {
