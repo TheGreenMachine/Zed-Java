@@ -10,6 +10,7 @@ package com.edinarobotics.zed;
 
 import com.edinarobotics.utils.commands.MaintainStateCommand;
 import com.edinarobotics.utils.gamepad.Gamepad;
+import com.edinarobotics.utils.pid.PIDTuningManager;
 import com.edinarobotics.zed.commands.GamepadDriveStrafeCommand;
 import com.edinarobotics.zed.commands.GamepadDriveRotationCommand;
 import com.edinarobotics.zed.subsystems.Drivetrain;
@@ -81,6 +82,7 @@ public class Zed extends IterativeRobot {
      */
     public void testPeriodic() {
         Scheduler.getInstance().run();
+        PIDTuningManager.getInstance().runTuning();
     }
     
 }
