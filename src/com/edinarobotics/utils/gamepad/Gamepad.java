@@ -27,6 +27,10 @@ public class Gamepad extends Joystick{
     public static final int BUTTON_4 = 4;
     public static final int BUTTON_9 = 9;
     public static final int BUTTON_10 = 10;
+    public static final int DPAD_UP = 100;
+    public static final int DPAD_DOWN = 101;
+    public static final int DPAD_LEFT = 102;
+    public static final int DPAD_RIGHT = 103;
     
     public final JoystickButton LEFT_BUMPER_BUTTON;
     public final JoystickButton LEFT_TRIGGER_BUTTON;
@@ -100,6 +104,22 @@ public class Gamepad extends Joystick{
     
     public GamepadResult getJoysticks(){
         return new GamepadResult(getLeftX(),getLeftY(),getRightX(),getRightY());
+    }
+    
+    public boolean getRawButton(int button){
+        if(button == DPAD_UP){
+            return getDPadY() == 1;
+        }
+        if(button == DPAD_DOWN){
+            return getDPadY() == -1;
+        }
+        if(button == DPAD_RIGHT){
+            return getDPadX() == 1;
+        }
+        if(button == DPAD_LEFT){
+            return getDPadX() == -1;
+        }
+        return super.getRawButton(button);
     }
 
 }
