@@ -14,11 +14,11 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 public class VisionTrackingCommand extends Command {
     private NetworkTable visionTable = NetworkTable.getTable("vision");
     private TargetCollection targetCollection;
-    public PIDController pidControllerX;
-    public PIDController pidControllerY;
-    public PIDTargetX pidTargetX;
-    public PIDTargetY pidTargetY;
-    public DrivetrainRotation drivetrainRotation;
+    private PIDController pidControllerX;
+    private PIDController pidControllerY;
+    private PIDTargetX pidTargetX;
+    private PIDTargetY pidTargetY;
+    private DrivetrainRotation drivetrainRotation;
     private PIDConfig xPIDConfig;
     private PIDConfig yPIDConfig;
     
