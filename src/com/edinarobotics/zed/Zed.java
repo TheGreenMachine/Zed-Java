@@ -50,12 +50,9 @@ public class Zed extends IterativeRobot {
      * This function is called once at the start of teleop mode.
      */
     public void teleopInit(){
-        DrivetrainStrafe drivetrainStrafe = Components.getInstance().drivetrainStrafe;
-        DrivetrainRotation drivetrainRotation = Components.getInstance().drivetrainRotation;
         Gamepad driveGamepad = Controls.getInstance().gamepad1;
-        
-        drivetrainStrafe.setDefaultCommand(new GamepadDriveStrafeCommand(driveGamepad, drivetrainStrafe));
-        drivetrainRotation.setDefaultCommand(new GamepadDriveRotationCommand(driveGamepad, drivetrainRotation));
+        Components.getInstance().drivetrainStrafe.setDefaultCommand(new GamepadDriveStrafeCommand(driveGamepad));
+        Components.getInstance().drivetrainRotation.setDefaultCommand(new GamepadDriveRotationCommand(driveGamepad));
     }
 
     /**

@@ -5,6 +5,7 @@ import com.edinarobotics.utils.gamepad.Gamepad;
 import com.edinarobotics.utils.gamepad.GamepadResult;
 import com.edinarobotics.utils.gamepad.filters.DeadzoneFilter;
 import com.edinarobotics.utils.gamepad.filters.ScalingFilter;
+import com.edinarobotics.zed.Components;
 import com.edinarobotics.zed.subsystems.Drivetrain;
 import com.edinarobotics.zed.subsystems.DrivetrainRotation;
 import edu.wpi.first.wpilibj.command.Command;
@@ -26,11 +27,11 @@ public class GamepadDriveRotationCommand extends Command{
      * @param filters The set of filters to use when filtering gamepad output.
      * @param drivetrain The drivetrain object to control.
      */
-    public GamepadDriveRotationCommand(Gamepad gamepad, FilterSet filters, DrivetrainRotation drivetrainRotation){
+    public GamepadDriveRotationCommand(Gamepad gamepad, FilterSet filters){
         super(COMMAND_NAME);
         this.gamepad = gamepad;
         this.filters = filters;
-        this.drivetrainRotation = drivetrainRotation;
+        this.drivetrainRotation = Components.getInstance().drivetrainRotation;
         requires(drivetrainRotation);
     }
     
@@ -40,13 +41,13 @@ public class GamepadDriveRotationCommand extends Command{
      * @param gamepad The Gamepad object to read for control values.
      * @param drivetrain The drivetrain object to control.
      */
-    public GamepadDriveRotationCommand(Gamepad gamepad, DrivetrainRotation drivetrainRotation){
+    public GamepadDriveRotationCommand(Gamepad gamepad){
         super(COMMAND_NAME);
         filters = new FilterSet();
         filters.addFilter(new DeadzoneFilter(0.15));
         filters.addFilter(new ScalingFilter());
         this.gamepad = gamepad;
-        this.drivetrainRotation = drivetrainRotation;
+        this.drivetrainRotation = Components.getInstance().drivetrainRotation;
         requires(drivetrainRotation);
     }
 
