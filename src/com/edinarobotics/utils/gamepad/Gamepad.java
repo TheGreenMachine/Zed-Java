@@ -1,106 +1,81 @@
 package com.edinarobotics.utils.gamepad;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
-/**
- * Represents a gamepad with two joysticks and several buttons.
- * Makes interacting with a gamepad easier.
- * Returns results through a GamepadResult.
- */
-public class Gamepad extends Joystick{
-    public static final int LEFT_X_AXIS = 1;
-    public static final int LEFT_Y_AXIS = 2;
-    public static final int RIGHT_X_AXIS = 3;
-    public static final int RIGHT_Y_AXIS = 4;
+public class Gamepad {
+    private Joystick joystick;
     
-    public static final int DPAD_X = 5;
-    public static final int DPAD_Y = 6;
+    private final double DPAD_THRESHOLD = 0.5;
     
-    public static final int LEFT_BUMPER = 5;
-    public static final int LEFT_TRIGGER = 7;
-    public static final int RIGHT_BUMPER = 6;
-    public static final int RIGHT_TRIGGER = 8;
-    public static final int BUTTON_1 = 1;
-    public static final int BUTTON_2 = 2;
-    public static final int BUTTON_3 = 3;
-    public static final int BUTTON_4 = 4;
-    public static final int BUTTON_9 = 9;
-    public static final int BUTTON_10 = 10;
-    public static final int DPAD_UP = 100;
-    public static final int DPAD_DOWN = 101;
-    public static final int DPAD_LEFT = 102;
-    public static final int DPAD_RIGHT = 103;
+    public final Button LEFT_BUMPER;
+    public final Button RIGHT_BUMPER;
+    public final Button LEFT_TRIGGER;
+    public final Button RIGHT_TRIGGER;
+    public final Button DIAMOND_LEFT;
+    public final Button DIAMOND_DOWN;
+    public final Button DIAMOND_RIGHT;
+    public final Button DIAMOND_UP;
+    public final Button MIDDLE_LEFT;
+    public final Button MIDDLE_RIGHT;
+    public final Button LEFT_JOYSTICK_BUTTON;
+    public final Button RIGHT_JOYSTICK_BUTTON;
+    public final Button DPAD_UP;
+    public final Button DPAD_DOWN;
+    public final Button DPAD_RIGHT;
+    public final Button DPAD_LEFT;
     
-    public final JoystickButton LEFT_BUMPER_BUTTON;
-    public final JoystickButton LEFT_TRIGGER_BUTTON;
-    public final JoystickButton RIGHT_BUMPER_BUTTON;
-    public final JoystickButton RIGHT_TRIGGER_BUTTON;
-    public final JoystickButton BUTTON_1_BUTTON;
-    public final JoystickButton BUTTON_2_BUTTON;
-    public final JoystickButton BUTTON_3_BUTTON;
-    public final JoystickButton BUTTON_4_BUTTON;
-    public final JoystickButton BUTTON_9_BUTTON;
-    public final JoystickButton BUTTON_10_BUTTON;
-    public final JoystickButton LEFT_JOYSTICK_BUTTON_BUTTON;
-    public final JoystickButton RIGHT_JOYSTICK_BUTTON_BUTTON;
-    public final JoystickButton DPAD_UP_BUTTON;
-    public final JoystickButton DPAD_DOWN_BUTTON;
-    public final JoystickButton DPAD_RIGHT_BUTTON;
-    public final JoystickButton DPAD_LEFT_BUTTON;
-    
-    public static final int LEFT_JOYSTICK_BUTTON = 11;
-    public static final int RIGHT_JOYSTICK_BUTTON = 12;
-                    
-    private static final double DPAD_THRESHOLD = 0.9;
-    
-    public Gamepad(int port){
-        super(port);
-        LEFT_BUMPER_BUTTON = new JoystickButton(this, LEFT_BUMPER);
-        LEFT_TRIGGER_BUTTON = new JoystickButton(this, LEFT_TRIGGER);
-        RIGHT_BUMPER_BUTTON = new JoystickButton(this, RIGHT_BUMPER);
-        RIGHT_TRIGGER_BUTTON = new JoystickButton(this, RIGHT_TRIGGER);
-        BUTTON_1_BUTTON = new JoystickButton(this, BUTTON_1);
-        BUTTON_2_BUTTON = new JoystickButton(this, BUTTON_2);
-        BUTTON_3_BUTTON = new JoystickButton(this, BUTTON_3);
-        BUTTON_4_BUTTON = new JoystickButton(this, BUTTON_4);
-        BUTTON_9_BUTTON = new JoystickButton(this, BUTTON_9);
-        BUTTON_10_BUTTON = new JoystickButton(this, BUTTON_10);
-        LEFT_JOYSTICK_BUTTON_BUTTON = new JoystickButton(this, LEFT_JOYSTICK_BUTTON);
-        RIGHT_JOYSTICK_BUTTON_BUTTON = new JoystickButton(this, RIGHT_JOYSTICK_BUTTON);
-        DPAD_UP_BUTTON = new JoystickButton(this, DPAD_UP);
-        DPAD_DOWN_BUTTON = new JoystickButton(this, DPAD_DOWN);
-        DPAD_RIGHT_BUTTON = new JoystickButton(this, DPAD_RIGHT);
-        DPAD_LEFT_BUTTON = new JoystickButton(this, DPAD_LEFT);
+    public Gamepad(int port) {
+        joystick = new Joystick(port);
+        LEFT_BUMPER = new JoystickButton(joystick, 5);
+        LEFT_TRIGGER = new JoystickButton(joystick, 7);
+        RIGHT_BUMPER = new JoystickButton(joystick, 6);
+        RIGHT_TRIGGER = new JoystickButton(joystick, 8);
+        DIAMOND_LEFT = new JoystickButton(joystick, 1);
+        DIAMOND_DOWN = new JoystickButton(joystick, 2);
+        DIAMOND_RIGHT = new JoystickButton(joystick, 3);
+        DIAMOND_UP = new JoystickButton(joystick, 4);
+        MIDDLE_LEFT = new JoystickButton(joystick, 9);
+        MIDDLE_RIGHT = new JoystickButton(joystick, 10);
+        LEFT_JOYSTICK_BUTTON = new JoystickButton(joystick, 11);
+        RIGHT_JOYSTICK_BUTTON = new JoystickButton(joystick, 12);
+        
+        DPAD_UP = new DPadButton(this, DPadButton.DPAD_UP);
+        DPAD_DOWN = new DPadButton(this, DPadButton.DPAD_DOWN);
+        DPAD_LEFT = new DPadButton(this, DPadButton.DPAD_LEFT);
+        DPAD_RIGHT = new DPadButton(this, DPadButton.DPAD_RIGHT);
     }
     
-    public double getLeftX(){
-        return this.getRawAxis(LEFT_X_AXIS);
+    public double getLeftX() {
+        return joystick.getRawAxis(1);
     }
     
-    public double getLeftY(){
-        return this.getRawAxis(LEFT_Y_AXIS);
+    public double getLeftY() {
+        return joystick.getRawAxis(2);
     }
     
-    public double getRightX(){
-        return this.getRawAxis(RIGHT_X_AXIS);
+    public double getRightX() {
+        return joystick.getRawAxis(3);
     }
     
-    public double getRightY(){
-        return this.getRawAxis(RIGHT_Y_AXIS);
+    public double getRightY() {
+        return joystick.getRawAxis(4);
     }
     
-    public int getDPadX()
-    {
-        return dPadToInt(this.getRawAxis(DPAD_X));
+    public byte getDPadX() {
+        return dPadToByte(joystick.getRawAxis(5));
     }
     
-    public int getDPadY()
-    {
-        return dPadToInt(this.getRawAxis(DPAD_Y));
+    public byte getDPadY() {
+        return dPadToByte(joystick.getRawAxis(6));
     }
     
-    private int dPadToInt(double value){
+    public GamepadResult getJoysticks(){
+        return new GamepadResult(getLeftX(),getLeftY(),getRightX(),getRightY());
+    }
+    
+    protected byte dPadToByte(double value) {
         if(value >= DPAD_THRESHOLD){
             return 1;
         }
@@ -110,24 +85,4 @@ public class Gamepad extends Joystick{
         return 0;
     }
     
-    public GamepadResult getJoysticks(){
-        return new GamepadResult(getLeftX(),getLeftY(),getRightX(),getRightY());
-    }
-    
-    public boolean getRawButton(int button){
-        if(button == DPAD_UP){
-            return getDPadY() == 1;
-        }
-        if(button == DPAD_DOWN){
-            return getDPadY() == -1;
-        }
-        if(button == DPAD_RIGHT){
-            return getDPadX() == 1;
-        }
-        if(button == DPAD_LEFT){
-            return getDPadX() == -1;
-        }
-        return super.getRawButton(button);
-    }
-
 }
