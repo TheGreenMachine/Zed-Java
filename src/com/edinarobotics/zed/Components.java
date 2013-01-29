@@ -3,6 +3,7 @@ package com.edinarobotics.zed;
 import com.edinarobotics.zed.subsystems.Drivetrain;
 import com.edinarobotics.zed.subsystems.DrivetrainRotation;
 import com.edinarobotics.zed.subsystems.DrivetrainStrafe;
+import com.edinarobotics.zed.subsystems.Lifter;
 import com.edinarobotics.zed.subsystems.Shooter;
 
 public class Components {
@@ -17,13 +18,15 @@ public class Components {
     //Shooter constants
     private static final int SHOOTER_JAGUAR_FIRST = 1;
     private static final int SHOOTER_JAGUAR_SECOND = 2;
-    private static final int SHOOTER_ANGLING_JAGUAR = 3;
+    private static final int LIFTER_JAGUAR_FIRST = 3;
+    private static final int LIFTER_JAGUAR_SECOND = 4;
     
     //Subsystem objects
     public final Drivetrain drivetrain;
     public final DrivetrainStrafe drivetrainStrafe;
     public final DrivetrainRotation drivetrainRotation;
     public final Shooter shooter;
+    public final Lifter lifter;
     
     /**
      * Private constructor for the Components singleton. This constructor
@@ -34,7 +37,8 @@ public class Components {
                 BACK_LEFT_DRIVE_JAGUAR, BACK_RIGHT_DRIVE_JAGUAR);
         drivetrainStrafe = new DrivetrainStrafe(drivetrain);
         drivetrainRotation = new DrivetrainRotation(drivetrain);
-        shooter = new Shooter(SHOOTER_JAGUAR_FIRST, SHOOTER_JAGUAR_SECOND, SHOOTER_ANGLING_JAGUAR);
+        shooter = new Shooter(SHOOTER_JAGUAR_FIRST, SHOOTER_JAGUAR_SECOND);
+        lifter = new Lifter(LIFTER_JAGUAR_FIRST, LIFTER_JAGUAR_SECOND);
     }
     
     /**
