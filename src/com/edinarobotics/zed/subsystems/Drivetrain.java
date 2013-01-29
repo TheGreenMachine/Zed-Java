@@ -10,6 +10,10 @@ public class Drivetrain {
     
     public Drivetrain(int frontLeft, int frontRight, int backLeft, int backRight) {
         this.robotDrive = new RobotDrive(frontLeft, backLeft, frontRight, backRight);
+        robotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
+        robotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, false);
+        robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
+        robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, false);
     }
     
     public void mecanumPolarStrafe(double magnitude, double direction){
