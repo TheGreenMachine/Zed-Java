@@ -6,10 +6,10 @@ public class DPadButton extends Button {
     private Gamepad gamepad;
     private boolean isXAxis;
     private byte dPadAxis;
-    private static final byte DPAD_UP = 1;
-    private static final byte DPAD_DOWN = 2;
-    private static final byte DPAD_LEFT = 3;
-    private static final byte DPAD_RIGHT = 4;
+    public static final byte DPAD_UP = 1;
+    public static final byte DPAD_DOWN = 2;
+    public static final byte DPAD_LEFT = 3;
+    public static final byte DPAD_RIGHT = 4;
     
     protected DPadButton(Gamepad gamepad, byte dPadAxis) {
         this.gamepad = gamepad;
