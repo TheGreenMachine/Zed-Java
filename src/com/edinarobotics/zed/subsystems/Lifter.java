@@ -44,7 +44,7 @@ public class Lifter extends Subsystem1816 {
         setDefaultCommand(new MaintainStateCommand(this));
     }
     
-    public void setShooterPosition(double position) {
+    public void setLifterPosition(double position) {
         this.position = position;
         update();
     }
