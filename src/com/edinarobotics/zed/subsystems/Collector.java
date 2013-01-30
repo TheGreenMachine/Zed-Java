@@ -5,6 +5,10 @@ import com.edinarobotics.utils.subsystems.Subsystem1816;
 import edu.wpi.first.wpilibj.Relay;
 
 public class Collector extends Subsystem1816 {
+    public static byte COLLECTOR_IN = 1;
+    public static byte COLLECTOR_OUT = -1;
+    public static byte COLLECTOR_STOP = 0;
+    
     private Relay leftStar;
     private Relay rightStar;
     private Relay roller;
