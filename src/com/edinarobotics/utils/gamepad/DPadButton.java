@@ -4,8 +4,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 
 public class DPadButton extends Button {
     private Gamepad gamepad;
-    private boolean isXAxis;
-    private byte dPadAxis;
+    private byte dPadAxis; //determines which button on the d-pad this button object represents
     public static final byte DPAD_UP = 1;
     public static final byte DPAD_DOWN = 2;
     public static final byte DPAD_LEFT = 3;
