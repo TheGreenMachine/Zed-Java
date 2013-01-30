@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.Victor;
 
 public class Conveyor extends Subsystem1816 {
     Victor conveyor;
-    double conveyorSpeed;
+    double velocity;
     
     public Conveyor(int conveyor){
         super("Conveyor");
@@ -23,14 +23,14 @@ public class Conveyor extends Subsystem1816 {
      * A positive value will set the conveyor to bring discs into the robot
      * at the fastest possible speed. A negative value will remove discs
      * from the robot.
-     * @param conveyorSpeed The new speed of the conveyor belt as defined above.
+     * @param velocity The new speed of the conveyor belt as defined above.
      */
-    public void setConveyorSpeed(double conveyorSpeed){
-        this.conveyorSpeed = conveyorSpeed;
+    public void setConveyorSpeed(double velocity){
+        this.velocity = velocity;
         update();
     }
     
     public void update(){
-        conveyor.set(conveyorSpeed);
+        conveyor.set(velocity);
     }
 }
