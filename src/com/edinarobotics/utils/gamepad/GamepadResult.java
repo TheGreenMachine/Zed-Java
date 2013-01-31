@@ -59,7 +59,7 @@ public class GamepadResult {
      * @return The direction angle in degrees of the left joystick.
      */
     public double getLeftDirection(){
-        return Math.toDegrees(MathUtils.atan2(getLeftX(), -getLeftY()));
+        return Math.toDegrees(MathUtils.atan2(getLeftX(), getLeftY()));
     }
     
     /**
@@ -70,6 +70,6 @@ public class GamepadResult {
      * @return The direction angle in degrees of the right joystick.
      */
     public double getRightDirection(){
-        return Math.toDegrees(MathUtils.atan2(getRightX(), -getRightY()));
+        return Math.toDegrees(MathUtils.atan2(getRightX(), getRightY()));
     }
 }

@@ -52,7 +52,7 @@ public class Gamepad {
     }
     
     public double getLeftY() {
-        return joystick.getRawAxis(2);
+        return -joystick.getRawAxis(2);
     }
     
     public double getRightX() {
@@ -60,7 +60,7 @@ public class Gamepad {
     }
     
     public double getRightY() {
-        return joystick.getRawAxis(4);
+        return -joystick.getRawAxis(4);
     }
     
     public byte getDPadX() {
@@ -68,7 +68,7 @@ public class Gamepad {
     }
     
     public byte getDPadY() {
-        return dPadToByte(joystick.getRawAxis(6));
+        return dPadToByte(-joystick.getRawAxis(6));
     }
     
     public GamepadResult getJoysticks(){
