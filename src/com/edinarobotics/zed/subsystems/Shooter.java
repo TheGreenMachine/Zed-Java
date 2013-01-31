@@ -7,6 +7,9 @@ import com.edinarobotics.utils.subsystems.Subsystem1816;
 import edu.wpi.first.wpilibj.CANJaguar;
 
 public class Shooter extends Subsystem1816 {
+    public static final double SHOOTER_ON = 3000;
+    public static final double SHOOTER_OFF = 0;
+    
     private static final int ENCODER_TICKS_PER_REV_1 = 180;
     private static final int ENCODER_TICKS_PER_REV_2 = 180;
     private final double P_SHOOTER_1 = 1;
