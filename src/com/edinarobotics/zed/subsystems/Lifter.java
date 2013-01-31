@@ -11,18 +11,13 @@ public class Lifter extends Subsystem1816 {
     private final double P_LIFTER_1 = 1;
     private final double I_LIFTER_1 = 0;
     private final double D_LIFTER_1 = 0;
-    private final double P_LIFTER_2 = 1;
-    private final double I_LIFTER_2 = 0;
-    private final double D_LIFTER_2 = 0;
     private final int NUM_RETRIES = 10;
     private PIDConfig firstLifterPIDConfig;
-    private PIDConfig secondLifterPIDConfig;
 
     private double position;
     private CANJaguar lifterJaguarFirst;
-    private CANJaguar lifterJaguarSecond;
     
-    public Lifter(int firstLifterJaguarNum, int secondLifterJaguarNum) {
+    public Lifter(int firstLifterJaguarNum) {
         super("Lifter");
         lifterJaguarFirst = createCANJaguar(firstLifterJaguarNum,
                 CANJaguar.PositionReference.kPotentiometer,
@@ -30,14 +25,7 @@ public class Lifter extends Subsystem1816 {
                 CANJaguar.ControlMode.kPosition,
                 P_LIFTER_1, I_LIFTER_1, D_LIFTER_1,
                 NUM_RETRIES);
-        lifterJaguarSecond = createCANJaguar(secondLifterJaguarNum,
-                CANJaguar.PositionReference.kPotentiometer,
-                ANGLE_POTENTIOMETER_TURNS,
-                CANJaguar.ControlMode.kPosition,
-                P_LIFTER_2, I_LIFTER_2, D_LIFTER_2,
-                NUM_RETRIES);
-        firstLifterPIDConfig = PIDTuningManager.getInstance().getPIDConfig("First Lifter");
-        secondLifterPIDConfig = PIDTuningManager.getInstance().getPIDConfig("Second Lifter");
+        firstLifterPIDConfig = PIDTuningManager.getInstance().getPIDConfig("Lifter");
     }
 
     protected void initDefaultCommand() {
@@ -60,18 +48,9 @@ public class Lifter extends Subsystem1816 {
                     firstLifterPIDConfig.setSetpoint(position);
                     firstLifterPIDConfig.setValue(lifterJaguarFirst.getPosition());
             }
-            if(lifterJaguarSecond != null) {
-                    lifterJaguarSecond.setX(position);
-                    //PID tuning code
-                    lifterJaguarSecond.setPID(secondLifterPIDConfig.getP(P_LIFTER_2),
-                            secondLifterPIDConfig.getI(I_LIFTER_2),
-                            secondLifterPIDConfig.getD(D_LIFTER_2));
-                    secondLifterPIDConfig.setSetpoint(position);
-                    secondLifterPIDConfig.setValue(lifterJaguarSecond.getPosition());
-            }
         }
         catch(Exception e) {
-            System.err.println("Failed to update lifter Jaguars.");
+            System.err.println("Failed to update lifter Jaguar.");
             e.printStackTrace();
         }
     }

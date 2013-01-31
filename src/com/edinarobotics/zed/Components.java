@@ -29,8 +29,7 @@ public class Components {
     private static final int SHOOTER_JAGUAR_FIRST = 1;
     private static final int SHOOTER_JAGUAR_SECOND = 2;
     //Lifter constants
-    private static final int LIFTER_JAGUAR_FIRST = 3;
-    private static final int LIFTER_JAGUAR_SECOND = 4;
+    private static final int LIFTER_JAGUAR = 3;
     
     //Subsystem objects
     public final Drivetrain drivetrain;
@@ -51,7 +50,7 @@ public class Components {
         drivetrainStrafe = new DrivetrainStrafe(drivetrain);
         drivetrainRotation = new DrivetrainRotation(drivetrain);
         shooter = new Shooter(SHOOTER_JAGUAR_FIRST, SHOOTER_JAGUAR_SECOND);
-        lifter = new Lifter(LIFTER_JAGUAR_FIRST, LIFTER_JAGUAR_SECOND);
+        lifter = new Lifter(LIFTER_JAGUAR);
         collector = new Collector(COLLECTOR_LEFT_STAR, COLLECTOR_RIGHT_STAR, COLLECTOR_ROLLER);
         conveyor = new Conveyor(CONVEYOR);
     }
