@@ -4,6 +4,7 @@ import com.edinarobotics.utils.gamepad.Gamepad;
 import com.edinarobotics.zed.commands.*;
 import com.edinarobotics.zed.subsystems.Collector;
 import com.edinarobotics.zed.subsystems.Conveyor;
+import com.edinarobotics.zed.subsystems.Shooter;
 
 /**
  * Controls handles creating the {@link Gamepad} objects
@@ -40,6 +41,14 @@ public class Controls {
         gamepad1.DPAD_RIGHT.whenReleased(new SetDrivetrainCommand(0, 0, 0));
         
         gamepad2 = new Gamepad(2);
+        //Conveyor
+        gamepad2.LEFT_TRIGGER.whenPressed(new SetConveyorCommand(Conveyor.CONVEYOR_IN));
+        gamepad2.LEFT_TRIGGER.whenReleased(new SetConveyorCommand(Conveyor.CONVEYOR_STOP));
+        gamepad2.LEFT_BUMPER.whenPressed(new SetConveyorCommand(Conveyor.CONVEYOR_OUT));
+        gamepad2.LEFT_BUMPER.whenPressed(new SetConveyorCommand(Conveyor.CONVEYOR_STOP));
+        //Shooter   ```````````````````````
+        gamepad2.RIGHT_TRIGGER.whenPressed(new SetShooterCommand(Shooter.SHOOTER_ON));
+        gamepad2.RIGHT_BUMPER.whenPressed(new SetShooterCommand(Shooter.SHOOTER_OFF));
     }
     
     /**
