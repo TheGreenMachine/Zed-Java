@@ -14,8 +14,9 @@ public class TargetCollection {
      * @param targetData The Target data string to be parsed into a new TargetCollection.
      */
     public TargetCollection(String targetData) {
-        if(!(targetData.equals(""))) {
-            StringTokenizer targetTokenizer = new StringTokenizer(targetData, ":");
+        String processedTargetData = targetData.trim();
+        if(!processedTargetData.equals("")) {
+            StringTokenizer targetTokenizer = new StringTokenizer(processedTargetData, ":");
             targets = new Target[targetTokenizer.countTokens()];
             int currentTarget = 0;
             try {
