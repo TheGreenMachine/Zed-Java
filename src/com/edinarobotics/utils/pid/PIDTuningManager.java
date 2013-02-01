@@ -75,15 +75,12 @@ public class PIDTuningManager {
      * This method will handle the NetworkTable data exchange with the dashboard.
      */
     public void runTuning(){
-        if(pidTable.getBoolean("tunepid", false)){
-            //PID Tuning enabled
-            pidTable.putString("subsystems", getConfigNames());
-            PIDConfig pidSystem = getPIDConfig(pidTable.getString("system", "default"));
-            pidSystem.setPID(pidTable.getNumber("p", 0), pidTable.getNumber("i", 0),
-                    pidTable.getNumber("d", 0));
-            pidTable.putNumber("value", pidSystem.getValue());
-            pidTable.putNumber("setpoint", pidSystem.getSetpoint());
-        }
+        pidTable.putString("subsystems", getConfigNames());
+        PIDConfig pidSystem = getPIDConfig(pidTable.getString("system", "default"));
+        pidSystem.setPID(pidTable.getNumber("p", 0), pidTable.getNumber("i", 0),
+                pidTable.getNumber("d", 0));
+        pidTable.putNumber("value", pidSystem.getValue());
+        pidTable.putNumber("setpoint", pidSystem.getSetpoint());
     }
     
     /**
