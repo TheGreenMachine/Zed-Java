@@ -17,6 +17,7 @@ import com.edinarobotics.zed.subsystems.DrivetrainRotation;
 import com.edinarobotics.zed.subsystems.DrivetrainStrafe;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public class Zed extends IterativeRobot {
     
@@ -64,7 +65,8 @@ public class Zed extends IterativeRobot {
     /**
      * This function is called once at the start of test mode.
      */
-    public void testInit(){
+    public void testInit() {
+        LiveWindow.setEnabled(false);
         teleopInit();
     }
     
