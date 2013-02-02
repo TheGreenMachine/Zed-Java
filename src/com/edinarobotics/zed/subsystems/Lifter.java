@@ -14,11 +14,11 @@ public class Lifter extends Subsystem1816 {
     private PIDConfig firstLifterPIDConfig;
 
     private double position;
-    private CANJaguar lifterJaguarFirst;
+    private CANJaguar lifterJaguar;
     
     public Lifter(int firstLifterJaguarNum) {
         super("Lifter");
-        lifterJaguarFirst = createCANJaguar(firstLifterJaguarNum,
+        lifterJaguar = createCANJaguar(firstLifterJaguarNum,
                 CANJaguar.PositionReference.kPotentiometer,
                 ANGLE_POTENTIOMETER_TURNS,
                 CANJaguar.ControlMode.kPosition,
@@ -32,16 +32,32 @@ public class Lifter extends Subsystem1816 {
         update();
     }
     
+    public double getPositionSetpoint() {
+        return position;
+    }
+    
+    public double getActualPosition() {
+        if(lifterJaguar != null) {
+            try {
+                return lifterJaguar.getPosition();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return -1;
+    }
+    
     public void update() {
         try {
-            if(lifterJaguarFirst != null) {
-                    lifterJaguarFirst.setX(position);
+            if(lifterJaguar != null) {
+                    lifterJaguar.setX(position);
                     //PID tuning code
-                    lifterJaguarFirst.setPID(firstLifterPIDConfig.getP(P_LIFTER_1),
+                    lifterJaguar.setPID(firstLifterPIDConfig.getP(P_LIFTER_1),
                             firstLifterPIDConfig.getI(I_LIFTER_1),
                             firstLifterPIDConfig.getD(D_LIFTER_1));
                     firstLifterPIDConfig.setSetpoint(position);
-                    firstLifterPIDConfig.setValue(lifterJaguarFirst.getPosition());
+                    firstLifterPIDConfig.setValue(lifterJaguar.getPosition());
             }
         }
         catch(Exception e) {

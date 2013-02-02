@@ -42,10 +42,34 @@ public class Shooter extends Subsystem1816 {
         firstShooterPIDConfig = PIDTuningManager.getInstance().getPIDConfig("First Shooter");
         secondShooterPIDConfig = PIDTuningManager.getInstance().getPIDConfig("Second Shooter");
     }
-    
+ 
     public void setShooterVelocity(double velocity) {
         this.velocity = velocity;
         update();
+    }
+    
+    public double getFirstJaguarVelocity() {
+        if(shooterJaguarFirst != null) {
+            try {
+                return shooterJaguarFirst.getSpeed();
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return -1;
+    }
+    
+    public double getSecondJaguarVelocity() {
+        if(shooterJaguarSecond != null) {
+            try {
+                return shooterJaguarSecond.getSpeed();
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return -1;
     }
     
     public void update() {

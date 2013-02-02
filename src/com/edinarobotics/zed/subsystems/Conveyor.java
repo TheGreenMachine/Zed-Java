@@ -29,6 +29,10 @@ public class Conveyor extends Subsystem1816 {
         update();
     }
     
+    public double getConveyorVelocity() {
+        return velocity;
+    }
+    
     public void update(){
         conveyor.set(velocity);
     }

@@ -30,6 +30,10 @@ public class Auger extends Subsystem1816 {
         augerDirection = direction;
     }
     
+    public byte getAugerDirection() {
+        return augerDirection;
+    }
+    
     public void update() {
         auger.set(getRelayDirection(augerDirection));
     }

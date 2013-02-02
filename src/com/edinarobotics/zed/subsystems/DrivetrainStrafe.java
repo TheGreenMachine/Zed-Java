@@ -19,6 +19,14 @@ public class DrivetrainStrafe extends Subsystem1816 {
         update();
     }
     
+    public double getMagnitude() {
+        return magnitude;
+    }
+    
+    public double getDirection() {
+        return direction;
+    }
+    
     public void update() {
         drivetrain.mecanumPolarStrafe(magnitude, direction);
     }

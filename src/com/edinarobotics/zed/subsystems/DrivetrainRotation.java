@@ -18,6 +18,10 @@ public class DrivetrainRotation extends Subsystem1816 implements PIDOutput {
         update();
     }
     
+    public double getRotation() {
+        return rotation;
+    }
+    
     public void update() {
         drivetrain.mecanumPolarRotation(rotation);
     }
