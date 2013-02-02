@@ -1,6 +1,5 @@
 package com.edinarobotics.zed.subsystems;
 
-import com.edinarobotics.utils.commands.MaintainStateCommand;
 import com.edinarobotics.utils.pid.PIDConfig;
 import com.edinarobotics.utils.pid.PIDTuningManager;
 import com.edinarobotics.utils.subsystems.Subsystem1816;
@@ -42,10 +41,6 @@ public class Shooter extends Subsystem1816 {
                 NUM_RETRIES);
         firstShooterPIDConfig = PIDTuningManager.getInstance().getPIDConfig("First Shooter");
         secondShooterPIDConfig = PIDTuningManager.getInstance().getPIDConfig("Second Shooter");
-    }
-    
-    protected void initDefaultCommand() {
-        setDefaultCommand(new MaintainStateCommand(this));
     }
     
     public void setShooterVelocity(double velocity) {

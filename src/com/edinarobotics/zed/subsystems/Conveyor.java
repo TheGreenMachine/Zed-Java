@@ -1,6 +1,5 @@
 package com.edinarobotics.zed.subsystems;
 
-import com.edinarobotics.utils.commands.MaintainStateCommand;
 import com.edinarobotics.utils.subsystems.Subsystem1816;
 import edu.wpi.first.wpilibj.Victor;
 
@@ -15,10 +14,6 @@ public class Conveyor extends Subsystem1816 {
     public Conveyor(int conveyor){
         super("Conveyor");
         this.conveyor = new Victor(conveyor);
-    }
-    
-    public void initDefaultCommand(){
-        setDefaultCommand(new MaintainStateCommand(this));
     }
     
     /**

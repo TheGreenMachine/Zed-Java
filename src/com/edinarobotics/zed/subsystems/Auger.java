@@ -1,6 +1,5 @@
 package com.edinarobotics.zed.subsystems;
 
-import com.edinarobotics.utils.commands.MaintainStateCommand;
 import com.edinarobotics.utils.subsystems.Subsystem1816;
 import edu.wpi.first.wpilibj.Relay;
 
@@ -33,9 +32,5 @@ public class Auger extends Subsystem1816 {
     
     public void update() {
         auger.set(getRelayDirection(augerDirection));
-    }
-
-    protected void initDefaultCommand() {
-        setDefaultCommand(new MaintainStateCommand(this));
     }
 }

@@ -1,6 +1,5 @@
 package com.edinarobotics.zed.subsystems;
 
-import com.edinarobotics.utils.commands.MaintainStateCommand;
 import com.edinarobotics.utils.pid.PIDConfig;
 import com.edinarobotics.utils.pid.PIDTuningManager;
 import com.edinarobotics.utils.subsystems.Subsystem1816;
@@ -26,10 +25,6 @@ public class Lifter extends Subsystem1816 {
                 P_LIFTER_1, I_LIFTER_1, D_LIFTER_1,
                 NUM_RETRIES);
         firstLifterPIDConfig = PIDTuningManager.getInstance().getPIDConfig("Lifter");
-    }
-
-    protected void initDefaultCommand() {
-        setDefaultCommand(new MaintainStateCommand(this));
     }
     
     public void setLifterPosition(double position) {

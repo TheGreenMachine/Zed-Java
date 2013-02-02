@@ -1,6 +1,5 @@
 package com.edinarobotics.zed.subsystems;
 
-import com.edinarobotics.utils.commands.MaintainStateCommand;
 import com.edinarobotics.utils.subsystems.Subsystem1816;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.command.Command;
@@ -22,11 +21,6 @@ public class DrivetrainRotation extends Subsystem1816 implements PIDOutput {
     public void update() {
         drivetrain.mecanumPolarRotation(rotation);
     }
-
-    public void initDefaultCommand(){
-        setDefaultCommand(new MaintainStateCommand(this));
-    }
-    
     
     public void setDefaultCommand(Command command){
         if(getDefaultCommand() != null){

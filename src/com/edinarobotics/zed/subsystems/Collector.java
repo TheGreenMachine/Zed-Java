@@ -1,6 +1,5 @@
 package com.edinarobotics.zed.subsystems;
 
-import com.edinarobotics.utils.commands.MaintainStateCommand;
 import com.edinarobotics.utils.subsystems.Subsystem1816;
 import edu.wpi.first.wpilibj.Relay;
 
@@ -24,10 +23,6 @@ public class Collector extends Subsystem1816 {
         leftStarDirection = 0;
         rightStarDirection = 0;
         rollerDirection = 0;
-    }
-    
-    protected void initDefaultCommand(){
-        setDefaultCommand(new MaintainStateCommand(this));
     }
     
     /**
