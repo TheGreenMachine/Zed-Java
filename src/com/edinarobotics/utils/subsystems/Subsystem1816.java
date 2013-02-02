@@ -1,9 +1,10 @@
 package com.edinarobotics.utils.subsystems;
 
+import com.edinarobotics.utils.commands.MaintainStateCommand;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- * This interface is used to define a Subsystem that provides an
+ * This abstract class is used to define a Subsystem that provides an
  * {@link #update()} method.
  */
 public abstract class Subsystem1816 extends Subsystem {
@@ -21,6 +22,13 @@ public abstract class Subsystem1816 extends Subsystem {
      */
     public Subsystem1816(String name){
         super(name);
+    }
+    
+    /**
+     * Sets the default command of the subsystem to be a MaintainStateCommand.
+     */
+    protected void initDefaultCommand() {
+        setDefaultCommand(new MaintainStateCommand(this));
     }
     
     /**
