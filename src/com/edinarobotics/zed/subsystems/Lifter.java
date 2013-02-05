@@ -1,92 +1,65 @@
 package com.edinarobotics.zed.subsystems;
 
-import com.edinarobotics.utils.pid.PIDConfig;
-import com.edinarobotics.utils.pid.PIDTuningManager;
 import com.edinarobotics.utils.subsystems.Subsystem1816;
-import edu.wpi.first.wpilibj.CANJaguar;
+import edu.wpi.first.wpilibj.Relay;
 
 public class Lifter extends Subsystem1816 {
-    private static final int ANGLE_POTENTIOMETER_TURNS = 1;
-    private final double P_LIFTER_1 = 1;
-    private final double I_LIFTER_1 = 0;
-    private final double D_LIFTER_1 = 0;
-    private final int NUM_RETRIES = 10;
-    private PIDConfig firstLifterPIDConfig;
-
-    private double position;
-    private CANJaguar lifterJaguar;
+    private LifterDirection direction;
+    private Relay lifterRelay;
     
-    public Lifter(int firstLifterJaguarNum) {
+    public Lifter(int lifterRelay) {
         super("Lifter");
-        lifterJaguar = createCANJaguar(firstLifterJaguarNum,
-                CANJaguar.PositionReference.kPotentiometer,
-                ANGLE_POTENTIOMETER_TURNS,
-                CANJaguar.ControlMode.kPosition,
-                P_LIFTER_1, I_LIFTER_1, D_LIFTER_1,
-                NUM_RETRIES);
-        firstLifterPIDConfig = PIDTuningManager.getInstance().getPIDConfig("Lifter");
+        this.lifterRelay = new Relay(lifterRelay);
+        direction = LifterDirection.LIFTER_STOP;
     }
     
-    public void setLifterPosition(double position) {
-        this.position = position;
+    public void setLifterDirection(LifterDirection direction){
+        this.direction = direction;
         update();
     }
     
-    public double getPositionSetpoint() {
-        return position;
-    }
-    
-    public double getActualPosition() {
-        if(lifterJaguar != null) {
-            try {
-                return lifterJaguar.getPosition();
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return -1;
+    public LifterDirection getLifterDirection(){
+        return direction;
     }
     
     public void update() {
-        try {
-            if(lifterJaguar != null) {
-                    lifterJaguar.setX(position);
-                    //PID tuning code
-                    lifterJaguar.setPID(firstLifterPIDConfig.getP(P_LIFTER_1),
-                            firstLifterPIDConfig.getI(I_LIFTER_1),
-                            firstLifterPIDConfig.getD(D_LIFTER_1));
-                    firstLifterPIDConfig.setSetpoint(position);
-                    firstLifterPIDConfig.setValue(lifterJaguar.getPosition());
-            }
-        }
-        catch(Exception e) {
-            System.err.println("Failed to update lifter Jaguar.");
-            e.printStackTrace();
-        }
+        lifterRelay.set(direction.getRelayValue());
     }
     
-    private CANJaguar createCANJaguar(int id, CANJaguar.PositionReference positionReference,
-            int codesPerRev, CANJaguar.ControlMode controlMode,
-            double P, double I, double D, int numRetries) {
-        CANJaguar canJaguar = null;
-        try {
-            for(int i = 0; i < numRetries; i++) {
-                canJaguar = new CANJaguar(id);
-                if(canJaguar != null) {
-                    break;
-                }
+    public static class LifterDirection {
+        public static final LifterDirection LIFTER_UP = new LifterDirection((byte)1);
+        public static final LifterDirection LIFTER_DOWN = new LifterDirection((byte)-1);
+        public static final LifterDirection LIFTER_STOP = new LifterDirection((byte)0);
+        
+        private byte value;
+        
+        private LifterDirection(byte value){
+            this.value = value;
+        }
+        
+        protected byte getValue(){
+            return value;
+        }
+        
+        public boolean equals(Object other){
+            if(other instanceof LifterDirection){
+                return ((LifterDirection)other).getValue() == getValue();
             }
-            canJaguar.setPositionReference(positionReference);
-            canJaguar.configEncoderCodesPerRev(codesPerRev);
-            canJaguar.changeControlMode(controlMode);
-            canJaguar.setPID(P, I, D);
+            return false;
         }
-        catch(Exception e) {
-            System.err.println("Failed to create Jaguar.");
-            e.printStackTrace();
+        
+        public int hashCode(){
+            return new Byte(getValue()).hashCode();
         }
-        return canJaguar;
+        
+        public Relay.Value getRelayValue(){
+            if(equals(LIFTER_UP)){
+                return Relay.Value.kForward;
+            }
+            else if(equals(LIFTER_DOWN)){
+                return Relay.Value.kReverse;
+            }
+            return Relay.Value.kOff;
+        }
     }
-   
 }
