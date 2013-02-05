@@ -6,9 +6,9 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class SetAugerCommand extends Command {
     private Auger auger;
-    private byte direction;
+    private Auger.AugerDirection direction;
     
-    public SetAugerCommand(byte direction) {
+    public SetAugerCommand(Auger.AugerDirection direction) {
         super("SetAuger");
         this.auger = Components.getInstance().auger;
         this.direction = direction;

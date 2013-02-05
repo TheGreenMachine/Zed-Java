@@ -4,37 +4,62 @@ import com.edinarobotics.utils.subsystems.Subsystem1816;
 import edu.wpi.first.wpilibj.Relay;
 
 public class Auger extends Subsystem1816 {
-    public static final byte AUGER_UP = 1;
-    public static final byte AUGER_DOWN = -1;
-    public static final byte AUGER_STOP = 0;
-    
     private Relay auger;
-    private byte augerDirection;
+    private AugerDirection direction;
     
     public Auger(int augerRelay) {
         super("Auger");
+        direction = AugerDirection.AUGER_STOP;
         auger = new Relay(augerRelay);
     }
-
-    private Relay.Value getRelayDirection(byte direction) {
-        if(direction == 0 ) {
-            return Relay.Value.kOff;
-        }
-        if(direction > 0) {
-            return Relay.Value.kForward;
-        }
-        return Relay.Value.kReverse;
+    
+    public void setAugerDirection(AugerDirection direction) {
+        this.direction = direction;
+        update();
     }
     
-    public void setAugerDirection(byte direction) {
-        augerDirection = direction;
-    }
-    
-    public byte getAugerDirection() {
-        return augerDirection;
+    public AugerDirection getAugerDirection() {
+        return direction;
     }
     
     public void update() {
-        auger.set(getRelayDirection(augerDirection));
+        auger.set(direction.getRelayValue());
+    }
+    
+    public static class AugerDirection {
+        public static final AugerDirection AUGER_UP = new AugerDirection((byte)1);
+        public static final AugerDirection AUGER_DOWN =  new AugerDirection((byte)-1);
+        public static final AugerDirection AUGER_STOP = new AugerDirection((byte)0);
+        
+        private byte value;
+        
+        private AugerDirection(byte value){
+            this.value = value;
+        }
+        
+        protected byte getValue(){
+            return value;
+        }
+        
+        public boolean equals(Object other){
+            if(other instanceof Auger){
+                return ((AugerDirection)other).getValue() == this.getValue();
+            }
+            return false;
+        }
+        
+        public int hashCode(){
+            return new Byte(getValue()).hashCode();
+        }
+        
+        public Relay.Value getRelayValue(){
+            if(equals(AUGER_UP)){
+                return Relay.Value.kForward;
+            }
+            else if(equals(AUGER_DOWN)){
+                return Relay.Value.kReverse;
+            }
+            return Relay.Value.kOff;
+        }
     }
 }
