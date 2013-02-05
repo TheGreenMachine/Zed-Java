@@ -10,15 +10,17 @@ public class Collector extends Subsystem1816 {
     
     private Relay leftStar;
     private Relay rightStar;
-    private Relay roller;
+    private Relay collectorLifter;
     private byte direction;
+    private byte lifter;
     
     public Collector(int leftStar, int rightStar, int roller){
         super("Collector");
         this.leftStar = new Relay(leftStar);
         this.rightStar = new Relay(rightStar);
-        this.roller = new Relay(roller);
+        this.collectorLifter = new Relay(roller);
         direction = 0;
+        lifter = 0;
     }
     
     /**
@@ -31,6 +33,11 @@ public class Collector extends Subsystem1816 {
      */
     public void setCollectorDirection(byte direction){
         this.direction = direction;
+        update();
+    }
+    
+    public void setCollectorLifter(byte lifter) {
+        this.lifter = lifter;
         update();
     }
     
@@ -52,6 +59,6 @@ public class Collector extends Subsystem1816 {
     public void update(){
         leftStar.set(getRelayDirection(direction));
         rightStar.set(getRelayDirection(direction));
-        roller.set(getRelayDirection(direction));
+        collectorLifter.set(getRelayDirection(lifter));
     }
 }
