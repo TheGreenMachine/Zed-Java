@@ -6,20 +6,32 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class SetCollectorCommand extends Command {
     private Collector collector;
-    private byte direction;
-    private byte lifter;
+    private Collector.CollectorDirection collectorDirection;
+    private Collector.CollectorLiftDirection collectorLiftDirection;
     
-    public SetCollectorCommand(byte direction,  byte lifter) {
+    public SetCollectorCommand(Collector.CollectorDirection collectorDirection, Collector.CollectorLiftDirection collectorLiftDirection) {
         super("SetCollector");
         this.collector = Components.getInstance().collector;
-        this.direction = direction;
-        this.lifter = lifter;
+        this.collectorDirection = collectorDirection;
+        this.collectorLiftDirection = collectorLiftDirection;
         requires(collector);
+    }
+    
+    public SetCollectorCommand(Collector.CollectorDirection collectorDirection){
+        this(collectorDirection, null);
+    }
+    
+    public SetCollectorCommand(Collector.CollectorLiftDirection collectorLiftDirection){
+        this(null, collectorLiftDirection);
     }
 
     protected void initialize() {
-        collector.setCollectorDirection(direction);
-        collector.setCollectorLifter(lifter);
+        if(collectorDirection != null){
+            collector.setCollectorDirection(collectorDirection);
+        }
+        if(collectorDirection != null){
+            collector.setCollectorLiftDirection(collectorLiftDirection);
+        }
     }
 
     protected void execute() {

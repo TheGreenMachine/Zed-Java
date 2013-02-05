@@ -26,10 +26,10 @@ public class Controls {
         gamepad1.LEFT_BUMPER.whenPressed(new SetConveyorCommand(Conveyor.CONVEYOR_OUT));
         gamepad1.LEFT_BUMPER.whenReleased(new SetConveyorCommand(Conveyor.CONVEYOR_STOP));
         //Collector
-        gamepad1.RIGHT_TRIGGER.whenPressed(new SetCollectorCommand(Collector.COLLECTOR_IN));
-        gamepad1.RIGHT_TRIGGER.whenReleased(new SetCollectorCommand(Collector.COLLECTOR_STOP));
-        gamepad1.RIGHT_BUMPER.whenPressed(new SetCollectorCommand(Collector.COLLECTOR_OUT));
-        gamepad1.RIGHT_BUMPER.whenReleased(new SetCollectorCommand(Collector.COLLECTOR_STOP));
+        gamepad1.RIGHT_TRIGGER.whenPressed(new SetCollectorCommand(Collector.CollectorDirection.COLLECTOR_IN));
+        gamepad1.RIGHT_TRIGGER.whenReleased(new SetCollectorCommand(Collector.CollectorDirection.COLLECTOR_STOP));
+        gamepad1.RIGHT_BUMPER.whenPressed(new SetCollectorCommand(Collector.CollectorDirection.COLLECTOR_OUT));
+        gamepad1.RIGHT_BUMPER.whenReleased(new SetCollectorCommand(Collector.CollectorDirection.COLLECTOR_STOP));
         //One-Joystick Strafe
         gamepad1.DPAD_UP.whileHeld(new SetDrivetrainCommand(ONE_JOYSTICK_MAGNITUDE, 0, 0));
         gamepad1.DPAD_UP.whenReleased(new SetDrivetrainCommand(0, 0, 0));
@@ -46,7 +46,7 @@ public class Controls {
         gamepad2.LEFT_TRIGGER.whenReleased(new SetConveyorCommand(Conveyor.CONVEYOR_STOP));
         gamepad2.LEFT_BUMPER.whenPressed(new SetConveyorCommand(Conveyor.CONVEYOR_OUT));
         gamepad2.LEFT_BUMPER.whenReleased(new SetConveyorCommand(Conveyor.CONVEYOR_STOP));
-        //Shooter   ```````````````````````
+        //Shooter
         gamepad2.RIGHT_TRIGGER.whenPressed(new SetShooterCommand(Shooter.SHOOTER_ON));
         gamepad2.RIGHT_TRIGGER.whenReleased(new SetShooterCommand(Shooter.SHOOTER_OFF));
     }
