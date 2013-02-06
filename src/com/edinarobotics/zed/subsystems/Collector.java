@@ -4,23 +4,19 @@ import com.edinarobotics.utils.subsystems.Subsystem1816;
 import edu.wpi.first.wpilibj.Relay;
 
 public class Collector extends Subsystem1816 {
-    public static final byte COLLECTOR_IN = 1;
-    public static final byte COLLECTOR_OUT = -1;
-    public static final byte COLLECTOR_STOP = 0;
-    
     private Relay leftStar;
     private Relay rightStar;
     private Relay collectorLifter;
-    private byte direction;
-    private byte lifter;
+    private CollectorDirection collectorDirection;
+    private CollectorLiftDirection collectorLiftDirection;
     
-    public Collector(int leftStar, int rightStar, int roller){
+    public Collector(int leftStar, int rightStar, int collectorLifter){
         super("Collector");
         this.leftStar = new Relay(leftStar);
         this.rightStar = new Relay(rightStar);
-        this.collectorLifter = new Relay(roller);
-        direction = 0;
-        lifter = 0;
+        this.collectorLifter = new Relay(collectorLifter);
+        collectorDirection = CollectorDirection.COLLECTOR_STOP;
+        collectorLiftDirection = CollectorLiftDirection.COLLECTOR_LIFT_STOP;
     }
     
     /**
@@ -31,34 +27,111 @@ public class Collector extends Subsystem1816 {
      * A zero value will stop the collector.
      * @param direction Sets the collector to the direction as given above.
      */
-    public void setCollectorDirection(byte direction){
-        this.direction = direction;
+    public void setCollectorDirection(CollectorDirection direction){
+        this.collectorDirection = direction;
         update();
     }
     
-    public void setCollectorLifter(byte lifter) {
-        this.lifter = lifter;
+    public void setCollectorLiftDirection(CollectorLiftDirection direction) {
+        this.collectorLiftDirection = direction;
         update();
     }
     
-    public byte getCollectorDirection() {
-        return direction;
+    public CollectorDirection getCollectorDirection() {
+        return collectorDirection;
     }
     
-    private Relay.Value getRelayDirection(byte direction){
-        if(direction == 0){
-            return Relay.Value.kOff;
-        }
-        if(direction > 0){
-            return Relay.Value.kForward;
-        }
-        return Relay.Value.kReverse;
+    public CollectorLiftDirection getCollectorLiftDirection() {
+        return collectorLiftDirection;
     }
-    
 
     public void update(){
-        leftStar.set(getRelayDirection(direction));
-        rightStar.set(getRelayDirection(direction));
-        collectorLifter.set(getRelayDirection(lifter));
+        leftStar.set(collectorDirection.getLeftStarRelayValue());
+        rightStar.set(collectorDirection.getRightStarRelayValue());
+        collectorLifter.set(collectorLiftDirection.getRelayValue());
+    }
+    
+    public static class CollectorDirection {
+        public static final CollectorDirection COLLECTOR_IN = new CollectorDirection((byte)1);
+        public static final CollectorDirection COLLECTOR_OUT = new CollectorDirection((byte)-1);
+        public static final CollectorDirection COLLECTOR_STOP = new CollectorDirection((byte)0);
+        
+        private byte value;
+        
+        private CollectorDirection(byte value){
+            this.value = value;
+        }
+        
+        protected byte getValue(){
+            return value;
+        }
+        
+        public boolean equals(Object other){
+            if(other instanceof CollectorDirection){
+                return ((CollectorDirection)other).getValue() == this.getValue();
+            }
+            return false;
+        }
+        
+        public int hashCode(){
+            return new Byte(getValue()).hashCode();
+        }
+        
+        public Relay.Value getLeftStarRelayValue(){
+            if(equals(COLLECTOR_IN)){
+                return Relay.Value.kForward;
+            }
+            else if(equals(COLLECTOR_OUT)){
+                return Relay.Value.kReverse;
+            }
+            return Relay.Value.kOff;
+        }
+        
+        public Relay.Value getRightStarRelayValue(){
+            if(equals(COLLECTOR_IN)){
+                return Relay.Value.kForward;
+            }
+            else if(equals(COLLECTOR_OUT)){
+                return Relay.Value.kReverse;
+            }
+            return Relay.Value.kOff;
+        }
+    }
+    
+    public static class CollectorLiftDirection {
+        public static final CollectorLiftDirection COLLECTOR_LIFT_UP = new CollectorLiftDirection((byte)1);
+        public static final CollectorLiftDirection COLLECTOR_LIFT_DOWN = new CollectorLiftDirection((byte)-1);
+        public static final CollectorLiftDirection COLLECTOR_LIFT_STOP = new CollectorLiftDirection((byte)0);
+        
+        private byte value;
+        
+        private CollectorLiftDirection(byte value){
+            this.value = value;
+        }
+        
+        protected byte getValue(){
+            return value;
+        }
+        
+        public boolean equals(Object other){
+            if(other instanceof CollectorLiftDirection){
+                return ((CollectorLiftDirection)other).getValue() == this.getValue();
+            }
+            return false;
+        }
+        
+        public int hashCode(){
+            return new Byte(getValue()).hashCode();
+        }
+        
+        public Relay.Value getRelayValue(){
+            if(equals(COLLECTOR_LIFT_UP)){
+                return Relay.Value.kForward;
+            }
+            else if(equals(COLLECTOR_LIFT_DOWN)){
+                return Relay.Value.kReverse;
+            }
+            return Relay.Value.kOff;
+        }
     }
 }

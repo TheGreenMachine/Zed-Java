@@ -42,7 +42,7 @@ public class Auger extends Subsystem1816 {
         }
         
         public boolean equals(Object other){
-            if(other instanceof Auger){
+            if(other instanceof AugerDirection){
                 return ((AugerDirection)other).getValue() == this.getValue();
             }
             return false;
