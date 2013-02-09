@@ -144,4 +144,12 @@ public class TargetCollection {
         }
         return foundTarget;
     }
+    
+    public String toString() {
+        String collection = "";
+        for(int i = 0;i < targets.size();++i) {
+            collection += ((Target)(targets.elementAt(i))).toString() + "\n";
+        }
+        return collection;
+    }
 }
