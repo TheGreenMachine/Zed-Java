@@ -1,11 +1,11 @@
 package com.edinarobotics.zed.vision;
 
-import com.sun.squawk.util.Arrays;
 import com.sun.squawk.util.MathUtils;
 import com.sun.squawk.util.StringTokenizer;
+import java.util.Vector;
 
 public class TargetCollection {
-    private Target[] targets;
+    private Vector targets;
     
     /**
      * Creates a new TargetCollection with Target objects created from the String,
@@ -14,11 +14,10 @@ public class TargetCollection {
      * @param targetData The Target data string to be parsed into a new TargetCollection.
      */
     public TargetCollection(String targetData) {
+        targets = new Vector();
         String processedTargetData = targetData.trim();
         if(!processedTargetData.equals("")) {
             StringTokenizer targetTokenizer = new StringTokenizer(processedTargetData, ":");
-            targets = new Target[targetTokenizer.countTokens()];
-            int currentTarget = 0;
             try {
                 while(targetTokenizer.hasMoreTokens()) {
                     String dataBlock = targetTokenizer.nextToken();
@@ -31,8 +30,7 @@ public class TargetCollection {
                     double distance = Double.parseDouble(targetDataTokenizer.nextToken());
                     boolean isCenter = targetDataTokenizer.nextToken().equals("1");
 
-                    targets[currentTarget] = new Target(x, y, distance, isCenter);
-                    currentTarget++;
+                    targets.addElement(new Target(x, y, distance, isCenter));
                 }
             }
             catch(Exception e) {
@@ -47,7 +45,9 @@ public class TargetCollection {
      * @param targets The Target objects to be stored in the new TargetCollection.
      */
     public TargetCollection(Target[] targets){
-        this.targets = (Target[])Arrays.copy(targets);
+        for(int i = 0;i < targets.length;++i) {
+            this.targets.addElement(targets[i]);
+        }
     }
     
     /**
@@ -59,11 +59,11 @@ public class TargetCollection {
     }
     
     /**
-     * Returns a copy of the internal Target array used by this TargetCollection.
-     * @return A Target array equivalent to that used internally by TargetCollection.
+     * Returns a copy of the internal Target vector used by this TargetCollection.
+     * @return A Target vector equivalent to that used internally by TargetCollection.
      */
-    public Target[] getTargets(){
-        return (Target[])Arrays.copy(targets);
+    public Vector getTargets(){
+        return targets;
     }
     
     /**
@@ -77,16 +77,16 @@ public class TargetCollection {
      */
     public Target[] filterByType(boolean centerTarget){
         int count = 0;
-        for(int i = 0; i < targets.length; i++){
-            Target target = targets[i];
+        for(int i = 0; i < targets.size(); i++){
+            Target target = (Target)targets.elementAt(i);
             if(target.isCenter() == centerTarget){
                 count++;
             }
         }
         Target[] foundTargets = new Target[count];
         int index = 0;
-        for(int i = 0; i < targets.length; i++){
-            Target target = targets[i];
+        for(int i = 0; i < targets.size(); i++){
+            Target target = (Target)targets.elementAt(i);
             if(target.isCenter() == centerTarget){
                 foundTargets[index] = target;
                 index++;
@@ -107,8 +107,8 @@ public class TargetCollection {
     public Target getClosestTarget(double x, double y){
         double minDistance = Double.MAX_VALUE;
         Target foundTarget = null;
-        for(int i = 0; i < targets.length; i++){
-            Target target = targets[i];
+        for(int i = 0; i < targets.size(); i++){
+            Target target = (Target)targets.elementAt(i);
             double sqDistance = MathUtils.pow(target.getX() - x, 2)+MathUtils.pow(target.getY() - y, 2);
             if(sqDistance < minDistance){
                 minDistance = sqDistance;
@@ -132,8 +132,8 @@ public class TargetCollection {
     public Target getClosestTarget(double x, double y, boolean centerTarget){
         double minDistance = Double.MAX_VALUE;
         Target foundTarget = null;
-        for(int i = 0; i < targets.length; i++){
-            Target target = targets[i];
+        for(int i = 0; i < targets.size(); i++){
+            Target target = (Target)targets.elementAt(i);
             if(target.isCenter() == centerTarget){
                 double sqDistance = MathUtils.pow(target.getX() - x, 2)+MathUtils.pow(target.getY() - y, 2);
                 if(sqDistance < minDistance){
