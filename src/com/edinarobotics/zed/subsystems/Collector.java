@@ -1,22 +1,30 @@
 package com.edinarobotics.zed.subsystems;
 
 import com.edinarobotics.utils.subsystems.Subsystem1816;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Relay;
 
 public class Collector extends Subsystem1816 {
+    public final int collectorUpperLimitSwitch;
+    public final int collectorLowerLimitSwitch;
     private Relay leftStar;
     private Relay rightStar;
     private Relay collectorLifter;
     private CollectorDirection collectorDirection;
     private CollectorLiftDirection collectorLiftDirection;
+    private DigitalInput upperLimitSwitch;
+    private DigitalInput lowerLimitSwitch;
     
-    public Collector(int leftStar, int rightStar, int collectorLifter){
+    public Collector(int leftStar, int rightStar, int collectorLifter,
+            int collectorUpperLimitSwitch, int collectorLowerLimitSwitch) {
         super("Collector");
         this.leftStar = new Relay(leftStar);
         this.rightStar = new Relay(rightStar);
         this.collectorLifter = new Relay(collectorLifter);
         collectorDirection = CollectorDirection.COLLECTOR_STOP;
         collectorLiftDirection = CollectorLiftDirection.COLLECTOR_LIFT_STOP;
+        this.collectorUpperLimitSwitch = collectorUpperLimitSwitch;
+        this.collectorLowerLimitSwitch = collectorLowerLimitSwitch;
     }
     
     /**
@@ -48,7 +56,24 @@ public class Collector extends Subsystem1816 {
     public void update(){
         leftStar.set(collectorDirection.getLeftStarRelayValue());
         rightStar.set(collectorDirection.getRightStarRelayValue());
-        collectorLifter.set(collectorLiftDirection.getRelayValue());
+        CollectorLiftDirection processLiftDirection = collectorLiftDirection;
+        if(processLiftDirection.equals(CollectorLiftDirection.COLLECTOR_LIFT_UP) &&
+                getUpperLimitSwitch()) {
+            processLiftDirection = CollectorLiftDirection.COLLECTOR_LIFT_STOP;
+        }
+        if(processLiftDirection.equals(CollectorLiftDirection.COLLECTOR_LIFT_DOWN) &&
+                getLowerLimitSwitch()) {
+            processLiftDirection = CollectorLiftDirection.COLLECTOR_LIFT_STOP;
+        }
+        collectorLifter.set(processLiftDirection.getRelayValue());
+    }
+    
+    public boolean getUpperLimitSwitch() {
+        return upperLimitSwitch.get();
+    }
+    
+    public boolean getLowerLimitSwitch() {
+        return lowerLimitSwitch.get();
     }
     
     public static class CollectorDirection {
