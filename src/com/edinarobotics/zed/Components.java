@@ -12,6 +12,12 @@ import com.edinarobotics.zed.subsystems.Shooter;
 public class Components {
     private static Components instance;
     
+    //Digital Input Constants
+    //Switch Constants
+    private static final int COLLECTOR_UPPER_LIMIT_SWITCH = 1;
+    private static final int COLLECTOR_LOWER_LIMIT_SWITCH = 2;
+    private static final int AUGER_ROTATION_SWITCH = 3;
+    
     //PWM constants
     //Drivetrain constants
     private static final int FRONT_LEFT_DRIVE_JAGUAR = 3;
@@ -58,9 +64,9 @@ public class Components {
         shooter = new Shooter(SHOOTER_JAGUAR_FIRST, SHOOTER_JAGUAR_SECOND);
         lifter = new Lifter(LIFTER_SPIKE);
         collector = new Collector(COLLECTOR_LEFT_STAR_SPIKE, COLLECTOR_RIGHT_STAR_SPIKE,
-                COLLECTOR_LIFTER_SPIKE);
+                COLLECTOR_LIFTER_SPIKE, COLLECTOR_UPPER_LIMIT_SWITCH, COLLECTOR_LOWER_LIMIT_SWITCH);
         conveyor = new Conveyor(CONVEYOR_VICTOR);
-        auger = new Auger(AUGER_SPIKE);
+        auger = new Auger(AUGER_SPIKE, AUGER_ROTATION_SWITCH);
     }
     
     /**
