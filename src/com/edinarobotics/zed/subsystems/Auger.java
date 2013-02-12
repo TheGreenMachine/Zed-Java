@@ -1,16 +1,23 @@
 package com.edinarobotics.zed.subsystems;
 
 import com.edinarobotics.utils.subsystems.Subsystem1816;
+import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Relay;
 
 public class Auger extends Subsystem1816 {
     private Relay auger;
     private AugerDirection direction;
+    private DigitalInput augerSwitch;
+    private Counter counter;
     
-    public Auger(int augerRelay) {
+    public Auger(int augerRelay, int augerRotationSwitch) {
         super("Auger");
-        direction = AugerDirection.AUGER_STOP;
         auger = new Relay(augerRelay);
+        augerSwitch = new DigitalInput(augerRotationSwitch);
+        counter = new Counter(augerSwitch);
+        direction = AugerDirection.AUGER_STOP;
+        counter.start();
     }
     
     public void setAugerDirection(AugerDirection direction) {
@@ -24,6 +31,14 @@ public class Auger extends Subsystem1816 {
     
     public void update() {
         auger.set(direction.getRelayValue());
+    }
+    
+    public int getAugerRotationCount() {
+        return counter.get();
+    }
+    
+    public boolean getAugerSwitch() {
+        return augerSwitch.get();
     }
     
     public static class AugerDirection {
