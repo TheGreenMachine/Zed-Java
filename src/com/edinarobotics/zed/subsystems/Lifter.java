@@ -1,15 +1,25 @@
 package com.edinarobotics.zed.subsystems;
 
+import com.edinarobotics.utils.sensors.StringPot;
 import com.edinarobotics.utils.subsystems.Subsystem1816;
+import com.sun.squawk.util.MathUtils;
+import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Relay;
 
-public class Lifter extends Subsystem1816 {
+public class Lifter extends Subsystem1816 implements PIDSource {
+    private static final double MIN_VOLTAGE = 0;
+    private static final double MAX_VOLTAGE = 5;
+    private static final double STRING_LENGTH = 1;
+    private static final double STRING_POT_POSITION = 1;
+    
     private LifterDirection direction;
     private Relay lifterRelay;
+    private StringPot stringPot;
     
-    public Lifter(int lifterRelay) {
+    public Lifter(int lifterRelay, int lifterStringPot) {
         super("Lifter");
         this.lifterRelay = new Relay(lifterRelay);
+        stringPot = new StringPot(lifterStringPot, MIN_VOLTAGE, MAX_VOLTAGE, STRING_LENGTH);
         direction = LifterDirection.LIFTER_STOP;
     }
     
@@ -20,6 +30,18 @@ public class Lifter extends Subsystem1816 {
     
     public LifterDirection getLifterDirection(){
         return direction;
+    }
+    
+    public double getStringPotLength() {
+        return STRING_LENGTH;
+    }
+    
+    public double getShooterAngle() {
+        return Math.toDegrees(MathUtils.atan(stringPot.getStringLength() / STRING_POT_POSITION));
+    }
+    
+    public double pidGet() {
+        return getShooterAngle();
     }
     
     public void update() {
