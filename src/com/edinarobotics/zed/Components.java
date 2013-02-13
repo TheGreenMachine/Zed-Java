@@ -13,10 +13,15 @@ public class Components {
     private static Components instance;
     
     //Digital Input Constants
-    //Switch Constants
+    //Collector Constants
     private static final int COLLECTOR_UPPER_LIMIT_SWITCH = 1;
     private static final int COLLECTOR_LOWER_LIMIT_SWITCH = 2;
+    //Auger Constants
     private static final int AUGER_ROTATION_SWITCH = 3;
+    
+    //Analog Input Constants
+    //Lifter Constansts
+    private static final int LIFTER_STRING_POT = 1;
     
     //PWM constants
     //Drivetrain constants
@@ -62,7 +67,7 @@ public class Components {
         drivetrainStrafe = new DrivetrainStrafe(drivetrain);
         drivetrainRotation = new DrivetrainRotation(drivetrain);
         shooter = new Shooter(SHOOTER_JAGUAR_FIRST, SHOOTER_JAGUAR_SECOND);
-        lifter = new Lifter(LIFTER_SPIKE);
+        lifter = new Lifter(LIFTER_SPIKE, LIFTER_STRING_POT);
         collector = new Collector(COLLECTOR_LEFT_STAR_SPIKE, COLLECTOR_RIGHT_STAR_SPIKE,
                 COLLECTOR_LIFTER_SPIKE, COLLECTOR_UPPER_LIMIT_SWITCH, COLLECTOR_LOWER_LIMIT_SWITCH);
         conveyor = new Conveyor(CONVEYOR_VICTOR);
