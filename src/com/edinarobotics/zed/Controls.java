@@ -2,8 +2,10 @@ package com.edinarobotics.zed;
 
 import com.edinarobotics.utils.gamepad.Gamepad;
 import com.edinarobotics.zed.commands.*;
+import com.edinarobotics.zed.subsystems.Auger;
 import com.edinarobotics.zed.subsystems.Collector;
 import com.edinarobotics.zed.subsystems.Conveyor;
+import com.edinarobotics.zed.subsystems.Lifter;
 import com.edinarobotics.zed.subsystems.Shooter;
 
 /**
@@ -30,6 +32,8 @@ public class Controls {
         gamepad1.RIGHT_TRIGGER.whenReleased(new SetCollectorCommand(Collector.CollectorDirection.COLLECTOR_STOP));
         gamepad1.RIGHT_BUMPER.whenPressed(new SetCollectorCommand(Collector.CollectorDirection.COLLECTOR_OUT));
         gamepad1.RIGHT_BUMPER.whenReleased(new SetCollectorCommand(Collector.CollectorDirection.COLLECTOR_STOP));
+        gamepad1.DIAMOND_UP.whenPressed(new SetCollectorToLimitCommand(Collector.CollectorLiftDirection.COLLECTOR_LIFT_UP));
+        gamepad1.DIAMOND_DOWN.whenPressed(new SetCollectorToLimitCommand(Collector.CollectorLiftDirection.COLLECTOR_LIFT_DOWN));
         //One-Joystick Strafe
         gamepad1.DPAD_UP.whileHeld(new SetDrivetrainCommand(ONE_JOYSTICK_MAGNITUDE, 0, 0));
         gamepad1.DPAD_UP.whenReleased(new SetDrivetrainCommand(0, 0, 0));
@@ -49,6 +53,18 @@ public class Controls {
         //Shooter
         gamepad2.RIGHT_TRIGGER.whenPressed(new SetShooterCommand(Shooter.SHOOTER_ON));
         gamepad2.RIGHT_TRIGGER.whenReleased(new SetShooterCommand(Shooter.SHOOTER_OFF));
+        //Augers
+        gamepad2.RIGHT_BUMPER.whenPressed(new AugerRotateCommand(Auger.AugerDirection.AUGER_DOWN));
+        gamepad2.MIDDLE_RIGHT.whenPressed(new AugerRotateCommand(Auger.AugerDirection.AUGER_UP));
+        //Vision Tracking
+        gamepad2.DIAMOND_UP.whileHeld(new VisionTrackingCommand(VisionTrackingCommand.HIGH_GOAL));
+        gamepad2.DIAMOND_DOWN.whileHeld(new VisionTrackingCommand(VisionTrackingCommand.MIDDLE_GOAL));
+        gamepad2.DIAMOND_LEFT.whileHeld(new VisionTrackingCommand(VisionTrackingCommand.ANY_GOAL));
+        //Lifter
+        gamepad2.DPAD_UP.whenPressed(new SetLifterCommand(Lifter.LifterDirection.LIFTER_UP));
+        gamepad2.DPAD_UP.whenReleased(new SetLifterCommand(Lifter.LifterDirection.LIFTER_STOP));
+        gamepad2.DPAD_DOWN.whenPressed(new SetLifterCommand(Lifter.LifterDirection.LIFTER_DOWN));
+        gamepad2.DPAD_DOWN.whenReleased(new SetLifterCommand(Lifter.LifterDirection.LIFTER_STOP));
     }
     
     /**
