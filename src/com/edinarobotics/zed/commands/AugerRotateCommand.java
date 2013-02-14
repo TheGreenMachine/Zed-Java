@@ -38,6 +38,7 @@ public class AugerRotateCommand extends Command {
     }
 
     protected void interrupted() {
+        end();
     }
     
 }
