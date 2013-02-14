@@ -37,9 +37,11 @@ public class SetCollectorToLimitCommand extends Command {
     }
 
     protected void end() {
+        collector.setCollectorLiftDirection(Collector.CollectorLiftDirection.COLLECTOR_LIFT_STOP);
     }
 
     protected void interrupted() {
+        end();
     }
     
 }
