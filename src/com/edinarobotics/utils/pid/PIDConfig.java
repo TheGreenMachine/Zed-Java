@@ -128,4 +128,37 @@ public class PIDConfig {
     public void reset(){
         overrideDefault = false;
     }
+    
+    /**
+     * Indicates whether some other object is equal to this one.
+     * Another object is equal to this PIDConfig if it is also a PIDConfig
+     * and if its {@link #getName()} method returns the same value
+     * as this objects getName() method.
+     * @param other The object to be compared for equality to this object.
+     * @return {@code true} if the {@code other} is equal to this object as
+     * described above, {@code false} otherwise.
+     */
+    public boolean equals(Object other){
+        if(other instanceof PIDConfig){
+            return getName().equals(((PIDConfig)other).getName());
+        }
+        return false;
+    }
+    
+    /**
+     * Returns a hash code value for this object.
+     * This value is equivalent to {@code getName().hashCode()}.
+     * @return A hash code value for this object.
+     */
+    public int hashCode(){
+        return getName().hashCode();
+    }
+    
+    /**
+     * Returns a String representation of this object.
+     * @return A String representation of this object.
+     */
+    public String toString(){
+        return "<PIDConfig "+p+":"+i+":"+d+":"+overrideDefault+">";
+    }
 }
