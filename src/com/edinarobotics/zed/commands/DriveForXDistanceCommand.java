@@ -1,5 +1,7 @@
 package com.edinarobotics.zed.commands;
 
+import com.edinarobotics.utils.pid.PIDConfig;
+import com.edinarobotics.utils.pid.PIDTuningManager;
 import com.edinarobotics.zed.Components;
 import com.edinarobotics.zed.subsystems.Drivetrain;
 import com.edinarobotics.zed.subsystems.DrivetrainRotation;
@@ -13,6 +15,7 @@ public class DriveForXDistanceCommand extends Command {
     private DrivetrainStrafe drivetrainStrafe;
     private DrivetrainRotation drivetrainRotation;
     private PIDController pidControllerDistance;
+    private PIDConfig pidConfigDistance;
     private Timer timer;
     private double distanceToTravel;
     private double distance;
@@ -29,6 +32,7 @@ public class DriveForXDistanceCommand extends Command {
         this.drivetrainRotation = Components.getInstance().drivetrainRotation;
         this.distanceToTravel = distanceToTravel;
         this.pidControllerDistance = new PIDController(P, I, D, drivetrainRotation, drivetrainRotation);
+        this.pidConfigDistance = PIDTuningManager.getInstance().getPIDConfig("Drive for X Distance");
         this.distance = 0;
         setTimeout(distanceToTravel * TIMEOUT_PER_DISTANCE);
         requires(drivetrainStrafe);
@@ -46,6 +50,12 @@ public class DriveForXDistanceCommand extends Command {
         double delta = timer.get();
         distance += (drivetrain.getAverageVelocity() * delta);
         timer.reset();
+        
+        //PID tuning code
+        pidControllerDistance.setPID(pidConfigDistance.getP(P), pidConfigDistance.getI(I),
+                pidConfigDistance.getD(D));
+        pidConfigDistance.setSetpoint(pidControllerDistance.getSetpoint());
+        pidConfigDistance.setValue(drivetrainRotation.pidGet());
     }
 
     protected boolean isFinished() {
