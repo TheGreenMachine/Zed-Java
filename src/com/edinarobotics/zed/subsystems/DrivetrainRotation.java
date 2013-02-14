@@ -3,9 +3,10 @@ package com.edinarobotics.zed.subsystems;
 import com.edinarobotics.utils.subsystems.Subsystem1816;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DrivetrainRotation extends Subsystem1816 implements PIDOutput {
+public class DrivetrainRotation extends Subsystem1816 implements PIDOutput, PIDSource {
     private double rotation;
     private Drivetrain drivetrain;
     private Gyro gyro;
@@ -47,5 +48,8 @@ public class DrivetrainRotation extends Subsystem1816 implements PIDOutput {
     public void pidWrite(double d) {
         mecanumPolarRotate(d);
     }
-    
+
+    public double pidGet() {
+        return getGyroAngle();
+    }
 }
