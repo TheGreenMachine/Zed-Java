@@ -22,6 +22,8 @@ public class Components {
     //Analog Input Constants
     //Lifter Constansts
     private static final int LIFTER_STRING_POT = 1;
+    //Drivetrain Constants
+    private static final int GYRO = 2;
     
     //Encoder Constants
     //Drivetrain Constants
@@ -78,7 +80,7 @@ public class Components {
                 FRONT_LEFT_A, FRONT_LEFT_B, FRONT_RIGHT_A, FRONT_RIGHT_B,
                 BACK_LEFT_A, BACK_LEFT_B, BACK_RIGHT_A, BACK_RIGHT_B);
         drivetrainStrafe = new DrivetrainStrafe(drivetrain);
-        drivetrainRotation = new DrivetrainRotation(drivetrain);
+        drivetrainRotation = new DrivetrainRotation(drivetrain, GYRO);
         shooter = new Shooter(SHOOTER_JAGUAR_FIRST, SHOOTER_JAGUAR_SECOND);
         lifter = new Lifter(LIFTER_SPIKE, LIFTER_STRING_POT);
         collector = new Collector(COLLECTOR_LEFT_STAR_SPIKE, COLLECTOR_RIGHT_STAR_SPIKE,
