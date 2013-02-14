@@ -1,7 +1,8 @@
 package com.edinarobotics.utils.pid;
 
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
-import java.util.Vector;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
 /**
  * Allows tuning of PID systems through the dashboard using a
@@ -13,13 +14,11 @@ import java.util.Vector;
 public class PIDTuningManager {
     private static PIDTuningManager instance;
     private NetworkTable pidTable;
-    private Vector pidConfigNames;
-    private Vector pidConfigInstances;
+    private Hashtable pidConfigs;
     
     private PIDTuningManager(){
         pidTable = NetworkTable.getTable("pid");
-        pidConfigNames = new Vector();
-        pidConfigInstances = new Vector();
+        pidConfigs = new Hashtable();
     }
     
     /**
@@ -41,14 +40,10 @@ public class PIDTuningManager {
      * @return The PIDConfig instance with the requested {@code name}.
      */
     public PIDConfig getPIDConfig(String name){
-        int index = pidConfigNames.indexOf(name);
-        if(index >= 0){
-            return (PIDConfig) pidConfigInstances.elementAt(index);
+        if(!pidConfigs.containsKey(name)){
+            pidConfigs.put(name, new PIDConfig(name));
         }
-        pidConfigNames.addElement(name);
-        PIDConfig newConfig = new PIDConfig(name);
-        pidConfigInstances.addElement(newConfig);
-        return newConfig;
+        return (PIDConfig)pidConfigs.get(name);
     }
     
     /**
@@ -59,11 +54,12 @@ public class PIDTuningManager {
      */
     private String getConfigNames(){
         String names = "";
-        if(pidConfigNames.size() > 0){
-            names = (String)pidConfigNames.elementAt(0);
+        Enumeration e = pidConfigs.keys();
+        if(e.hasMoreElements()){
+            names = (String)e.nextElement();
         }
-        for(int i = 1; i < pidConfigNames.size(); i++){
-            names += (","+pidConfigNames.elementAt(i));
+        while(e.hasMoreElements()){
+            names += ","+((String)e.nextElement());
         }
         return names;
     }
@@ -76,11 +72,14 @@ public class PIDTuningManager {
      */
     public void runTuning(){
         pidTable.putString("subsystems", getConfigNames());
-        PIDConfig pidSystem = getPIDConfig(pidTable.getString("system", "default"));
-        pidSystem.setPID(pidTable.getNumber("p", 0), pidTable.getNumber("i", 0),
-                pidTable.getNumber("d", 0));
-        pidTable.putNumber("value", pidSystem.getValue());
-        pidTable.putNumber("setpoint", pidSystem.getSetpoint());
+        String systemName = pidTable.getString("system", "");
+        if(!systemName.equals((""))){
+            PIDConfig pidSystem = getPIDConfig(systemName);
+            pidSystem.setPID(pidTable.getNumber("p", 0), pidTable.getNumber("i", 0),
+                    pidTable.getNumber("d", 0));
+            pidTable.putNumber("value", pidSystem.getValue());
+            pidTable.putNumber("setpoint", pidSystem.getSetpoint());
+        }
     }
     
     /**
@@ -88,8 +87,8 @@ public class PIDTuningManager {
      * any tuning performed by the dashboard.
      */
     public void resetAll(){
-        for(int i = 0; i < pidConfigInstances.size(); i++){
-            ((PIDConfig)pidConfigInstances.elementAt(i)).reset();
+        for(Enumeration e = pidConfigs.elements(); e.hasMoreElements();){
+            ((PIDConfig)e.nextElement()).reset();
         }
     }
 }
