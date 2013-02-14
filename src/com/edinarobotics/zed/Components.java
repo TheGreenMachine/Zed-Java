@@ -23,6 +23,17 @@ public class Components {
     //Lifter Constansts
     private static final int LIFTER_STRING_POT = 1;
     
+    //Encoder Constants
+    //Drivetrain Constants
+    private static final int FRONT_LEFT_A = 1;
+    private static final int FRONT_LEFT_B = 2;
+    private static final int FRONT_RIGHT_A = 3;
+    private static final int FRONT_RIGHT_B = 4;
+    private static final int BACK_LEFT_A = 5;
+    private static final int BACK_LEFT_B = 6;
+    private static final int BACK_RIGHT_A = 7;
+    private static final int BACK_RIGHT_B = 8;
+
     //PWM constants
     //Drivetrain constants
     private static final int FRONT_LEFT_DRIVE_JAGUAR = 3;
@@ -63,7 +74,9 @@ public class Components {
      */
     private Components(){
         drivetrain = new Drivetrain(FRONT_LEFT_DRIVE_JAGUAR, FRONT_RIGHT_DRIVE_JAGUAR,
-                BACK_LEFT_DRIVE_JAGUAR, BACK_RIGHT_DRIVE_JAGUAR);
+                BACK_LEFT_DRIVE_JAGUAR, BACK_RIGHT_DRIVE_JAGUAR,
+                FRONT_LEFT_A, FRONT_LEFT_B, FRONT_RIGHT_A, FRONT_RIGHT_B,
+                BACK_LEFT_A, BACK_LEFT_B, BACK_RIGHT_A, BACK_RIGHT_B);
         drivetrainStrafe = new DrivetrainStrafe(drivetrain);
         drivetrainRotation = new DrivetrainRotation(drivetrain);
         shooter = new Shooter(SHOOTER_JAGUAR_FIRST, SHOOTER_JAGUAR_SECOND);
