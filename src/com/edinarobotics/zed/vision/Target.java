@@ -30,7 +30,7 @@ public class Target {
     }
     
     public String toString() {
-        return "" + x + " " + y + " " + distance + " " + isCenter;
+        return "<Target " + x + ", " + y + ", " + distance + ", " + isCenter + ">";
     }
 
     public int hashCode() {

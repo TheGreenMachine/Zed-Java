@@ -146,9 +146,13 @@ public class TargetCollection {
     }
     
     public String toString() {
-        String collection = "";
+        String collection = "<TargetCollection ";
         for(int i = 0;i < targets.size();++i) {
-            collection += ((Target)(targets.elementAt(i))).toString() + "\n";
+            if(i == (targets.size() - 1)) {
+                collection += ((Target)(targets.elementAt(i))).toString() + ">";
+            } else {
+                collection += ((Target)(targets.elementAt(i))).toString() + ", ";
+            }
         }
         return collection;
     }
