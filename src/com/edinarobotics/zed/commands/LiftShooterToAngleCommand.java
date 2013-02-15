@@ -38,6 +38,7 @@ public class LiftShooterToAngleCommand extends Command {
     }
 
     protected void end() {
+        lifter.setLifterDirection(Lifter.LifterDirection.LIFTER_STOP);
     }
 
     protected void interrupted() {
