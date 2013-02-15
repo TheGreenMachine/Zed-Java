@@ -18,23 +18,21 @@ public class Components {
     private static final int COLLECTOR_LOWER_LIMIT_SWITCH = 2;
     //Auger Constants
     private static final int AUGER_ROTATION_SWITCH = 3;
+    //Drivetrain Encoder Constants
+    private static final int FRONT_LEFT_A = 4;
+    private static final int FRONT_LEFT_B = 5;
+    private static final int FRONT_RIGHT_A = 6;
+    private static final int FRONT_RIGHT_B = 7;
+    private static final int BACK_LEFT_A = 8;
+    private static final int BACK_LEFT_B = 9;
+    private static final int BACK_RIGHT_A = 10;
+    private static final int BACK_RIGHT_B = 11;
     
     //Analog Input Constants
     //Lifter Constansts
     private static final int LIFTER_STRING_POT = 1;
     //Drivetrain Constants
     private static final int GYRO = 2;
-    
-    //Encoder Constants
-    //Drivetrain Constants
-    private static final int FRONT_LEFT_A = 1;
-    private static final int FRONT_LEFT_B = 2;
-    private static final int FRONT_RIGHT_A = 3;
-    private static final int FRONT_RIGHT_B = 4;
-    private static final int BACK_LEFT_A = 5;
-    private static final int BACK_LEFT_B = 6;
-    private static final int BACK_RIGHT_A = 7;
-    private static final int BACK_RIGHT_B = 8;
 
     //PWM constants
     //Drivetrain constants
