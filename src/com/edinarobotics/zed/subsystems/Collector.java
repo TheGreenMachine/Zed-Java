@@ -5,8 +5,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Relay;
 
 public class Collector extends Subsystem1816 {
-    public final int collectorUpperLimitSwitch;
-    public final int collectorLowerLimitSwitch;
     private Relay leftStar;
     private Relay rightStar;
     private Relay collectorLifter;
@@ -23,8 +21,8 @@ public class Collector extends Subsystem1816 {
         this.collectorLifter = new Relay(collectorLifter);
         collectorDirection = CollectorDirection.COLLECTOR_STOP;
         collectorLiftDirection = CollectorLiftDirection.COLLECTOR_LIFT_STOP;
-        this.collectorUpperLimitSwitch = collectorUpperLimitSwitch;
-        this.collectorLowerLimitSwitch = collectorLowerLimitSwitch;
+        this.upperLimitSwitch = new DigitalInput(collectorUpperLimitSwitch);
+        this.lowerLimitSwitch = new DigitalInput(collectorLowerLimitSwitch);
     }
     
     /**
