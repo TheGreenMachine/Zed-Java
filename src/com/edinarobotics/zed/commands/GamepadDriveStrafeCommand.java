@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class GamepadDriveStrafeCommand extends Command{
     private static final String COMMAND_NAME = "GamepadDriveStrafe";
-    private Controls controls;
     Gamepad gamepad;
     FilterSet filters;
     DrivetrainStrafe drivetrainStrafe;
@@ -34,7 +33,6 @@ public class GamepadDriveStrafeCommand extends Command{
         this.gamepad = gamepad;
         this.filters = filters;
         this.drivetrainStrafe = Components.getInstance().drivetrainStrafe;
-        controls = Controls.getInstance();
         requires(drivetrainStrafe);
     }
     
@@ -51,7 +49,6 @@ public class GamepadDriveStrafeCommand extends Command{
         filters.addFilter(new ScalingFilter());
         this.gamepad = gamepad;
         this.drivetrainStrafe = Components.getInstance().drivetrainStrafe;
-        controls = Controls.getInstance();
         requires(drivetrainStrafe);
     }
 
@@ -64,7 +61,7 @@ public class GamepadDriveStrafeCommand extends Command{
      */
     protected void execute() {
         GamepadResult gamepadState = filters.filter(gamepad.getJoysticks());
-        if(controls.driveStateForward) {
+        if(Controls.driveStateForward) {
             drivetrainStrafe.mecanumPolarStrafe(gamepadState.getLeftMagnitude(),
                     gamepadState.getLeftDirection());
         } else {
