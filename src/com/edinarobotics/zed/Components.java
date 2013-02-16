@@ -14,10 +14,12 @@ public class Components {
     
     //Digital Input Constants
     //Collector Constants
-    private static final int COLLECTOR_UPPER_LIMIT_SWITCH = 1;
-    private static final int COLLECTOR_LOWER_LIMIT_SWITCH = 2;
+    private static final int COLLECTOR_UPPER_LIMIT_SWITCH = 12;
+    private static final int COLLECTOR_LOWER_LIMIT_SWITCH = 3;
+    //Lifter Constants
+    private static final int LIFTER_LOWER_LIMIT_SWITCH = 2;
     //Auger Constants
-    private static final int AUGER_ROTATION_SWITCH = 3;
+    private static final int AUGER_ROTATION_SWITCH = 1;
     //Drivetrain Encoder Constants
     private static final int FRONT_LEFT_A = 4;
     private static final int FRONT_LEFT_B = 5;
@@ -36,9 +38,9 @@ public class Components {
 
     //PWM constants
     //Drivetrain constants
-    private static final int FRONT_LEFT_DRIVE_JAGUAR = 3;
-    private static final int FRONT_RIGHT_DRIVE_JAGUAR = 2;
-    private static final int BACK_LEFT_DRIVE_JAGUAR = 4;
+    private static final int FRONT_LEFT_DRIVE_JAGUAR = 4;
+    private static final int FRONT_RIGHT_DRIVE_JAGUAR = 3;
+    private static final int BACK_LEFT_DRIVE_JAGUAR = 2;
     private static final int BACK_RIGHT_DRIVE_JAGUAR = 1;
     //Conveyor constants
     private static final int CONVEYOR_VICTOR = 9;
@@ -80,7 +82,7 @@ public class Components {
         drivetrainStrafe = new DrivetrainStrafe(drivetrain);
         drivetrainRotation = new DrivetrainRotation(drivetrain, GYRO);
         shooter = new Shooter(SHOOTER_JAGUAR_FIRST, SHOOTER_JAGUAR_SECOND);
-        lifter = new Lifter(LIFTER_SPIKE, LIFTER_STRING_POT);
+        lifter = new Lifter(LIFTER_SPIKE, LIFTER_STRING_POT, LIFTER_LOWER_LIMIT_SWITCH);
         collector = new Collector(COLLECTOR_LEFT_STAR_SPIKE, COLLECTOR_RIGHT_STAR_SPIKE,
                 COLLECTOR_LIFTER_SPIKE, COLLECTOR_UPPER_LIMIT_SWITCH, COLLECTOR_LOWER_LIMIT_SWITCH);
         conveyor = new Conveyor(CONVEYOR_VICTOR);
