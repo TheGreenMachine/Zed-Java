@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class GamepadDriveStrafeCommand extends Command{
     private static final String COMMAND_NAME = "GamepadDriveStrafe";
+    private static final double SPEED_MULTIPLIER = 0.75;
     Gamepad gamepad;
     FilterSet filters;
     DrivetrainStrafe drivetrainStrafe;
@@ -62,10 +63,10 @@ public class GamepadDriveStrafeCommand extends Command{
     protected void execute() {
         GamepadResult gamepadState = filters.filter(gamepad.getJoysticks());
         if(Controls.driveStateForward) {
-            drivetrainStrafe.mecanumPolarStrafe(gamepadState.getLeftMagnitude(),
+            drivetrainStrafe.mecanumPolarStrafe(SPEED_MULTIPLIER*gamepadState.getLeftMagnitude(),
                     gamepadState.getLeftDirection());
         } else {
-            drivetrainStrafe.mecanumPolarStrafe(gamepadState.getLeftMagnitude(),
+            drivetrainStrafe.mecanumPolarStrafe(SPEED_MULTIPLIER*gamepadState.getLeftMagnitude(),
                     gamepadState.getLeftDirection() + 180);
         }
     }
