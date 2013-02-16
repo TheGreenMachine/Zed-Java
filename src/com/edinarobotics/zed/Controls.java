@@ -16,12 +16,15 @@ import com.edinarobotics.zed.subsystems.Shooter;
 public class Controls {
     private static Controls instance;
     private static final double ONE_JOYSTICK_MAGNITUDE = 1;
+    public boolean driveStateForward = true;
     
     public final Gamepad gamepad1;
     public final Gamepad gamepad2;
     
     private Controls(){
         gamepad1 = new Gamepad(1);
+        //Drivetrain Direction Toggle
+        gamepad1.DIAMOND_LEFT.whenPressed(new ToggleDrivetrainDirectionCommand());
         //Conveyor
         gamepad1.LEFT_TRIGGER.whenPressed(new SetConveyorCommand(Conveyor.CONVEYOR_IN));
         gamepad1.LEFT_TRIGGER.whenReleased(new SetConveyorCommand(Conveyor.CONVEYOR_STOP));
