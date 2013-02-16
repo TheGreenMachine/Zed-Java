@@ -37,26 +37,26 @@ public class Components {
     //PWM constants
     //Drivetrain constants
     private static final int FRONT_LEFT_DRIVE_JAGUAR = 3;
-    private static final int FRONT_RIGHT_DRIVE_JAGUAR = 1;
-    private static final int BACK_LEFT_DRIVE_JAGUAR = 2;
-    private static final int BACK_RIGHT_DRIVE_JAGUAR = 4;
+    private static final int FRONT_RIGHT_DRIVE_JAGUAR = 2;
+    private static final int BACK_LEFT_DRIVE_JAGUAR = 4;
+    private static final int BACK_RIGHT_DRIVE_JAGUAR = 1;
     //Conveyor constants
-    private static final int CONVEYOR_VICTOR = 8;
+    private static final int CONVEYOR_VICTOR = 9;
     
     //CAN constants
     //Shooter constants
-    private static final int SHOOTER_JAGUAR_FIRST = 1;
-    private static final int SHOOTER_JAGUAR_SECOND = 2;
+    private static final int SHOOTER_JAGUAR_FIRST = 2;
+    private static final int SHOOTER_JAGUAR_SECOND = 1;
     
     //Relay constants
     //Auger constants
-    private static final int AUGER_SPIKE = 1;
+    private static final int AUGER_SPIKE = 5;
     //Lifter constants
-    private static final int LIFTER_SPIKE = 2;
+    private static final int LIFTER_SPIKE = 3;
     //Collector constants
-    private static final int COLLECTOR_LEFT_STAR_SPIKE = 3;
-    private static final int COLLECTOR_RIGHT_STAR_SPIKE = 4;
-    private static final int COLLECTOR_LIFTER_SPIKE = 5;
+    private static final int COLLECTOR_LEFT_STAR_SPIKE = 1;
+    private static final int COLLECTOR_RIGHT_STAR_SPIKE = 2;
+    private static final int COLLECTOR_LIFTER_SPIKE = 4;
     
     //Subsystem objects
     public final Drivetrain drivetrain;
