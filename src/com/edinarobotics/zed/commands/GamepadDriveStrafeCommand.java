@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class GamepadDriveStrafeCommand extends Command{
     private static final String COMMAND_NAME = "GamepadDriveStrafe";
-    private static final double SPEED_MULTIPLIER = 0.75;
+    private static final double SPEED_MULTIPLIER = 1;
     Gamepad gamepad;
     FilterSet filters;
     DrivetrainStrafe drivetrainStrafe;
