@@ -14,7 +14,6 @@ public class AugerRotateCommand extends Command {
         super("AugerRotate");
         this.auger = Components.getInstance().auger;
         this.direction = direction;
-        setInterruptible(false);
         setTimeout(2.0);
         requires(auger);
     }
