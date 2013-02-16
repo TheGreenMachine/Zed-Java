@@ -45,6 +45,14 @@ public class Zed extends IterativeRobot {
         Components.getInstance(); //Create all robot subsystems.
     }
     
+    public void disabledInit() {
+        betweenModes();
+    }
+    
+    public void disabledPeriodic() {
+        stop();
+    }
+    
     /**
      * This function is called once at the start of autonomous mode.
      */
@@ -106,8 +114,8 @@ public class Zed extends IterativeRobot {
         Components.getInstance().collector.setCollectorDirection(Collector.CollectorDirection.COLLECTOR_STOP);
         Components.getInstance().collector.setCollectorLiftDirection(Collector.CollectorLiftDirection.COLLECTOR_LIFT_STOP);
         Components.getInstance().conveyor.setConveyorSpeed(0);
-        Components.getInstance().drivetrain.mecanumPolarRotation(0);
-        Components.getInstance().drivetrain.mecanumPolarStrafe(0, 0);
+        Components.getInstance().drivetrainRotation.mecanumPolarRotate(0);
+        Components.getInstance().drivetrainStrafe.mecanumPolarStrafe(0, 0);
         Components.getInstance().lifter.setLifterDirection(Lifter.LifterDirection.LIFTER_STOP);
         Components.getInstance().shooter.setShooterVelocity(0);
     }
