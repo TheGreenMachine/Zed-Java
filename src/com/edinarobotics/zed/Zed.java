@@ -43,6 +43,7 @@ public class Zed extends IterativeRobot {
      */
     public void robotInit() {
         Components.getInstance(); //Create all robot subsystems.
+        System.out.println("Robot initialized.");
     }
     
     public void disabledInit() {
