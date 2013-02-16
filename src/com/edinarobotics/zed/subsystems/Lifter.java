@@ -3,6 +3,7 @@ package com.edinarobotics.zed.subsystems;
 import com.edinarobotics.utils.sensors.StringPot;
 import com.edinarobotics.utils.subsystems.Subsystem1816;
 import com.sun.squawk.util.MathUtils;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Relay;
 
@@ -15,12 +16,14 @@ public class Lifter extends Subsystem1816 implements PIDSource {
     private LifterDirection direction;
     private Relay lifterRelay;
     private StringPot stringPot;
+    private DigitalInput lowerSwitch;
     
-    public Lifter(int lifterRelay, int lifterStringPot) {
+    public Lifter(int lifterRelay, int lifterStringPot, int lowerLimitSwitch) {
         super("Lifter");
         this.lifterRelay = new Relay(lifterRelay);
         stringPot = new StringPot(lifterStringPot, MIN_VOLTAGE, MAX_VOLTAGE, STRING_LENGTH);
         direction = LifterDirection.LIFTER_STOP;
+        lowerSwitch = new DigitalInput(lowerLimitSwitch);
     }
     
     public void setLifterDirection(LifterDirection direction){
@@ -45,7 +48,15 @@ public class Lifter extends Subsystem1816 implements PIDSource {
     }
     
     public void update() {
-        lifterRelay.set(direction.getRelayValue());
+        LifterDirection processedDirection = direction;
+        if(direction.equals(LifterDirection.LIFTER_DOWN) && getLowerLimitSwitch()){
+            processedDirection = LifterDirection.LIFTER_STOP;
+        }
+        lifterRelay.set(processedDirection.getRelayValue());
+    }
+    
+    public boolean getLowerLimitSwitch(){
+        return lowerSwitch.get();
     }
     
     public static class LifterDirection {
@@ -76,10 +87,10 @@ public class Lifter extends Subsystem1816 implements PIDSource {
         
         public Relay.Value getRelayValue(){
             if(equals(LIFTER_UP)){
-                return Relay.Value.kForward;
+                return Relay.Value.kReverse;
             }
             else if(equals(LIFTER_DOWN)){
-                return Relay.Value.kReverse;
+                return Relay.Value.kForward;
             }
             return Relay.Value.kOff;
         }
