@@ -11,16 +11,25 @@ package com.edinarobotics.zed;
 import com.edinarobotics.utils.commands.MaintainStateCommand;
 import com.edinarobotics.utils.gamepad.Gamepad;
 import com.edinarobotics.utils.pid.PIDTuningManager;
+import com.edinarobotics.zed.commands.AugerRotateCommand;
 import com.edinarobotics.zed.commands.GamepadDriveRotationCommand;
 import com.edinarobotics.zed.commands.GamepadDriveStrafeCommand;
+import com.edinarobotics.zed.commands.SetConveyorCommand;
+import com.edinarobotics.zed.commands.SetShooterCommand;
 import com.edinarobotics.zed.subsystems.Auger;
 import com.edinarobotics.zed.subsystems.Collector;
+import com.edinarobotics.zed.subsystems.Conveyor;
 import com.edinarobotics.zed.subsystems.DrivetrainRotation;
 import com.edinarobotics.zed.subsystems.DrivetrainStrafe;
 import com.edinarobotics.zed.subsystems.Lifter;
+import com.edinarobotics.zed.subsystems.Shooter;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.PrintCommand;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.WaitCommand;
+import edu.wpi.first.wpilibj.command.WaitForChildren;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public class Zed extends IterativeRobot {
@@ -63,6 +72,24 @@ public class Zed extends IterativeRobot {
         drivetrainStrafe.setDefaultCommand(new MaintainStateCommand(drivetrainStrafe));
         DrivetrainRotation drivetrainRotation = Components.getInstance().drivetrainRotation;
         drivetrainRotation.setDefaultCommand(new MaintainStateCommand(drivetrainRotation));
+        
+        CommandGroup augerSequence = new CommandGroup();
+        augerSequence.addSequential(new PrintCommand("Dispensing auger"));
+        augerSequence.addSequential(new AugerRotateCommand(Auger.AugerDirection.AUGER_DOWN));
+        augerSequence.addSequential(new WaitCommand(1.5));
+        
+        CommandGroup autoCommand = new CommandGroup();
+        autoCommand.addSequential(new PrintCommand("Starting autonomous"));
+        autoCommand.addSequential(new SetShooterCommand(Shooter.SHOOTER_ON));
+        autoCommand.addSequential(new SetConveyorCommand(Conveyor.CONVEYOR_IN));
+        autoCommand.addSequential(new WaitCommand(1));
+        autoCommand.addParallel(augerSequence);
+        autoCommand.addSequential(new WaitForChildren());
+        autoCommand.addSequential(new WaitCommand(2));
+        autoCommand.addSequential(new SetConveyorCommand(Conveyor.CONVEYOR_STOP));
+        
+        autonomousCommand = autoCommand;
+        autonomousCommand.start();
     }
 
     /**
