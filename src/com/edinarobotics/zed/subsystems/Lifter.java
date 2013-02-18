@@ -16,13 +16,15 @@ public class Lifter extends Subsystem1816 implements PIDSource {
     private LifterDirection direction;
     private Relay lifterRelay;
     private StringPot stringPot;
+    private DigitalInput upperSwitch;
     private DigitalInput lowerSwitch;
     
-    public Lifter(int lifterRelay, int lifterStringPot, int lowerLimitSwitch) {
+    public Lifter(int lifterRelay, int lifterStringPot, int upperLimitSwitch, int lowerLimitSwitch) {
         super("Lifter");
         this.lifterRelay = new Relay(lifterRelay);
         stringPot = new StringPot(lifterStringPot, MIN_VOLTAGE, MAX_VOLTAGE, STRING_LENGTH);
         direction = LifterDirection.LIFTER_STOP;
+        upperSwitch = new DigitalInput(upperLimitSwitch);
         lowerSwitch = new DigitalInput(lowerLimitSwitch);
     }
     
@@ -49,10 +51,15 @@ public class Lifter extends Subsystem1816 implements PIDSource {
     
     public void update() {
         LifterDirection processedDirection = direction;
-        if(direction.equals(LifterDirection.LIFTER_DOWN) && getLowerLimitSwitch()){
+        if((direction.equals(LifterDirection.LIFTER_UP) && getUpperLimitSwitch()) ||
+           (direction.equals(LifterDirection.LIFTER_DOWN) && getLowerLimitSwitch())){
             processedDirection = LifterDirection.LIFTER_STOP;
         }
         lifterRelay.set(processedDirection.getRelayValue());
+    }
+    
+    public boolean getUpperLimitSwitch(){
+        return upperSwitch.get();
     }
     
     public boolean getLowerLimitSwitch(){
