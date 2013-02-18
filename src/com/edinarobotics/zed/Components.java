@@ -20,6 +20,7 @@ public class Components {
     private static final int LIFTER_LOWER_LIMIT_SWITCH = 2;
     //Auger Constants
     private static final int AUGER_ROTATION_SWITCH = 1;
+    private static final int AUGER_TOP_SWITCH = 14;
     //Drivetrain Encoder Constants
     private static final int FRONT_LEFT_A = 4;
     private static final int FRONT_LEFT_B = 5;
@@ -86,7 +87,7 @@ public class Components {
         collector = new Collector(COLLECTOR_LEFT_STAR_SPIKE, COLLECTOR_RIGHT_STAR_SPIKE,
                 COLLECTOR_LIFTER_SPIKE, COLLECTOR_UPPER_LIMIT_SWITCH, COLLECTOR_LOWER_LIMIT_SWITCH);
         conveyor = new Conveyor(CONVEYOR_VICTOR);
-        auger = new Auger(AUGER_SPIKE, AUGER_ROTATION_SWITCH);
+        auger = new Auger(AUGER_SPIKE, AUGER_ROTATION_SWITCH, AUGER_TOP_SWITCH);
     }
     
     /**
