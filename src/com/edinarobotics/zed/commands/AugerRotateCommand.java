@@ -6,6 +6,8 @@ import com.edinarobotics.zed.subsystems.Auger.AugerDirection;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class AugerRotateCommand extends Command {
+    public static AugerDirection previousDirection = AugerDirection.AUGER_STOP;
+    
     private Auger auger;
     private AugerDirection direction;
     private int startingCount;
@@ -28,16 +30,24 @@ public class AugerRotateCommand extends Command {
     }
 
     protected boolean isFinished() {
-        return auger.getAugerRotationCount() > startingCount ||
-                isTimedOut() || direction.equals(AugerDirection.AUGER_STOP);
+        if(direction.equals(previousDirection) || previousDirection.equals(AugerDirection.AUGER_STOP)) {
+            return auger.getAugerRotationCount() > startingCount ||
+                    isTimedOut() || direction.equals(AugerDirection.AUGER_STOP);
+        } else {
+            return auger.getAugerRotationCount() > (startingCount + 1) ||
+                    isTimedOut() || direction.equals(AugerDirection.AUGER_STOP);
+        }
     }
 
     protected void end() {
-        auger.setAugerDirection(Auger.AugerDirection.AUGER_STOP);
+        if(!direction.equals(AugerDirection.AUGER_STOP)) {
+            previousDirection = AugerDirection.AUGER_STOP;
+        }
+        interrupted();
     }
 
     protected void interrupted() {
-        end();
+        auger.setAugerDirection(Auger.AugerDirection.AUGER_STOP);
     }
     
 }

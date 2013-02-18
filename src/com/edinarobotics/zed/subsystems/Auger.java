@@ -8,14 +8,17 @@ import edu.wpi.first.wpilibj.Relay;
 public class Auger extends Subsystem1816 {
     private Relay auger;
     private AugerDirection direction;
-    private DigitalInput augerSwitch;
+    private DigitalInput augerRotateSwitch;
+    private DigitalInput augerTopLimitSwitch;
     private Counter counter;
     
-    public Auger(int augerRelay, int augerRotationSwitch) {
+    public Auger(int augerRelay, int augerRotationSwitch, int augerTopSwitch) {
         super("Auger");
         auger = new Relay(augerRelay);
-        augerSwitch = new DigitalInput(augerRotationSwitch);
-        counter = new Counter(augerSwitch);
+        augerRotateSwitch = new DigitalInput(augerRotationSwitch);
+        augerTopLimitSwitch = new DigitalInput(augerTopSwitch);
+        counter = new Counter(augerRotateSwitch);
+        counter.setSemiPeriodMode(false);
         direction = AugerDirection.AUGER_STOP;
         counter.start();
     }
@@ -30,15 +33,23 @@ public class Auger extends Subsystem1816 {
     }
     
     public void update() {
-        auger.set(direction.getRelayValue());
+        AugerDirection processedDirection = direction;
+        if(direction.equals(AugerDirection.AUGER_UP) && getAugerTopLimitSwitch()) {
+            processedDirection = AugerDirection.AUGER_STOP;
+        }
+        auger.set(processedDirection.getRelayValue());
     }
     
     public int getAugerRotationCount() {
         return counter.get();
     }
     
-    public boolean getAugerSwitch() {
-        return augerSwitch.get();
+    public boolean getAugerRotateSwitch() {
+        return augerRotateSwitch.get();
+    }
+    
+    public boolean getAugerTopLimitSwitch() {
+        return augerTopLimitSwitch.get();
     }
     
     public static class AugerDirection {
