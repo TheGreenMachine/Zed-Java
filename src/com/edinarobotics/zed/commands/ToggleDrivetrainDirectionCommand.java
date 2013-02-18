@@ -1,6 +1,5 @@
 package com.edinarobotics.zed.commands;
 
-import com.edinarobotics.zed.Controls;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class ToggleDrivetrainDirectionCommand extends Command {
@@ -8,7 +7,7 @@ public class ToggleDrivetrainDirectionCommand extends Command {
     }
     
     protected void initialize() {
-        Controls.driveStateForward = !Controls.driveStateForward;
+        GamepadDriveStrafeCommand.reverseStrafe = !GamepadDriveStrafeCommand.reverseStrafe;
     }
 
     protected void execute() {

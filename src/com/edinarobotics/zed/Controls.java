@@ -16,7 +16,6 @@ import com.edinarobotics.zed.subsystems.Shooter;
 public class Controls {
     private static Controls instance;
     private static final double ONE_JOYSTICK_MAGNITUDE = 1;
-    public static boolean driveStateForward = true;
     
     public final Gamepad gamepad1;
     public final Gamepad gamepad2;
