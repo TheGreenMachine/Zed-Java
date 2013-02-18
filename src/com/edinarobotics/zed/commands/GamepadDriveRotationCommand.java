@@ -4,6 +4,7 @@ import com.edinarobotics.utils.gamepad.FilterSet;
 import com.edinarobotics.utils.gamepad.Gamepad;
 import com.edinarobotics.utils.gamepad.GamepadResult;
 import com.edinarobotics.utils.gamepad.filters.DeadzoneFilter;
+import com.edinarobotics.utils.gamepad.filters.QuarticScalingFilter;
 import com.edinarobotics.utils.gamepad.filters.ScalingFilter;
 import com.edinarobotics.zed.Components;
 import com.edinarobotics.zed.subsystems.Drivetrain;
@@ -18,7 +19,8 @@ public class GamepadDriveRotationCommand extends Command{
     private static final String COMMAND_NAME = "GamepadDriveRotation";
     private Gamepad gamepad1;
     private Gamepad gamepad2;
-    private FilterSet filters;
+    private FilterSet gamepad1Filters;
+    private FilterSet gamepad2Filters;
     private DrivetrainRotation drivetrainRotation;
     
     private static double ZERO_THRESHOLD = 0.05;
@@ -30,11 +32,12 @@ public class GamepadDriveRotationCommand extends Command{
      * @param gamepad2 The second Gamepad object to read for control values.
      * @param filters The set of filters to use when filtering gamepad output.
      */
-    public GamepadDriveRotationCommand(Gamepad gamepad, Gamepad gamepad2, FilterSet filters){
+    public GamepadDriveRotationCommand(Gamepad gamepad, Gamepad gamepad2, FilterSet gamepad1Filters, FilterSet gamepad2Filters){
         super(COMMAND_NAME);
         this.gamepad1 = gamepad;
         this.gamepad2 = gamepad2;
-        this.filters = filters;
+        this.gamepad1Filters = gamepad1Filters;
+        this.gamepad2Filters = gamepad2Filters;
         this.drivetrainRotation = Components.getInstance().drivetrainRotation;
         requires(drivetrainRotation);
     }
@@ -47,9 +50,12 @@ public class GamepadDriveRotationCommand extends Command{
      */
     public GamepadDriveRotationCommand(Gamepad gamepad, Gamepad gamepad2){
         super(COMMAND_NAME);
-        filters = new FilterSet();
-        filters.addFilter(new DeadzoneFilter(0.15));
-        filters.addFilter(new ScalingFilter());
+        gamepad1Filters = new FilterSet();
+        gamepad1Filters.addFilter(new DeadzoneFilter(0.15));
+        gamepad1Filters.addFilter(new ScalingFilter());
+        gamepad2Filters = new FilterSet();
+        gamepad2Filters.addFilter(new DeadzoneFilter(0.15));
+        gamepad2Filters.addFilter(new QuarticScalingFilter());
         this.gamepad1 = gamepad;
         this.gamepad2 = gamepad2;
         this.drivetrainRotation = Components.getInstance().drivetrainRotation;
@@ -65,8 +71,8 @@ public class GamepadDriveRotationCommand extends Command{
      * {@code drivetrain}.
      */
     protected void execute() {
-        GamepadResult gamepad1State = filters.filter(gamepad1.getJoysticks());
-        GamepadResult gamepad2State = filters.filter(gamepad2.getJoysticks());
+        GamepadResult gamepad1State = gamepad1Filters.filter(gamepad1.getJoysticks());
+        GamepadResult gamepad2State = gamepad2Filters.filter(gamepad2.getJoysticks());
         //Precedence: gamepad then gamepad2
         double gamepad1Value = gamepad1State.getRightX();
         double gamepad2Value = gamepad2State.getRightX();
