@@ -15,20 +15,20 @@ public class Components {
     //Digital Input Constants
     //Collector Constants
     private static final int COLLECTOR_UPPER_LIMIT_SWITCH = 12;
-    private static final int COLLECTOR_LOWER_LIMIT_SWITCH = 3;
+    private static final int COLLECTOR_LOWER_LIMIT_SWITCH = 13;
     //Lifter Constants
-    private static final int LIFTER_LOWER_LIMIT_SWITCH = 2;
+    private static final int LIFTER_LOWER_LIMIT_SWITCH = 10;
     //Auger Constants
-    private static final int AUGER_ROTATION_SWITCH = 1;
+    private static final int AUGER_ROTATION_SWITCH = 9;
     //Drivetrain Encoder Constants
-    private static final int FRONT_LEFT_A = 4;
-    private static final int FRONT_LEFT_B = 5;
-    private static final int FRONT_RIGHT_A = 6;
-    private static final int FRONT_RIGHT_B = 7;
-    private static final int BACK_LEFT_A = 8;
-    private static final int BACK_LEFT_B = 9;
-    private static final int BACK_RIGHT_A = 10;
-    private static final int BACK_RIGHT_B = 11;
+    private static final int FRONT_LEFT_A = 3;
+    private static final int FRONT_LEFT_B = 4;
+    private static final int FRONT_RIGHT_A = 1;
+    private static final int FRONT_RIGHT_B = 2;
+    private static final int BACK_LEFT_A = 7;
+    private static final int BACK_LEFT_B = 8;
+    private static final int BACK_RIGHT_A = 5;
+    private static final int BACK_RIGHT_B = 6;
     
     //Analog Input Constants
     //Lifter Constansts
