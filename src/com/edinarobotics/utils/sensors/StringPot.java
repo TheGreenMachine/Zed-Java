@@ -3,7 +3,7 @@ package com.edinarobotics.utils.sensors;
 import edu.wpi.first.wpilibj.AnalogChannel;
 
 /**
- * This class defines a String Potentiometer and provides methods to get the raw
+ * The StringPot class defines a String Potentiometer and provides methods to get the raw
  * voltage of the potentiometer and the length of the string based on the same voltage.
  */
 public class StringPot {

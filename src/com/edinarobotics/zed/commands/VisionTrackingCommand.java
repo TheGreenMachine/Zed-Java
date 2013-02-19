@@ -29,6 +29,7 @@ public class VisionTrackingCommand extends Command {
     private PIDTargetX pidTargetX;
     private PIDConfig xPIDConfig;
     private double xSetpoint;
+    private double xTolerance;
     
     // Y Fields
     LifterTargetY lifterTargetY;
@@ -63,6 +64,7 @@ public class VisionTrackingCommand extends Command {
         pidControllerX = new PIDController(X_P, X_I, X_D, pidTargetX, drivetrainRotation);
         xPIDConfig = PIDTuningManager.getInstance().getPIDConfig("Vision Horizontal");
         xSetpoint = 0;
+        xTolerance = 0;
         
         lifterTargetY = new LifterTargetY();
         ySetpoint = 0;
@@ -92,6 +94,7 @@ public class VisionTrackingCommand extends Command {
         
         if(target != null) {
             pidTargetX.setTarget(target);
+            pidControllerX.setAbsoluteTolerance(xTolerance);
             lifterTargetY.setTarget(target);
             lifterTargetY.setYSetpoint(ySetpoint);
             lifterTargetY.setYTolerance(yTolerance);
