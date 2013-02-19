@@ -29,7 +29,7 @@ public class SetCollectorCommand extends Command {
         if(collectorDirection != null){
             collector.setCollectorDirection(collectorDirection);
         }
-        if(collectorDirection != null){
+        if(collectorLiftDirection != null){
             collector.setCollectorLiftDirection(collectorLiftDirection);
         }
     }
