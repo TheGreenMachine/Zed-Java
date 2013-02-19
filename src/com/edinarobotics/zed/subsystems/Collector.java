@@ -67,7 +67,7 @@ public class Collector extends Subsystem1816 {
     }
     
     public boolean getUpperLimitSwitch() {
-        return upperLimitSwitch.get();
+        return !upperLimitSwitch.get();
     }
     
     public boolean getLowerLimitSwitch() {

@@ -49,7 +49,7 @@ public class Auger extends Subsystem1816 {
     }
     
     public boolean getAugerTopLimitSwitch() {
-        return augerTopLimitSwitch.get();
+        return !augerTopLimitSwitch.get();
     }
     
     public static class AugerDirection {
