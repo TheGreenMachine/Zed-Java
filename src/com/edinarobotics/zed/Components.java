@@ -54,7 +54,7 @@ public class Components {
     
     //Relay constants
     //Auger constants
-    private static final int AUGER_SPIKE = 6;
+    private static final int AUGER_SPIKE = 8;
     //Lifter constants
     private static final int LIFTER_SPIKE = 3;
     //Collector constants
