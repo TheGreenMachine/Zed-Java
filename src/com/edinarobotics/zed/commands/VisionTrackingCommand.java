@@ -36,9 +36,9 @@ public class VisionTrackingCommand extends Command {
     private double ySetpoint;
     private double yTolerance;
     
-    private final double X_P = 1;
-    private final double X_I = 0;
-    private final double X_D = 0;
+    private final double X_P = -0.99;
+    private final double X_I = -0.01;
+    private final double X_D = -3.25;
     
     public VisionTrackingCommand() {
         this(ANY_GOAL);
@@ -75,14 +75,14 @@ public class VisionTrackingCommand extends Command {
     }
     
     protected void initialize() {
-        visionTable.putBoolean("vton", true);
+        pidControllerX.setSetpoint(0);
         pidControllerX.enable();
+        pidControllerX.setAbsoluteTolerance(0);
     }
 
     protected void execute() {
         targetCollection = new TargetCollection(visionTable.getString("vtdata", ""));
         Target target;
-        pidControllerX.setSetpoint(xSetpoint);
         
         if(goalType == HIGH_GOAL) {
             target = targetCollection.getClosestTarget(xSetpoint, ySetpoint, true);
@@ -93,7 +93,10 @@ public class VisionTrackingCommand extends Command {
         }
         
         if(target != null) {
+            xSetpoint = getXSetpoint(target.getDistance());
+            ySetpoint = getYSetpoint(target.getDistance());
             pidTargetX.setTarget(target);
+            pidControllerX.setSetpoint(xSetpoint);
             pidControllerX.setAbsoluteTolerance(xTolerance);
             lifterTargetY.setTarget(target);
             lifterTargetY.setYSetpoint(ySetpoint);
@@ -116,12 +119,22 @@ public class VisionTrackingCommand extends Command {
     }
 
     protected void end() {
-        visionTable.putBoolean("vton", false);
         pidControllerX.disable();
+        pidControllerX.reset();
+        lifter.setLifterDirection(Lifter.LifterDirection.LIFTER_STOP);
+        drivetrainRotation.mecanumPolarRotate(0);
+        System.out.println("VISION TRACKING DONE");
     }
 
     protected void interrupted() {
         end();
     }
     
+    private double getXSetpoint(double distance){
+        return 0.0278026829*distance - 0.6818562776;
+    }
+    
+    private double getYSetpoint(double distance){
+        return -0.023267714*distance + 0.4098144504;
+    }
 }
