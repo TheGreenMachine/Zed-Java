@@ -9,6 +9,7 @@ package com.edinarobotics.zed;
 
 
 import com.edinarobotics.utils.commands.MaintainStateCommand;
+import com.edinarobotics.utils.commands.RepeatCommand;
 import com.edinarobotics.utils.gamepad.Gamepad;
 import com.edinarobotics.utils.pid.PIDTuningManager;
 import com.edinarobotics.zed.commands.AugerRotateCommand;
@@ -16,6 +17,7 @@ import com.edinarobotics.zed.commands.GamepadDriveRotationCommand;
 import com.edinarobotics.zed.commands.GamepadDriveStrafeCommand;
 import com.edinarobotics.zed.commands.SetConveyorCommand;
 import com.edinarobotics.zed.commands.SetShooterCommand;
+import com.edinarobotics.zed.commands.VisionTrackingCommand;
 import com.edinarobotics.zed.subsystems.Auger;
 import com.edinarobotics.zed.subsystems.Collector;
 import com.edinarobotics.zed.subsystems.Conveyor;
@@ -76,17 +78,19 @@ public class Zed extends IterativeRobot {
         CommandGroup augerSequence = new CommandGroup();
         augerSequence.addSequential(new PrintCommand("Dispensing auger"));
         augerSequence.addSequential(new AugerRotateCommand(Auger.AugerDirection.AUGER_DOWN));
-        augerSequence.addSequential(new WaitCommand(1.5));
+        augerSequence.addSequential(new WaitCommand(2));
         
         CommandGroup autoCommand = new CommandGroup();
         autoCommand.addSequential(new PrintCommand("Starting autonomous"));
+        autoCommand.addSequential(new VisionTrackingCommand(VisionTrackingCommand.ANY_GOAL, 1.5));
         autoCommand.addSequential(new SetShooterCommand(Shooter.SHOOTER_ON));
         autoCommand.addSequential(new SetConveyorCommand(Conveyor.CONVEYOR_IN));
         autoCommand.addSequential(new WaitCommand(1));
-        autoCommand.addParallel(augerSequence);
+        autoCommand.addParallel(new RepeatCommand(augerSequence, 4));
         autoCommand.addSequential(new WaitForChildren());
         autoCommand.addSequential(new WaitCommand(2));
         autoCommand.addSequential(new SetConveyorCommand(Conveyor.CONVEYOR_STOP));
+        autoCommand.addSequential(new SetShooterCommand(Shooter.SHOOTER_OFF));
         
         autonomousCommand = autoCommand;
         autonomousCommand.start();
