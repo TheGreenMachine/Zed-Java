@@ -112,10 +112,10 @@ public class Collector extends Subsystem1816 {
         
         public Relay.Value getRightStarRelayValue(){
             if(equals(COLLECTOR_IN)){
-                return Relay.Value.kForward;
+                return Relay.Value.kReverse;
             }
             else if(equals(COLLECTOR_OUT)){
-                return Relay.Value.kReverse;
+                return Relay.Value.kForward;
             }
             return Relay.Value.kOff;
         }
