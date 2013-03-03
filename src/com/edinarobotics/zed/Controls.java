@@ -25,9 +25,9 @@ public class Controls {
         //Drivetrain Direction Toggle
         gamepad1.DIAMOND_LEFT.whenPressed(new ToggleDrivetrainDirectionCommand());
         //Conveyor
-        gamepad1.LEFT_TRIGGER.whenPressed(new SetConveyorCommand(Conveyor.CONVEYOR_IN));
+        gamepad1.LEFT_TRIGGER.whenPressed(new SetConveyorCommand(Conveyor.CONVEYOR_COLLECT_IN));
         gamepad1.LEFT_TRIGGER.whenReleased(new SetConveyorCommand(Conveyor.CONVEYOR_STOP));
-        gamepad1.LEFT_BUMPER.whenPressed(new SetConveyorCommand(Conveyor.CONVEYOR_OUT));
+        gamepad1.LEFT_BUMPER.whenPressed(new SetConveyorCommand(Conveyor.CONVEYOR_COLLECT_OUT));
         gamepad1.LEFT_BUMPER.whenReleased(new SetConveyorCommand(Conveyor.CONVEYOR_STOP));
         //Collector
         gamepad1.RIGHT_TRIGGER.whenPressed(new SetCollectorCommand(Collector.CollectorDirection.COLLECTOR_IN));
@@ -50,9 +50,9 @@ public class Controls {
         
         gamepad2 = new Gamepad(2);
         //Conveyor
-        gamepad2.LEFT_TRIGGER.whenPressed(new SetConveyorCommand(Conveyor.CONVEYOR_IN));
+        gamepad2.LEFT_TRIGGER.whenPressed(new SetConveyorCommand(Conveyor.CONVEYOR_SHOOT_IN));
         gamepad2.LEFT_TRIGGER.whenReleased(new SetConveyorCommand(Conveyor.CONVEYOR_STOP));
-        gamepad2.LEFT_BUMPER.whenPressed(new SetConveyorCommand(Conveyor.CONVEYOR_OUT));
+        gamepad2.LEFT_BUMPER.whenPressed(new SetConveyorCommand(Conveyor.CONVEYOR_SHOOT_OUT));
         gamepad2.LEFT_BUMPER.whenReleased(new SetConveyorCommand(Conveyor.CONVEYOR_STOP));
         //Shooter
         gamepad2.RIGHT_TRIGGER.whenPressed(new SetShooterCommand(Shooter.SHOOTER_ON));
