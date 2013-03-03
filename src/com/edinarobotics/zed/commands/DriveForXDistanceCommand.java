@@ -23,6 +23,7 @@ public class DriveForXDistanceCommand extends Command {
     private final double P = 1;
     private final double I = 0;
     private final double D = 0;
+    private final double FORWARD_SPEED = 0.5;
     private final double TIMEOUT_PER_DISTANCE = 5;
     
     public DriveForXDistanceCommand(double distanceToTravel) {
@@ -42,13 +43,13 @@ public class DriveForXDistanceCommand extends Command {
     protected void initialize() {
         pidControllerDistance.enable();
         pidControllerDistance.setSetpoint(0);
-        drivetrainStrafe.mecanumPolarStrafe(1, 0);
+        drivetrainStrafe.mecanumPolarStrafe(FORWARD_SPEED, 0);
         timer.start();
     }
 
     protected void execute() {
         double delta = timer.get();
-        distance += (drivetrain.getAverageVelocity() * delta);
+        distance += (drivetrain.getAverageForwardVelocity() * delta);
         timer.reset();
         
         //PID tuning code
