@@ -10,32 +10,23 @@ public class Drivetrain {
     private double direction;
     private double rotation;
     
-    private Encoder frontLeftEncoder;
-    private Encoder frontRightEncoder;
-    private Encoder backLeftEncoder;
-    private Encoder backRightEncoder;
+    private Encoder encoder1;
+    private Encoder encoder2;
     
     public Drivetrain(int frontLeft, int frontRight, int backLeft, int backRight,
-            int frontLeftA, int frontLeftB, int frontRightA, int frontRightB,
-            int backLeftA, int backLeftB, int backRightA, int backRightB) {
+            int encoder1A, int encoder1B, int encoder2A, int encoder2B) {
         this.robotDrive = new RobotDrive(frontLeft, backLeft, frontRight, backRight);
         robotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
         robotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, false);
         robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
         robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, false);
         
-        frontLeftEncoder = new Encoder(frontLeftA, frontLeftB);
-        frontRightEncoder = new Encoder(frontRightA, frontRightB);
-        backLeftEncoder = new Encoder(backLeftA, backLeftB);
-        backRightEncoder = new Encoder(backRightA, backRightB);
-        frontLeftEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
-        frontRightEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
-        backLeftEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
-        backRightEncoder.setDistancePerPulse(DISTANCE_PER_PULSE);
-        frontLeftEncoder.start();
-        frontRightEncoder.start();
-        backLeftEncoder.start();
-        backRightEncoder.start();
+        encoder1 = new Encoder(encoder1A, encoder1B);
+        encoder2 = new Encoder(encoder2A, encoder2B);
+        encoder1.setDistancePerPulse(DISTANCE_PER_PULSE);
+        encoder2.setDistancePerPulse(DISTANCE_PER_PULSE);
+        encoder1.start();
+        encoder2.start();
     }
     
     public void mecanumPolarStrafe(double magnitude, double direction){
@@ -53,24 +44,11 @@ public class Drivetrain {
         robotDrive.mecanumDrive_Polar(magnitude, direction, rotation);
     }
     
-    public double getFrontLeftVelocity() {
-        return frontLeftEncoder.getRate();
-    }
-    
-    public double getFrontRightVelocity() {
-        return frontRightEncoder.getRate();
-    }
-    
-    public double getBackLeftVelocity() {
-        return backLeftEncoder.getRate();
-    }
-    
-    public double getBackRightVelocity() {
-        return backRightEncoder.getRate();
-    }
-    
-    public double getAverageVelocity() {
-        return 0.5 * ((getFrontLeftVelocity() + getFrontRightVelocity() +
-                getBackLeftVelocity() + getBackRightVelocity()) / 4);
+    public double getAverageForwardVelocity() {
+        /*
+         * The inner 0.5 multiplier is used because mecanum drive only gives
+         * a forward velocity of half the wheel's actual rate.
+         */
+        return ((0.5*encoder1.getRate()) + (0.5*encoder2.getRate()))/2.0;
     }
 }
