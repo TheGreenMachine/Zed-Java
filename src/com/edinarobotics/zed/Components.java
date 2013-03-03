@@ -27,10 +27,6 @@ public class Components {
     private static final int FRONT_LEFT_B = 4;
     private static final int FRONT_RIGHT_A = 1;
     private static final int FRONT_RIGHT_B = 2;
-    private static final int BACK_LEFT_A = 7;
-    private static final int BACK_LEFT_B = 8;
-    private static final int BACK_RIGHT_A = 5;
-    private static final int BACK_RIGHT_B = 6;
     
     //Analog Input Constants
     //Lifter Constansts
@@ -79,8 +75,7 @@ public class Components {
     private Components(){
         drivetrain = new Drivetrain(FRONT_LEFT_DRIVE_JAGUAR, FRONT_RIGHT_DRIVE_JAGUAR,
                 BACK_LEFT_DRIVE_JAGUAR, BACK_RIGHT_DRIVE_JAGUAR,
-                FRONT_LEFT_A, FRONT_LEFT_B, FRONT_RIGHT_A, FRONT_RIGHT_B,
-                BACK_LEFT_A, BACK_LEFT_B, BACK_RIGHT_A, BACK_RIGHT_B);
+                FRONT_LEFT_A, FRONT_LEFT_B, FRONT_RIGHT_A, FRONT_RIGHT_B);
         drivetrainStrafe = new DrivetrainStrafe(drivetrain);
         drivetrainRotation = new DrivetrainRotation(drivetrain, GYRO);
         shooter = new Shooter(SHOOTER_JAGUAR_FIRST, SHOOTER_JAGUAR_SECOND);
