@@ -4,6 +4,7 @@ import com.edinarobotics.utils.gamepad.FilterSet;
 import com.edinarobotics.utils.gamepad.Gamepad;
 import com.edinarobotics.utils.gamepad.GamepadResult;
 import com.edinarobotics.utils.gamepad.filters.DeadzoneFilter;
+import com.edinarobotics.utils.gamepad.filters.ScalingLinearFilter;
 import com.edinarobotics.utils.gamepad.filters.ScalingPowerFilter;
 import com.edinarobotics.zed.Components;
 import com.edinarobotics.zed.subsystems.Drivetrain;
@@ -54,7 +55,7 @@ public class GamepadDriveRotationCommand extends Command{
         gamepad1Filters.addFilter(new ScalingPowerFilter(2));
         gamepad2Filters = new FilterSet();
         gamepad2Filters.addFilter(new DeadzoneFilter(0.15));
-        gamepad2Filters.addFilter(new ScalingPowerFilter(4));
+        gamepad2Filters.addFilter(new ScalingLinearFilter(0.5));
         this.gamepad1 = gamepad;
         this.gamepad2 = gamepad2;
         this.drivetrainRotation = Components.getInstance().drivetrainRotation;
