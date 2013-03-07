@@ -31,9 +31,9 @@ public class Components {
     
     //Analog Input Constants
     //Lifter Constansts
-    private static final int LIFTER_STRING_POT = 1;
+    private static final int LIFTER_STRING_POT = 2;
     //Drivetrain Constants
-    private static final int GYRO = 2;
+    private static final int GYRO = 1;
 
     //PWM constants
     //Drivetrain constants
