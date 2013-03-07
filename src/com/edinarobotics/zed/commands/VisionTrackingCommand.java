@@ -44,16 +44,6 @@ public class VisionTrackingCommand extends Command {
         this(ANY_GOAL);
     }
     
-    public VisionTrackingCommand(double timeoutSeconds) {
-        this();
-        setTimeout(timeoutSeconds);
-    }
-    
-    public VisionTrackingCommand(byte goalType, double timeoutSeconds) {
-        this(goalType);
-        setTimeout(timeoutSeconds);
-    }
-    
     public VisionTrackingCommand(byte goalType) {
         super("VisionTracking");
         this.goalType = goalType;
@@ -114,8 +104,7 @@ public class VisionTrackingCommand extends Command {
     }
 
     protected boolean isFinished() {
-        return (pidControllerX.onTarget() && lifterTargetY.onTarget()) ||
-                isTimedOut();
+        return pidControllerX.onTarget() && lifterTargetY.onTarget();
     }
 
     protected void end() {
