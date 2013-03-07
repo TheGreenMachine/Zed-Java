@@ -15,6 +15,7 @@ import com.edinarobotics.utils.pid.PIDTuningManager;
 import com.edinarobotics.zed.commands.AugerRotateCommand;
 import com.edinarobotics.zed.commands.GamepadDriveRotationCommand;
 import com.edinarobotics.zed.commands.GamepadDriveStrafeCommand;
+import com.edinarobotics.zed.commands.SetCollectorToLimitCommand;
 import com.edinarobotics.zed.commands.SetConveyorCommand;
 import com.edinarobotics.zed.commands.SetShooterCommand;
 import com.edinarobotics.zed.commands.VisionTrackingCommand;
@@ -77,6 +78,20 @@ public class Zed extends IterativeRobot {
     public void autonomousInit(){
         DriverStation driverStation = DriverStation.getInstance();
         double delayTime = driverStation.getAnalogIn(1);
+        byte goalType = VisionTrackingCommand.ANY_GOAL;
+        
+        boolean trackHighGoal = driverStation.getDigitalIn(1);
+        boolean trackMiddleGoal = driverStation.getDigitalIn(2);
+        
+        if(trackHighGoal && trackMiddleGoal){
+            goalType = VisionTrackingCommand.ANY_GOAL;
+        }
+        else if(trackHighGoal){
+            goalType = VisionTrackingCommand.HIGH_GOAL;
+        }
+        else if(trackMiddleGoal){
+            goalType = VisionTrackingCommand.MIDDLE_GOAL;
+        }
         
         betweenModes();
         DrivetrainStrafe drivetrainStrafe = Components.getInstance().drivetrainStrafe;
@@ -92,7 +107,8 @@ public class Zed extends IterativeRobot {
         CommandGroup autoCommand = new CommandGroup();
         autoCommand.addSequential(new PrintCommand("Starting autonomous"));
         autoCommand.addSequential(new WaitCommand(delayTime));
-        autoCommand.addSequential(new VisionTrackingCommand(VisionTrackingCommand.ANY_GOAL), 1.5);
+        autoCommand.addParallel(new SetCollectorToLimitCommand(Collector.CollectorLiftDirection.COLLECTOR_LIFT_DOWN));
+        autoCommand.addSequential(new VisionTrackingCommand(goalType), 1.5);
         autoCommand.addSequential(new SetShooterCommand(Shooter.SHOOTER_ON));
         autoCommand.addSequential(new SetConveyorCommand(Conveyor.CONVEYOR_SHOOT_IN));
         autoCommand.addSequential(new WaitCommand(1));
@@ -122,6 +138,7 @@ public class Zed extends IterativeRobot {
         Gamepad shootGamepad = Controls.getInstance().gamepad2;
         Components.getInstance().drivetrainStrafe.setDefaultCommand(new GamepadDriveStrafeCommand(driveGamepad));
         Components.getInstance().drivetrainRotation.setDefaultCommand(new GamepadDriveRotationCommand(driveGamepad, shootGamepad));
+        new SetCollectorToLimitCommand(Collector.CollectorLiftDirection.COLLECTOR_LIFT_DOWN).start();
     }
 
     /**
