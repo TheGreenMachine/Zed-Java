@@ -10,9 +10,11 @@ public class SetClimberDeployCommand extends Command {
     private Climber climber;
     
     public SetClimberDeployCommand(boolean deployed, double delayTime){
+        super("SetClimberDeploy");
         this.deployed = deployed;
         this.delayTime = delayTime;
         this.climber = Components.getInstance().climber;
+        requires(climber);
     }
     
     public SetClimberDeployCommand(boolean deployed){
