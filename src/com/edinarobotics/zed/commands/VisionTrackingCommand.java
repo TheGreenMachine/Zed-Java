@@ -9,6 +9,7 @@ import com.edinarobotics.zed.vision.LifterTargetY;
 import com.edinarobotics.zed.vision.PIDTargetX;
 import com.edinarobotics.zed.vision.Target;
 import com.edinarobotics.zed.vision.TargetCollection;
+import edu.wpi.first.wpilibj.DriverStationLCD;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
@@ -18,11 +19,14 @@ public class VisionTrackingCommand extends Command {
     public static final byte MIDDLE_GOAL = 2;
     public static final byte ANY_GOAL = 3;
     
+    private static final DriverStationLCD.Line OUTPUT_LINE = DriverStationLCD.Line.kUser1;
+    
     private NetworkTable visionTable = NetworkTable.getTable("vision");
     private TargetCollection targetCollection;
     private DrivetrainRotation drivetrainRotation;
     private Lifter lifter;
     private byte goalType;
+    private DriverStationLCD textOutput;
     
     // X Fields
     private PIDController pidControllerX;
@@ -49,6 +53,7 @@ public class VisionTrackingCommand extends Command {
         this.goalType = goalType;
         drivetrainRotation = Components.getInstance().drivetrainRotation;
         lifter = Components.getInstance().lifter;
+        textOutput = DriverStationLCD.getInstance();
         
         pidTargetX = new PIDTargetX();
         pidControllerX = new PIDController(X_P, X_I, X_D, pidTargetX, drivetrainRotation);
@@ -92,6 +97,17 @@ public class VisionTrackingCommand extends Command {
             lifterTargetY.setYSetpoint(ySetpoint);
             lifterTargetY.setYTolerance(yTolerance);
             lifter.setLifterDirection(lifterTargetY.targetY());
+            //Print necessary movements to driver
+            if(lifterTargetY.targetY().equals(Lifter.LifterDirection.LIFTER_UP) && lifter.getUpperLimitSwitch()){
+                textOutput.println(OUTPUT_LINE, 1, "VT: BACK UP                                                       ");
+            }
+            else if(lifterTargetY.targetY().equals(Lifter.LifterDirection.LIFTER_DOWN) && lifter.getLowerLimitSwitch()){
+                textOutput.println(OUTPUT_LINE, 1, "VT: GO FORWARD                                                       ");
+            }
+            else{
+                textOutput.println(OUTPUT_LINE, 1, "VT:                                                       ");
+            }
+            textOutput.updateLCD();
         } else {
             drivetrainRotation.update();
             lifter.update();
@@ -112,13 +128,16 @@ public class VisionTrackingCommand extends Command {
         pidControllerX.reset();
         lifter.setLifterDirection(Lifter.LifterDirection.LIFTER_STOP);
         drivetrainRotation.mecanumPolarRotate(0);
-        System.out.println("VISION TRACKING DONE");
+        //Clear the first line on the user messages screen
+        textOutput.println(OUTPUT_LINE, 1, "                                                       ");
+        textOutput.updateLCD();
     }
 
     protected void interrupted() {
         end();
     }
     
+    //Empirically determined functions for vision tracking
     private double getXSetpoint(double distance){
         return 0.0278026829*distance - 0.6818562776;
     }
