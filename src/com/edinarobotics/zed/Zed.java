@@ -138,7 +138,6 @@ public class Zed extends IterativeRobot {
         Gamepad shootGamepad = Controls.getInstance().gamepad2;
         Components.getInstance().drivetrainStrafe.setDefaultCommand(new GamepadDriveStrafeCommand(driveGamepad));
         Components.getInstance().drivetrainRotation.setDefaultCommand(new GamepadDriveRotationCommand(driveGamepad, shootGamepad));
-        new SetCollectorToLimitCommand(Collector.CollectorLiftDirection.COLLECTOR_LIFT_DOWN).start();
     }
 
     /**
