@@ -105,12 +105,14 @@ public class VisionTrackingCommand extends Command {
                 textOutput.println(OUTPUT_LINE, 1, "VT: GO FORWARD                                                       ");
             }
             else{
-                textOutput.println(OUTPUT_LINE, 1, "VT:                                                       ");
+                textOutput.println(OUTPUT_LINE, 1, "VT: WORKING                                                      ");
             }
             textOutput.updateLCD();
         } else {
             drivetrainRotation.update();
             lifter.update();
+            textOutput.println(OUTPUT_LINE, 1, "VT: NO TARGET                                                      ");
+            textOutput.updateLCD();
         }
         
         //PID tuning code
