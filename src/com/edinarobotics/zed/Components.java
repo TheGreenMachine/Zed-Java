@@ -1,6 +1,7 @@
 package com.edinarobotics.zed;
 
 import com.edinarobotics.zed.subsystems.Auger;
+import com.edinarobotics.zed.subsystems.Climber;
 import com.edinarobotics.zed.subsystems.Collector;
 import com.edinarobotics.zed.subsystems.Conveyor;
 import com.edinarobotics.zed.subsystems.Drivetrain;
@@ -42,6 +43,8 @@ public class Components {
     private static final int BACK_RIGHT_DRIVE_JAGUAR = 1;
     //Conveyor constants
     private static final int CONVEYOR_VICTOR = 9;
+    //Climber constants
+    private static final int CLIMBER_SERVO = 5;
     
     //CAN constants
     //Shooter constants
@@ -67,6 +70,7 @@ public class Components {
     public final Collector collector;
     public final Conveyor conveyor;
     public final Auger auger;
+    public final Climber climber;
     
     /**
      * Private constructor for the Components singleton. This constructor
@@ -84,6 +88,7 @@ public class Components {
                 COLLECTOR_LIFTER_SPIKE, COLLECTOR_UPPER_LIMIT_SWITCH, COLLECTOR_LOWER_LIMIT_SWITCH);
         conveyor = new Conveyor(CONVEYOR_VICTOR);
         auger = new Auger(AUGER_SPIKE, AUGER_ROTATION_SWITCH, AUGER_TOP_SWITCH);
+        climber = new Climber(CLIMBER_SERVO);
     }
     
     /**
