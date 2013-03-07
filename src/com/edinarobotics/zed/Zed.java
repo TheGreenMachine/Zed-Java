@@ -43,6 +43,10 @@ public class Zed extends IterativeRobot {
      * Teleop) to reset running subsystems.
      */
     public void betweenModes() {
+        DrivetrainStrafe drivetrainStrafe = Components.getInstance().drivetrainStrafe;
+        drivetrainStrafe.setDefaultCommand(new MaintainStateCommand(drivetrainStrafe));
+        DrivetrainRotation drivetrainRotation = Components.getInstance().drivetrainRotation;
+        drivetrainRotation.setDefaultCommand(new MaintainStateCommand(drivetrainRotation));
         stop();
         if(autonomousCommand != null) {
             autonomousCommand.cancel();
