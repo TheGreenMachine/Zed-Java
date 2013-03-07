@@ -17,6 +17,7 @@ public class SetCollectorToLimitCommand extends Command {
     }
     
     protected void initialize() {
+        collector.setCollectorLiftDirection(collectorLiftDirection);
     }
 
     protected void execute() {
@@ -31,9 +32,7 @@ public class SetCollectorToLimitCommand extends Command {
         if(collectorLiftDirection.equals(Collector.CollectorLiftDirection.COLLECTOR_LIFT_DOWN)) {
             limitSwitchValue = collector.getLowerLimitSwitch();
         }
-        return limitSwitchValue == collector.getUpperLimitSwitch() ||
-                limitSwitchValue == collector.getLowerLimitSwitch() ||
-                isTimedOut();
+        return limitSwitchValue || isTimedOut() || collectorLiftDirection.equals(Collector.CollectorLiftDirection.COLLECTOR_LIFT_STOP);
     }
 
     protected void end() {
