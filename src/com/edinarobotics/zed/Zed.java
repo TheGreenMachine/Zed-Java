@@ -25,6 +25,7 @@ import com.edinarobotics.zed.subsystems.DrivetrainRotation;
 import com.edinarobotics.zed.subsystems.DrivetrainStrafe;
 import com.edinarobotics.zed.subsystems.Lifter;
 import com.edinarobotics.zed.subsystems.Shooter;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -69,6 +70,9 @@ public class Zed extends IterativeRobot {
      * This function is called once at the start of autonomous mode.
      */
     public void autonomousInit(){
+        DriverStation driverStation = DriverStation.getInstance();
+        double delayTime = driverStation.getAnalogIn(1);
+        
         betweenModes();
         DrivetrainStrafe drivetrainStrafe = Components.getInstance().drivetrainStrafe;
         drivetrainStrafe.setDefaultCommand(new MaintainStateCommand(drivetrainStrafe));
@@ -82,6 +86,7 @@ public class Zed extends IterativeRobot {
         
         CommandGroup autoCommand = new CommandGroup();
         autoCommand.addSequential(new PrintCommand("Starting autonomous"));
+        autoCommand.addSequential(new WaitCommand(delayTime));
         autoCommand.addSequential(new VisionTrackingCommand(VisionTrackingCommand.ANY_GOAL), 1.5);
         autoCommand.addSequential(new SetShooterCommand(Shooter.SHOOTER_ON));
         autoCommand.addSequential(new SetConveyorCommand(Conveyor.CONVEYOR_SHOOT_IN));
