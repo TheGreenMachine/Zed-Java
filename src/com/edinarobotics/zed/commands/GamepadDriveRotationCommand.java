@@ -25,6 +25,8 @@ public class GamepadDriveRotationCommand extends Command{
     
     private static double ZERO_THRESHOLD = 0.05;
     
+    public static final double SPEED_MULTIPLIER = 1;
+    
     /**
      * Construct a new GamepadDriveCommand using the given gamepad, filters
      * and drivetrain.
@@ -77,10 +79,10 @@ public class GamepadDriveRotationCommand extends Command{
         double gamepad1Value = gamepad1State.getRightX();
         double gamepad2Value = gamepad2State.getRightX();
         if(!isZero(gamepad1Value)){
-            drivetrainRotation.mecanumPolarRotate(gamepad1Value);
+            drivetrainRotation.mecanumPolarRotate(SPEED_MULTIPLIER*gamepad1Value);
         }
         else{
-            drivetrainRotation.mecanumPolarRotate(gamepad2Value);
+            drivetrainRotation.mecanumPolarRotate(SPEED_MULTIPLIER*gamepad2Value);
         }
     }
 
