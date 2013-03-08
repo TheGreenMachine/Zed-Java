@@ -76,7 +76,7 @@ public class PIDTuningManager {
         if(!systemName.equals((""))){
             PIDConfig pidSystem = getPIDConfig(systemName);
             pidSystem.setPID(pidTable.getNumber("p", 0), pidTable.getNumber("i", 0),
-                    pidTable.getNumber("d", 0));
+                    pidTable.getNumber("d", 0), pidTable.getNumber("f", 0));
             pidTable.putNumber("value", pidSystem.getValue());
             pidTable.putNumber("setpoint", pidSystem.getSetpoint());
         }

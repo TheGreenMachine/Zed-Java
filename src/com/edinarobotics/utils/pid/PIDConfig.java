@@ -8,7 +8,7 @@ package com.edinarobotics.utils.pid;
 public class PIDConfig {
     private String name;
     boolean overrideDefault;
-    double p,i,d, value, setpoint;
+    double p,i,d, f, value, setpoint;
     
     protected PIDConfig(String name){
         this.name = name;
@@ -69,6 +69,21 @@ public class PIDConfig {
     }
     
     /**
+     * Returns the feed forward value that should be used by the relevant PID controller.
+     * This method will return the value set by the dashboard if such a value
+     * exists or the default value.
+     * @param defaultFeedForward The default value of feed forward that should be used if the
+     * tuning process has not set a new value.
+     * @return The value of D that should be used by the relevant PID controller.
+     */
+    public double getF(double f){
+        if(overrideDefault){
+            return this.f;
+        }
+        return f;
+    }
+    
+    /**
      * Sets the value that should be sent as feedback to the dashboard
      * during the PID tuning process. This value should be the value
      * that is backing the PID controller. For example, it could be an
@@ -113,11 +128,13 @@ public class PIDConfig {
      * @param p The new value of P for the PID controller.
      * @param i The new value of I for the PID controller.
      * @param d The new value of D for the PID controller.
+     * @param f The new value of the feed forward constant for the PID controller.
      */
-    protected void setPID(double p, double i, double d){
+    protected void setPID(double p, double i, double d, double f){
         this.p = p;
         this.i = i;
         this.d = d;
+        this.f = f;
         overrideDefault = true;
     }
     
