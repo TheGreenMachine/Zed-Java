@@ -13,6 +13,7 @@ import com.edinarobotics.utils.commands.RepeatCommand;
 import com.edinarobotics.utils.gamepad.Gamepad;
 import com.edinarobotics.utils.pid.PIDTuningManager;
 import com.edinarobotics.zed.commands.AugerRotateCommand;
+import com.edinarobotics.zed.commands.ConveyorPulseSequenceCommand;
 import com.edinarobotics.zed.commands.GamepadDriveRotationCommand;
 import com.edinarobotics.zed.commands.GamepadDriveStrafeCommand;
 import com.edinarobotics.zed.commands.SetCollectorToLimitCommand;
@@ -102,6 +103,7 @@ public class Zed extends IterativeRobot {
         CommandGroup augerSequence = new CommandGroup();
         augerSequence.addSequential(new PrintCommand("Dispensing auger"));
         augerSequence.addSequential(new AugerRotateCommand(Auger.AugerDirection.AUGER_DOWN));
+        augerSequence.addSequential(new ConveyorPulseSequenceCommand());
         augerSequence.addSequential(new WaitCommand(2));
         
         CommandGroup autoCommand = new CommandGroup();
@@ -111,8 +113,8 @@ public class Zed extends IterativeRobot {
         autoCommand.addSequential(new VisionTrackingCommand(goalType), 1.5);
         autoCommand.addSequential(new SetShooterCommand(Shooter.SHOOTER_ON));
         autoCommand.addSequential(new SetConveyorCommand(Conveyor.CONVEYOR_SHOOT_IN));
-        autoCommand.addSequential(new WaitCommand(1));
-        autoCommand.addParallel(new RepeatCommand(augerSequence, 4));
+        autoCommand.addSequential(new WaitCommand(3));
+        autoCommand.addParallel(new RepeatCommand(augerSequence, 2));
         autoCommand.addSequential(new WaitForChildren());
         autoCommand.addSequential(new WaitCommand(2));
         autoCommand.addSequential(new SetConveyorCommand(Conveyor.CONVEYOR_STOP));
