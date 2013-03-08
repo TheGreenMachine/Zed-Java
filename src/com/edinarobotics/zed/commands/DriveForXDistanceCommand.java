@@ -23,6 +23,7 @@ public class DriveForXDistanceCommand extends Command {
     private final double P = 1;
     private final double I = 0;
     private final double D = 0;
+    private final double F = 0;
     private final double FORWARD_SPEED = 0.5;
     private final double TIMEOUT_PER_DISTANCE = 5;
     
@@ -54,7 +55,7 @@ public class DriveForXDistanceCommand extends Command {
         
         //PID tuning code
         pidControllerDistance.setPID(pidConfigDistance.getP(P), pidConfigDistance.getI(I),
-                pidConfigDistance.getD(D));
+                pidConfigDistance.getD(D), pidConfigDistance.getF(F));
         pidConfigDistance.setSetpoint(pidControllerDistance.getSetpoint());
         pidConfigDistance.setValue(drivetrainRotation.pidGet());
     }

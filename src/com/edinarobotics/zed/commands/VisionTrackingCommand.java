@@ -43,6 +43,7 @@ public class VisionTrackingCommand extends Command {
     private final double X_P = -0.99;
     private final double X_I = -0.01;
     private final double X_D = -3.25;
+    private final double X_F = 0;
     
     public VisionTrackingCommand() {
         this(ANY_GOAL);
@@ -116,7 +117,7 @@ public class VisionTrackingCommand extends Command {
         }
         
         //PID tuning code
-        pidControllerX.setPID(xPIDConfig.getP(X_P), xPIDConfig.getI(X_I), xPIDConfig.getD(X_D));
+        pidControllerX.setPID(xPIDConfig.getP(X_P), xPIDConfig.getI(X_I), xPIDConfig.getD(X_D), xPIDConfig.getF(X_F));
         xPIDConfig.setSetpoint(pidControllerX.getSetpoint());
         xPIDConfig.setValue(pidTargetX.pidGet());
     }
