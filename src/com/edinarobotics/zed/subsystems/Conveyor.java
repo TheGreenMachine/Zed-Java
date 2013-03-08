@@ -4,10 +4,10 @@ import com.edinarobotics.utils.subsystems.Subsystem1816;
 import edu.wpi.first.wpilibj.Victor;
 
 public class Conveyor extends Subsystem1816 {
-    public static final double CONVEYOR_SHOOT_IN = -0.5;
-    public static final double CONVEYOR_SHOOT_OUT = -CONVEYOR_SHOOT_IN;
-    public static final double CONVEYOR_COLLECT_IN = CONVEYOR_SHOOT_IN;
-    public static final double CONVEYOR_COLLECT_OUT = CONVEYOR_SHOOT_OUT;
+    public static final double CONVEYOR_SHOOT_IN = -1;
+    public static final double CONVEYOR_SHOOT_OUT = 1;
+    public static final double CONVEYOR_COLLECT_IN = -0.5;
+    public static final double CONVEYOR_COLLECT_OUT = 0.5;
     public static final double CONVEYOR_STOP = 0;
     
     Victor conveyor;
