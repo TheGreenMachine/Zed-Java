@@ -83,6 +83,7 @@ public class Zed extends IterativeRobot {
         
         boolean trackHighGoal = driverStation.getDigitalIn(1);
         boolean trackMiddleGoal = driverStation.getDigitalIn(2);
+        boolean shootInAuto = true;
         
         if(trackHighGoal && trackMiddleGoal){
             goalType = VisionTrackingCommand.ANY_GOAL;
@@ -93,6 +94,9 @@ public class Zed extends IterativeRobot {
         else if(trackMiddleGoal){
             goalType = VisionTrackingCommand.MIDDLE_GOAL;
         }
+        else{
+            shootInAuto = false;
+        }
         
         betweenModes();
         DrivetrainStrafe drivetrainStrafe = Components.getInstance().drivetrainStrafe;
@@ -100,25 +104,32 @@ public class Zed extends IterativeRobot {
         DrivetrainRotation drivetrainRotation = Components.getInstance().drivetrainRotation;
         drivetrainRotation.setDefaultCommand(new MaintainStateCommand(drivetrainRotation));
         
+        CommandGroup fastAugerSequence = new CommandGroup();
+        fastAugerSequence.addSequential(new PrintCommand("Dispensing auger"));
+        fastAugerSequence.addSequential(new AugerRotateCommand(Auger.AugerDirection.AUGER_DOWN));
+        fastAugerSequence.addSequential(new WaitCommand(0.8));
+        
         CommandGroup augerSequence = new CommandGroup();
         augerSequence.addSequential(new PrintCommand("Dispensing auger"));
         augerSequence.addSequential(new AugerRotateCommand(Auger.AugerDirection.AUGER_DOWN));
-        augerSequence.addSequential(new ConveyorPulseSequenceCommand());
         augerSequence.addSequential(new WaitCommand(2));
         
         CommandGroup autoCommand = new CommandGroup();
         autoCommand.addSequential(new PrintCommand("Starting autonomous"));
         autoCommand.addSequential(new WaitCommand(delayTime));
-        autoCommand.addParallel(new SetCollectorToLimitCommand(Collector.CollectorLiftDirection.COLLECTOR_LIFT_DOWN));
-        autoCommand.addSequential(new VisionTrackingCommand(goalType), 1.5);
-        autoCommand.addSequential(new SetShooterCommand(Shooter.SHOOTER_ON));
-        autoCommand.addSequential(new SetConveyorCommand(Conveyor.CONVEYOR_SHOOT_IN));
-        autoCommand.addSequential(new WaitCommand(3));
-        autoCommand.addParallel(new RepeatCommand(augerSequence, 2));
-        autoCommand.addSequential(new WaitForChildren());
-        autoCommand.addSequential(new WaitCommand(2));
-        autoCommand.addSequential(new SetConveyorCommand(Conveyor.CONVEYOR_STOP));
-        autoCommand.addSequential(new SetShooterCommand(Shooter.SHOOTER_OFF));
+        if(shootInAuto){
+            autoCommand.addSequential(new VisionTrackingCommand(goalType), 1.5);
+            autoCommand.addSequential(new SetShooterCommand(Shooter.SHOOTER_ON));
+            autoCommand.addSequential(new WaitCommand(2));
+            autoCommand.addSequential(new SetConveyorCommand(Conveyor.CONVEYOR_SHOOT_IN));
+            autoCommand.addSequential(new WaitCommand(3));
+            autoCommand.addSequential(fastAugerSequence);
+            autoCommand.addSequential(new RepeatCommand(augerSequence, 4));
+            autoCommand.addSequential(new WaitForChildren());
+            autoCommand.addSequential(new WaitCommand(2));
+            autoCommand.addSequential(new SetConveyorCommand(Conveyor.CONVEYOR_STOP));
+            autoCommand.addSequential(new SetShooterCommand(Shooter.SHOOTER_OFF));
+        }
         
         autonomousCommand = autoCommand;
         autonomousCommand.start();
@@ -178,6 +189,7 @@ public class Zed extends IterativeRobot {
         Components.getInstance().drivetrainStrafe.mecanumPolarStrafe(0, 0);
         Components.getInstance().lifter.setLifterDirection(Lifter.LifterDirection.LIFTER_STOP);
         Components.getInstance().shooter.setShooterVelocity(0);
+        Components.getInstance().climber.setClimberDeployed(false);
     }
     
 }
