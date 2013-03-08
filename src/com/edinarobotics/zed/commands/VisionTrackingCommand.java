@@ -146,6 +146,6 @@ public class VisionTrackingCommand extends Command {
     }
     
     private double getYSetpoint(double distance){
-        return -0.023267714*distance + 0.4098144504;
+        return -0.023267714*distance + 0.4098144504 - 0.175;
     }
 }
