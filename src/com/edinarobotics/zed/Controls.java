@@ -7,6 +7,8 @@ import com.edinarobotics.zed.subsystems.Collector;
 import com.edinarobotics.zed.subsystems.Conveyor;
 import com.edinarobotics.zed.subsystems.Lifter;
 import com.edinarobotics.zed.subsystems.Shooter;
+import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
  * Controls handles creating the {@link Gamepad} objects
@@ -50,7 +52,7 @@ public class Controls {
         
         gamepad2 = new Gamepad(2);
         //Conveyor
-        gamepad2.LEFT_TRIGGER.whenPressed(new SetConveyorCommand(Conveyor.CONVEYOR_SHOOT_IN));
+        gamepad2.LEFT_TRIGGER.whenPressed(new ConveyorPulseSequenceCommand());
         gamepad2.LEFT_TRIGGER.whenReleased(new SetConveyorCommand(Conveyor.CONVEYOR_STOP));
         gamepad2.LEFT_BUMPER.whenPressed(new SetConveyorCommand(Conveyor.CONVEYOR_SHOOT_OUT));
         gamepad2.LEFT_BUMPER.whenReleased(new SetConveyorCommand(Conveyor.CONVEYOR_STOP));
