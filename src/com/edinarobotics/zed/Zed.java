@@ -14,6 +14,7 @@ import com.edinarobotics.utils.gamepad.Gamepad;
 import com.edinarobotics.utils.pid.PIDTuningManager;
 import com.edinarobotics.zed.commands.AugerRotateCommand;
 import com.edinarobotics.zed.commands.ConveyorPulseSequenceCommand;
+import com.edinarobotics.zed.commands.FixedPointVisionTrackingCommand;
 import com.edinarobotics.zed.commands.GamepadDriveRotationCommand;
 import com.edinarobotics.zed.commands.GamepadDriveStrafeCommand;
 import com.edinarobotics.zed.commands.SetCollectorToLimitCommand;
@@ -118,7 +119,8 @@ public class Zed extends IterativeRobot {
         autoCommand.addSequential(new PrintCommand("Starting autonomous"));
         autoCommand.addSequential(new WaitCommand(delayTime));
         if(shootInAuto){
-            autoCommand.addSequential(new VisionTrackingCommand(goalType), 1.5);
+            autoCommand.addSequential(new FixedPointVisionTrackingCommand(FixedPointVisionTrackingCommand.PYRAMID_BACK_MIDDLE_X,
+                    FixedPointVisionTrackingCommand.PYRAMID_BACK_MIDDLE_Y, VisionTrackingCommand.HIGH_GOAL), 2);
             autoCommand.addSequential(new SetShooterCommand(Shooter.SHOOTER_ON));
             autoCommand.addSequential(new WaitCommand(2));
             autoCommand.addSequential(new SetConveyorCommand(Conveyor.CONVEYOR_SHOOT_IN));
