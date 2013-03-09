@@ -141,11 +141,11 @@ public class VisionTrackingCommand extends Command {
     }
     
     //Empirically determined functions for vision tracking
-    private double getXSetpoint(double distance){
+    protected double getXSetpoint(double distance){
         return -0.0116802426*distance + 0.2246265274;
     }
     
-    private double getYSetpoint(double distance){
+    protected double getYSetpoint(double distance){
         return -0.0106991494*distance - 0.0749571755;
     }
 }
