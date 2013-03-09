@@ -65,8 +65,7 @@ public class Controls {
         gamepad2.DIAMOND_UP.whileHeld(new VisionTrackingCommand(VisionTrackingCommand.HIGH_GOAL));
         gamepad2.DIAMOND_DOWN.whileHeld(new VisionTrackingCommand(VisionTrackingCommand.MIDDLE_GOAL));
         gamepad2.DIAMOND_LEFT.whileHeld(new VisionTrackingCommand(VisionTrackingCommand.ANY_GOAL));
-        //Climber
-        gamepad2.DIAMOND_RIGHT.whileHeld(new SetClimberDeployCommand(true, 0.75));
+        gamepad2.DIAMOND_RIGHT.whileHeld(new FixedPointVisionTrackingCommand(0.0273556, -0.29411, VisionTrackingCommand.HIGH_GOAL));
         //Lifter
         gamepad2.DPAD_UP.whenPressed(new SetLifterCommand(Lifter.LifterDirection.LIFTER_UP));
         gamepad2.DPAD_UP.whenReleased(new SetLifterCommand(Lifter.LifterDirection.LIFTER_STOP));
