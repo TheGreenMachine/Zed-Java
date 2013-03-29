@@ -58,7 +58,7 @@ public class Controls {
         gamepad2.MIDDLE_RIGHT.whenPressed(new AugerRotateCommand(Auger.AugerDirection.AUGER_UP));
         gamepad2.MIDDLE_LEFT.whenPressed(new SetAugerCommand(Auger.AugerDirection.AUGER_STOP));
         //Vision Tracking
-        gamepad2.DIAMOND_UP.whileHeld(new VisionTrackingCommand(VisionTrackingCommand.HIGH_GOAL));
+        gamepad2.DIAMOND_UP.whileHeld(new FixedPointVisionTrackingCommand(FixedPointVisionTrackingCommand.PYRAMID_BACK_MIDDLE_TUNNEL, VisionTrackingCommand.HIGH_GOAL));
         gamepad2.DIAMOND_RIGHT.whileHeld(new FixedPointVisionTrackingCommand(FixedPointVisionTrackingCommand.PYRAMID_BACK_RIGHT,
                 VisionTrackingCommand.HIGH_GOAL));
         gamepad2.DIAMOND_LEFT.whileHeld(new FixedPointVisionTrackingCommand(FixedPointVisionTrackingCommand.PYRAMID_BACK_MIDDLE_NEW,
