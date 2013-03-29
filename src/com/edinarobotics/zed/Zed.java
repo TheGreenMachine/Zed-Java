@@ -119,8 +119,8 @@ public class Zed extends IterativeRobot {
         autoCommand.addSequential(new PrintCommand("Starting autonomous"));
         autoCommand.addSequential(new WaitCommand(delayTime));
         if(shootInAuto){
-            autoCommand.addSequential(new FixedPointVisionTrackingCommand(FixedPointVisionTrackingCommand.PYRAMID_BACK_MIDDLE.getX(),
-                    FixedPointVisionTrackingCommand.PYRAMID_BACK_MIDDLE.getY(), VisionTrackingCommand.HIGH_GOAL), 2);
+            autoCommand.addSequential(new FixedPointVisionTrackingCommand(FixedPointVisionTrackingCommand.PYRAMID_BACK_MIDDLE,
+                    VisionTrackingCommand.HIGH_GOAL), 2);
             autoCommand.addSequential(new SetShooterCommand(Shooter.SHOOTER_ON));
             autoCommand.addSequential(new WaitCommand(2));
             autoCommand.addSequential(new SetConveyorCommand(Conveyor.CONVEYOR_SHOOT_IN));
