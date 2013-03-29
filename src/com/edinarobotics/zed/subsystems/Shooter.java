@@ -51,7 +51,7 @@ public class Shooter extends Subsystem1816 {
     public void update() {
         try {
             if(shooterJaguarFirst != null) {
-                shooterJaguarFirst.setX(velocity);
+                shooterJaguarFirst.setX(velocity*0.75);
             }
             if(shooterJaguarSecond != null) {
                 shooterJaguarSecond.setX(velocity);
