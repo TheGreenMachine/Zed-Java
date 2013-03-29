@@ -10,6 +10,7 @@ public class FixedPointVisionTrackingCommand extends VisionTrackingCommand {
     public static final Point2 PYRAMID_BACK_RIGHT = new Point2(-0.063829, -0.226891);
     public static final Point2 PYRAMID_BACK_MIDDLE = new Point2(0.0273556, -0.29411);
     public static final Point2 PYRAMID_BACK_MIDDLE_NEW2 = new Point2(-0.143, -0.241);
+    public static final Point2 PYRAMID_BACK_MIDDLE_TUNNEL = new Point2(PYRAMID_BACK_MIDDLE_NEW.getX() - (0.33 * 0.632219), PYRAMID_BACK_MIDDLE_NEW.getY() - (0.5 * 0.142857));
     
     public FixedPointVisionTrackingCommand(double xSetpoint, double ySetpoint) {
         super();
