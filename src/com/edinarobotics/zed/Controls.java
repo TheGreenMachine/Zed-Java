@@ -59,11 +59,11 @@ public class Controls {
         gamepad2.MIDDLE_LEFT.whenPressed(new SetAugerCommand(Auger.AugerDirection.AUGER_STOP));
         //Vision Tracking
         gamepad2.DIAMOND_UP.whileHeld(new VisionTrackingCommand(VisionTrackingCommand.HIGH_GOAL));
-        gamepad2.DIAMOND_RIGHT.whileHeld(new FixedPointVisionTrackingCommand(FixedPointVisionTrackingCommand.PYRAMID_BACK_RIGHT_X,
-                FixedPointVisionTrackingCommand.PYRAMID_BACK_RIGHT_Y, VisionTrackingCommand.HIGH_GOAL));
+        gamepad2.DIAMOND_RIGHT.whileHeld(new FixedPointVisionTrackingCommand(FixedPointVisionTrackingCommand.PYRAMID_BACK_RIGHT.getX(),
+                FixedPointVisionTrackingCommand.PYRAMID_BACK_RIGHT.getY(), VisionTrackingCommand.HIGH_GOAL));
         gamepad2.DIAMOND_LEFT.whileHeld(new VisionTrackingCommand(VisionTrackingCommand.ANY_GOAL));
-        gamepad2.DIAMOND_DOWN.whileHeld(new FixedPointVisionTrackingCommand(FixedPointVisionTrackingCommand.PYRAMID_BACK_MIDDLE_X,
-                FixedPointVisionTrackingCommand.PYRAMID_BACK_MIDDLE_Y, VisionTrackingCommand.HIGH_GOAL));
+        gamepad2.DIAMOND_DOWN.whileHeld(new FixedPointVisionTrackingCommand(FixedPointVisionTrackingCommand.PYRAMID_BACK_MIDDLE.getX(),
+                FixedPointVisionTrackingCommand.PYRAMID_BACK_MIDDLE.getY(), VisionTrackingCommand.HIGH_GOAL));
         gamepad2.LEFT_JOYSTICK_BUTTON.whileHeld(new VisionTrackingCommand(VisionTrackingCommand.MIDDLE_GOAL));
         //Lifter
         gamepad2.DPAD_UP.whenPressed(new SetLifterCommand(Lifter.LifterDirection.LIFTER_UP));
