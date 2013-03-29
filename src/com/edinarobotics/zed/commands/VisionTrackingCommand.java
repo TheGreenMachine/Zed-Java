@@ -64,7 +64,7 @@ public class VisionTrackingCommand extends Command {
         
         lifterTargetY = new LifterTargetY();
         ySetpoint = 0;
-        yTolerance = 0.1;
+        yTolerance = 0.02;
         
         requires(drivetrainRotation);
         requires(lifter);
