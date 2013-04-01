@@ -14,7 +14,13 @@ public class FixedPointVisionTrackingCommand extends VisionTrackingCommand {
     public static final Point2 PYRAMID_BACK_MIDDLE = new Point2(0.0273556, -0.29411);
     public static final Point2 PYRAMID_BACK_MIDDLE_NEW2 = new Point2(-0.143, -0.241);
     public static final Point2 PYRAMID_BACK_MIDDLE_TUNNEL = new Point2(PYRAMID_BACK_MIDDLE_NEW.getX() - (0.5 * PYRAMID_BACK_MIDDLE_GOAL_WIDTH),
-            PYRAMID_BACK_MIDDLE_NEW.getY() - (0.5 * PYRAMID_BACK_MIDDLE_GOAL_HEIGHT));
+            PYRAMID_BACK_MIDDLE_NEW.getY() - (0.87 * PYRAMID_BACK_MIDDLE_GOAL_HEIGHT));
+    //public static final Point2 PYRAMID_BACK_MIDDLE_AUTO = new Point2(PYRAMID_BACK_MIDDLE_NEW.getX() - (0.5 * PYRAMID_BACK_MIDDLE_GOAL_WIDTH),
+    //        PYRAMID_BACK_MIDDLE_NEW.getY() - (0.87 * PYRAMID_BACK_MIDDLE_GOAL_HEIGHT));
+    
+    /*
+     * TO RESET VT POINT: -0.5 goal width and -0.5 goal height
+     */
     
     public FixedPointVisionTrackingCommand(double xSetpoint, double ySetpoint) {
         super();
