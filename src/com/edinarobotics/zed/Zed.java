@@ -113,21 +113,46 @@ public class Zed extends IterativeRobot {
         augerSequence.addSequential(new AugerRotateCommand(Auger.AugerDirection.AUGER_DOWN));
         augerSequence.addSequential(new WaitCommand(2));
         
+        CommandGroup firstAugerDrop = new CommandGroup();
+        firstAugerDrop.addSequential(new AugerRotateCommand(Auger.AugerDirection.AUGER_DOWN));
+        firstAugerDrop.addSequential(new WaitCommand(0.5));
+        firstAugerDrop.addSequential(new AugerRotateCommand(Auger.AugerDirection.AUGER_DOWN));
+        
         CommandGroup autoCommand = new CommandGroup();
         autoCommand.addSequential(new PrintCommand("Starting autonomous"));
         autoCommand.addSequential(new WaitCommand(delayTime));
         if(shootInAuto){
-            autoCommand.addSequential(new FixedPointVisionTrackingCommand(FixedPointVisionTrackingCommand.PYRAMID_BACK_MIDDLE_TUNNEL,
-                    VisionTrackingCommand.HIGH_GOAL), 2);
+            autoCommand.addParallel(firstAugerDrop);
+            autoCommand.addParallel(new FixedPointVisionTrackingCommand(FixedPointVisionTrackingCommand.PYRAMID_BACK_MIDDLE_TUNNEL,
+                    VisionTrackingCommand.HIGH_GOAL), 3.25);
+            autoCommand.addSequential(new WaitForChildren());
             autoCommand.addSequential(new SetShooterCommand(Shooter.SHOOTER_ON));
             autoCommand.addSequential(new WaitCommand(2));
             autoCommand.addSequential(new SetConveyorCommand(Conveyor.CONVEYOR_SHOOT_IN));
-            autoCommand.addSequential(new WaitCommand(3));
-            autoCommand.addSequential(fastAugerSequence);
-            autoCommand.addSequential(new RepeatCommand(augerSequence, 4));
+            autoCommand.addSequential(new WaitCommand(2));
+            autoCommand.addSequential(new PrintCommand("Dispensing auger"));
+            autoCommand.addSequential(new AugerRotateCommand(Auger.AugerDirection.AUGER_DOWN));
+            autoCommand.addSequential(new WaitCommand(2));
+            autoCommand.addSequential(new PrintCommand("Dispensing auger"));
+            autoCommand.addSequential(new AugerRotateCommand(Auger.AugerDirection.AUGER_DOWN));
+            autoCommand.addSequential(new WaitCommand(2));
+            autoCommand.addSequential(new PrintCommand("Dispensing auger"));
+            autoCommand.addSequential(new AugerRotateCommand(Auger.AugerDirection.AUGER_DOWN));
+            autoCommand.addSequential(new WaitCommand(2));
+            autoCommand.addSequential(new PrintCommand("Dispensing auger"));
+            autoCommand.addSequential(new AugerRotateCommand(Auger.AugerDirection.AUGER_DOWN));
+            autoCommand.addSequential(new WaitCommand(2));
+            autoCommand.addSequential(new PrintCommand("Dispensing auger"));
+            autoCommand.addSequential(new AugerRotateCommand(Auger.AugerDirection.AUGER_DOWN));
+            autoCommand.addSequential(new WaitCommand(2));
+            autoCommand.addSequential(new PrintCommand("Dispensing auger"));
+            autoCommand.addSequential(new AugerRotateCommand(Auger.AugerDirection.AUGER_DOWN));
+            autoCommand.addSequential(new WaitCommand(2));
             autoCommand.addSequential(new WaitForChildren());
             autoCommand.addSequential(new WaitCommand(2));
         }
+        //autoCommand.addSequential(new RepeatCommand(new PrintCommand("Testing print"), 5));
+        //autoCommand.addSequential(augerSequence, 5);
         
         autonomousCommand = autoCommand;
         autonomousCommand.start();
