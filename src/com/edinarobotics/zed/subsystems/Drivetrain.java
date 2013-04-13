@@ -70,7 +70,8 @@ public class Drivetrain {
                     break;
                 }
                 catch(Exception e){
-                    System.out.println("Failed to create CANJaguar");
+                    System.out.println("Failed to create CANJaguar("+id+")");
+                    e.printStackTrace();
                 }
             }
             canJaguar.changeControlMode(controlMode);
