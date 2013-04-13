@@ -21,10 +21,10 @@ public class Drivetrain {
                 createCANJaguar(backLeft, NUM_RETRIES),
                 createCANJaguar(frontRight, NUM_RETRIES),
                 createCANJaguar(backRight, NUM_RETRIES));
-        robotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, false);
+        robotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
         robotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, false);
-        robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, false);
-        robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
+        robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
+        robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, false);
         
         encoder1 = new Encoder(encoder1A, encoder1B);
         encoder2 = new Encoder(encoder2A, encoder2B);
