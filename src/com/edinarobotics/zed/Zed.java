@@ -11,6 +11,11 @@ package com.edinarobotics.zed;
 import com.edinarobotics.utils.commands.MaintainStateCommand;
 import com.edinarobotics.utils.commands.RepeatCommand;
 import com.edinarobotics.utils.gamepad.Gamepad;
+import com.edinarobotics.utils.log.Level;
+import com.edinarobotics.utils.log.LogSystem;
+import com.edinarobotics.utils.log.Logger;
+import com.edinarobotics.utils.log.filters.MinimumLevelFilter;
+import com.edinarobotics.utils.log.handlers.PrintHandler;
 import com.edinarobotics.utils.pid.PIDTuningManager;
 import com.edinarobotics.zed.commands.AugerRotateCommand;
 import com.edinarobotics.zed.commands.FixedPointVisionTrackingCommand;
@@ -38,6 +43,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public class Zed extends IterativeRobot {
     private Command autonomousCommand;
+    private Logger robotLogger = LogSystem.getLogger("zed");
     
     /**
      * This function is called when the robot switches between modes (eg. Autonomous,
@@ -52,6 +58,7 @@ public class Zed extends IterativeRobot {
         if(autonomousCommand != null) {
             autonomousCommand.cancel();
         }
+        robotLogger.log(Level.DEBUG, "Stopped robot between modes");
     }
     
     /**
@@ -61,10 +68,13 @@ public class Zed extends IterativeRobot {
     public void robotInit() {
         Components.getInstance(); //Create all robot subsystems.
         Controls.getInstance(); //Create all robot controls.
-        System.out.println("Robot initialized.");
+        LogSystem.getRootLogger().setFilter(new MinimumLevelFilter(Level.INFO));
+        LogSystem.getRootLogger().setHandler(new PrintHandler(System.out));
+        robotLogger.log(Level.INFO, "Robot initialized");
     }
     
     public void disabledInit() {
+        robotLogger.log(Level.INFO, "Robot disabled");
         betweenModes();
     }
     
@@ -76,6 +86,7 @@ public class Zed extends IterativeRobot {
      * This function is called once at the start of autonomous mode.
      */
     public void autonomousInit(){
+        robotLogger.log(Level.INFO, "Starting autonomous");
         DriverStation driverStation = DriverStation.getInstance();
         double delayTime = driverStation.getAnalogIn(1);
         byte goalType = VisionTrackingCommand.ANY_GOAL;
@@ -156,6 +167,7 @@ public class Zed extends IterativeRobot {
         
         autonomousCommand = autoCommand;
         autonomousCommand.start();
+        robotLogger.log(Level.DEBUG, "Autonomous ready");
     }
 
     /**
@@ -169,11 +181,13 @@ public class Zed extends IterativeRobot {
      * This function is called once at the start of teleop mode.
      */
     public void teleopInit(){
+        robotLogger.log(Level.INFO, "Starting teleop");
         betweenModes();
         Gamepad driveGamepad = Controls.getInstance().gamepad1;
         Gamepad shootGamepad = Controls.getInstance().gamepad2;
         Components.getInstance().drivetrainStrafe.setDefaultCommand(new GamepadDriveStrafeCommand(driveGamepad));
         Components.getInstance().drivetrainRotation.setDefaultCommand(new GamepadDriveRotationCommand(driveGamepad, shootGamepad));
+        robotLogger.log(Level.DEBUG, "Teleop ready");
     }
 
     /**
@@ -187,9 +201,11 @@ public class Zed extends IterativeRobot {
      * This function is called once at the start of test mode.
      */
     public void testInit() {
+        robotLogger.log(Level.INFO, "Starting test");
         betweenModes();
         LiveWindow.setEnabled(false);
         teleopInit();
+        robotLogger.log(Level.DEBUG, "Test ready");
     }
     
     /**
@@ -215,4 +231,12 @@ public class Zed extends IterativeRobot {
         Components.getInstance().climber.setClimberDeployed(false);
     }
     
+    public void startCompetition() {
+        try{
+            super.startCompetition();
+        }
+        catch(Exception e){
+            robotLogger.log(Level.FATAL, "Robot exception reached top, exiting", e);
+        }
+    }
 }

@@ -1,5 +1,8 @@
 package com.edinarobotics.zed.subsystems;
 
+import com.edinarobotics.utils.log.Level;
+import com.edinarobotics.utils.log.LogSystem;
+import com.edinarobotics.utils.log.Logger;
 import com.edinarobotics.utils.subsystems.Subsystem1816;
 import edu.wpi.first.wpilibj.CANJaguar;
 
@@ -12,6 +15,7 @@ public class Shooter extends Subsystem1816 {
     private double velocity;
     private CANJaguar shooterJaguarFirst;
     private CANJaguar shooterJaguarSecond;
+    private Logger shootLogger = LogSystem.getLogger("zed.shooter");
     
     public Shooter(int firstShooterJaguarNum, int secondShooterJaguarNum) {
         super("Shooter");
@@ -30,6 +34,7 @@ public class Shooter extends Subsystem1816 {
                 return shooterJaguarFirst.getSpeed();
             }
             catch(Exception e) {
+                shootLogger.log(Level.WARNING, "Failed to read speed of first shooter Jaguar", e);
                 e.printStackTrace();
             }
         }
@@ -42,6 +47,7 @@ public class Shooter extends Subsystem1816 {
                 return shooterJaguarSecond.getSpeed();
             }
             catch(Exception e) {
+                shootLogger.log(Level.WARNING, "Failed to read speed of second shooter Jaguar", e);
                 e.printStackTrace();
             }
         }
@@ -58,53 +64,28 @@ public class Shooter extends Subsystem1816 {
             }
         }
         catch(Exception e) {
-            System.err.println("Failed to update shooter Jaguars.");
+            shootLogger.log(Level.WARNING, "Failed to update shooter Jaguars", e);
             e.printStackTrace();
         }
-    }
-    
-    private CANJaguar createCANJaguar(int id, CANJaguar.SpeedReference speedReference,
-            int codesPerRev, CANJaguar.ControlMode controlMode,
-            double P, double I, double D, int numRetries) {
-        CANJaguar canJaguar = null;
-        try {
-            for(int i = 0; i < numRetries; i++) {
-                canJaguar = new CANJaguar(id);
-                if(canJaguar != null) {
-                    break;
-                }
-            }
-            canJaguar.setSpeedReference(speedReference);
-            canJaguar.configEncoderCodesPerRev(codesPerRev);
-            canJaguar.changeControlMode(controlMode);
-            canJaguar.setPID(P, I, D);
-        }
-        catch(Exception e) {
-            System.err.println("Failed to create Jaguar.");
-            e.printStackTrace();
-        }
-        return canJaguar;
     }
     
     private CANJaguar createCANJaguar(int id, CANJaguar.ControlMode controlMode, int numRetries){
         CANJaguar canJaguar = null;
-        try{
-            for(int i = 0; i < numRetries; i++){
-                try {
-                    canJaguar = new CANJaguar(id);
-                    break;
-                }
-                catch(Exception e){
-                    System.out.println("Failed to create CANJaguar");
-                }
+        Exception lastException = null;
+        for(int i = 0; i < numRetries; i++){
+            try{
+                canJaguar = new CANJaguar(id, controlMode);
+                break;
             }
-            canJaguar.changeControlMode(controlMode);
+            catch(Exception e){
+                shootLogger.log(Level.WARNING, "Failed to create CANJaguar "+id+", retrying.", e);
+                lastException = e;
+                e.printStackTrace();
+            }
         }
-        catch(Exception e){
-            System.err.println("Failed to create CANJaguar");
-            e.printStackTrace();
+        if(canJaguar == null){
+            shootLogger.log(Level.SEVERE, "Failed to create CANJaguar "+id+" after "+numRetries+" attempts.", lastException);
         }
         return canJaguar;
     }
-
 }

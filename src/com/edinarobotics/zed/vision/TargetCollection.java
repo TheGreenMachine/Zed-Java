@@ -1,5 +1,7 @@
 package com.edinarobotics.zed.vision;
 
+import com.edinarobotics.utils.log.Level;
+import com.edinarobotics.utils.log.LogSystem;
 import com.sun.squawk.util.MathUtils;
 import com.sun.squawk.util.StringTokenizer;
 import java.util.Enumeration;
@@ -35,6 +37,7 @@ public class TargetCollection {
                 }
             }
             catch(Exception e) {
+                LogSystem.getLogger("zed.vision.targetcollection").log(Level.WARNING, "Failed to parse vision string:\n--->\""+targetData+"\"", e);
                 e.printStackTrace();
             }
         }
