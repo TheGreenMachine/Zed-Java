@@ -109,7 +109,7 @@ public class FilterGroup implements Filter{
             }
             stringRepr += " ";
         }
-        stringRepr += ">";
+        stringRepr += "]>";
         return stringRepr;
     }
 }
