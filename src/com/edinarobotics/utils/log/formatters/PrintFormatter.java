@@ -34,4 +34,14 @@ public class PrintFormatter implements Formatter {
         }
         return formattedEvent;
     }
+    
+    /**
+     * Returns a String representation of this PrintFormatter.
+     * 
+     * This String representation is intended to be human-readable.
+     * @return A human-readable String representation of this PrintFormatter.
+     */
+    public String toString(){
+        return "<PrintFormatter>";
+    }
 }
