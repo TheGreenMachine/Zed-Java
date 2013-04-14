@@ -124,4 +124,15 @@ public final class Level {
         }
         return 0;
     }
+    
+    /**
+     * Returns a String representation of this Level object.
+     * 
+     * The returned String is equivalent to the value returned by
+     * the {@link #getName()} method.
+     * @return A String representation of this Level object.
+     */
+    public String toString(){
+        return getName();
+    }
 }
