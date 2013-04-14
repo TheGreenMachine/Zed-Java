@@ -46,4 +46,14 @@ public class PrintHandler implements Handler {
     public void handle(LogEvent event){
         outputStream.println(formatter.format(event));
     }
+    
+    /**
+     * Returns a String representation of this PrintHandler.
+     * 
+     * This String representation is intended to be human-readable.
+     * @return A human-readable String representation of this PrintHandler.
+     */
+    public String toString(){
+        return "<PrintHandler "+outputStream.toString()+", "+formatter.toString()+">";
+    }
 }
