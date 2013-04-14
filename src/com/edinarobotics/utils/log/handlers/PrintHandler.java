@@ -54,6 +54,6 @@ public class PrintHandler implements Handler {
      * @return A human-readable String representation of this PrintHandler.
      */
     public String toString(){
-        return "<PrintHandler "+outputStream.toString()+", "+formatter.toString()+">";
+        return "<PrintHandler: "+outputStream.toString()+", "+formatter.toString()+">";
     }
 }
