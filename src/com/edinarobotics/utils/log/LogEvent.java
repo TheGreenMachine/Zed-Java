@@ -11,18 +11,18 @@ public final class LogEvent {
     private Level level;
     private String message;
     private Throwable thrown;
-    private String originalLoggerName;
+    private Logger originalLogger;
     
     /**
      * Constructs a new LogEvent with the given severity, and message that
      * was originally submitted to the given logger.
      * @param level The severity level of this LogEvent.
      * @param message The message associated with this LogEvent.
-     * @param originalLoggerName The name of the logger to which this LogEvent
-     * was originally submitted.
+     * @param originalLogger The Logger to which this event was originally
+     * submitted.
      */
-    protected LogEvent(Level level, String message, String originalLoggerName){
-        this(level, message, null, originalLoggerName);
+    protected LogEvent(Level level, String message, Logger originalLogger){
+        this(level, message, null, originalLogger);
     }
     
     /**
@@ -30,23 +30,23 @@ public final class LogEvent {
      * @param level The severity level of this LogEvent.
      * @param message The message associated with this LogEvent.
      * @param thrown The optional Throwable associated with this LogEvent.
-     * @param originalLoggerName The name of the logger to which this LogEvent
-     * was originally submitted.
+     * @param originalLogger The Logger to which this event was originally
+     * submitted.
      */
-    protected LogEvent(Level level, String message, Throwable thrown, String originalLoggerName){
+    protected LogEvent(Level level, String message, Throwable thrown, Logger originalLogger){
         if(level == null){
             throw new IllegalArgumentException("Provided log Level must not be null");
         }
         if(message == null){
             throw new IllegalArgumentException("Provided String message must not be null");
         }
-        if(originalLoggerName == null){
-            throw new IllegalArgumentException("Provided original logger name must not be null");
+        if(originalLogger == null){
+            throw new IllegalArgumentException("Provided original logger must not be null");
         }
         this.level = level;
         this.message = message;
         this.thrown = thrown;
-        this.originalLoggerName = originalLoggerName;
+        this.originalLogger = originalLogger;
     }
     
     /**
@@ -89,17 +89,14 @@ public final class LogEvent {
     }
     
     /**
-     * Returns the name of the logger to which this LogEvent was originally
-     * submitted.
+     * Returns the Logger to which this event was originally submitted.
      * 
-     * The name returned by this method is the full-qualified name
-     * of the Logger to which this LogEvent was submitted, including
-     * the name of the implicit root Logger.
-     * @return The fully-qualified String name of the logger to which this
-     * LogEvent was submitted.
+     * This value can be used to retrieve information about the dispatching
+     * Logger and the source of this event.
+     * @return The Logger to which this event was originally submitted.
      */
-    public String getOriginalLoggerName(){
-        return originalLoggerName;
+    public Logger getOriginalLogger(){
+        return originalLogger;
     }
     
     /**
@@ -112,7 +109,7 @@ public final class LogEvent {
         hash = 31*hash + level.hashCode();
         hash = 31*hash + message.hashCode();
         hash = 31*hash + (thrown == null ? 0 : thrown.hashCode());
-        hash = 31*hash + originalLoggerName.hashCode();
+        hash = 31*hash + originalLogger.hashCode();
         return hash;
     }
     
@@ -121,7 +118,7 @@ public final class LogEvent {
      * 
      * Another object is equal to this LogEvent if it is also a LogEvent
      * instance and if its {@link #getLevel()}, {@link #getMessage()},
-     * {@link #getOriginalLoggerName()}, and {@link #getThrowable()} methods
+     * {@link #getOriginalLogger()}, and {@link #getThrowable()} methods
      * return equal values.
      * @param other The object to be tested for equality against this
      * LogEvent.
@@ -133,7 +130,7 @@ public final class LogEvent {
             LogEvent otherEvent = (LogEvent)other;
             return otherEvent.getLevel().equals(getLevel()) &&
                     otherEvent.getMessage().equals(getMessage()) &&
-                    otherEvent.getOriginalLoggerName().equals(getOriginalLoggerName()) &&
+                    otherEvent.getOriginalLogger().equals(getOriginalLogger()) &&
                     (otherEvent.getThrowable() != null ? otherEvent.getThrowable().equals(getThrowable()) : getThrowable() == null);
         }
         return false;
@@ -152,7 +149,7 @@ public final class LogEvent {
      * @return A String representation of this LogEvent.
      */
     public String toString() {
-        String stringRepresentation = "["+getLevel()+"] "+getOriginalLoggerName()+": \""+message+"\"";
+        String stringRepresentation = "["+getLevel()+"] "+getOriginalLogger().getFullNameWithoutRoot()+": \""+message+"\"";
         if(hasThrowable()){
             stringRepresentation += "\n    "+getThrowable().toString();
         }
