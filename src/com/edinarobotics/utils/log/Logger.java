@@ -14,6 +14,7 @@ public final class Logger {
     private Hashtable children;
     private Filter filter;
     private Handler handler;
+    private static boolean enabled = true;
     
     /**
      * Constructs a new Logger with the given name and the given parent.
@@ -145,6 +146,9 @@ public final class Logger {
      * {@code false} otherwise.
      */
     private boolean shouldHandle(Level level, String message, Throwable thrown){
+        if(!enabled) {
+            return false;
+        }
         if(filter == null){
             return true;
         }
