@@ -66,10 +66,10 @@ public class Zed extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-        Components.getInstance(); //Create all robot subsystems.
-        Controls.getInstance(); //Create all robot controls.
         LogSystem.getRootLogger().setFilter(new MinimumLevelFilter(Level.INFO));
         LogSystem.getRootLogger().setHandler(new PrintHandler(System.out));
+        Components.getInstance(); //Create all robot subsystems.
+        Controls.getInstance(); //Create all robot controls.
         robotLogger.log(Level.INFO, "Robot initialized");
     }
     
@@ -231,12 +231,14 @@ public class Zed extends IterativeRobot {
         Components.getInstance().climber.setClimberDeployed(false);
     }
     
+       
     public void startCompetition() {
         try{
             super.startCompetition();
         }
-        catch(Exception e){
+        catch(RuntimeException e){
             robotLogger.log(Level.FATAL, "Robot exception reached top, exiting", e);
+            throw e;
         }
     }
 }
