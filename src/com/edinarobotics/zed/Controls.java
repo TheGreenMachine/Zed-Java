@@ -29,15 +29,6 @@ public class Controls {
         gamepad1.LEFT_TRIGGER.whenReleased(new SetConveyorCommand(Conveyor.CONVEYOR_STOP));
         gamepad1.LEFT_BUMPER.whenPressed(new SetConveyorCommand(Conveyor.CONVEYOR_COLLECT_OUT));
         gamepad1.LEFT_BUMPER.whenReleased(new SetConveyorCommand(Conveyor.CONVEYOR_STOP));
-        //Collector
-        gamepad1.RIGHT_TRIGGER.whenPressed(new SetCollectorCommand(Collector.CollectorDirection.COLLECTOR_IN));
-        gamepad1.RIGHT_TRIGGER.whenReleased(new SetCollectorCommand(Collector.CollectorDirection.COLLECTOR_STOP));
-        gamepad1.RIGHT_BUMPER.whenPressed(new SetCollectorCommand(Collector.CollectorDirection.COLLECTOR_OUT));
-        gamepad1.RIGHT_BUMPER.whenReleased(new SetCollectorCommand(Collector.CollectorDirection.COLLECTOR_STOP));
-        gamepad1.DIAMOND_UP.whenPressed(new SetCollectorCommand(Collector.CollectorLiftDirection.COLLECTOR_LIFT_UP));
-        gamepad1.DIAMOND_UP.whenReleased(new SetCollectorCommand(Collector.CollectorLiftDirection.COLLECTOR_LIFT_STOP));
-        gamepad1.DIAMOND_DOWN.whenPressed(new SetCollectorCommand(Collector.CollectorLiftDirection.COLLECTOR_LIFT_DOWN));
-        gamepad1.DIAMOND_DOWN.whenReleased(new SetCollectorCommand(Collector.CollectorLiftDirection.COLLECTOR_LIFT_STOP));
         //Lifter
         gamepad1.DPAD_UP.whenPressed(new SetLifterCommand(Lifter.LifterDirection.LIFTER_UP));
         gamepad1.DPAD_UP.whenReleased(new SetLifterCommand(Lifter.LifterDirection.LIFTER_STOP));
@@ -59,12 +50,7 @@ public class Controls {
         gamepad2.MIDDLE_LEFT.whenPressed(new SetAugerCommand(Auger.AugerDirection.AUGER_STOP));
         //Vision Tracking
         gamepad2.DIAMOND_UP.whileHeld(new FixedPointVisionTrackingCommand(FixedPointVisionTrackingCommand.PYRAMID_BACK_MIDDLE_TUNNEL, VisionTrackingCommand.HIGH_GOAL));
-        gamepad2.DIAMOND_RIGHT.whileHeld(new FixedPointVisionTrackingCommand(FixedPointVisionTrackingCommand.PYRAMID_BACK_RIGHT,
-                VisionTrackingCommand.HIGH_GOAL));
-        gamepad2.DIAMOND_LEFT.whileHeld(new FixedPointVisionTrackingCommand(FixedPointVisionTrackingCommand.PYRAMID_BACK_MIDDLE_NEW,
-                VisionTrackingCommand.HIGH_GOAL));
         gamepad2.DIAMOND_DOWN.whileHeld(new FixedPointVisionTrackingCommand(FixedPointVisionTrackingCommand.PYRAMID_BACK_MIDDLE_TUNNEL, VisionTrackingCommand.MIDDLE_GOAL));
-        gamepad2.LEFT_JOYSTICK_BUTTON.whileHeld(new VisionTrackingCommand(VisionTrackingCommand.MIDDLE_GOAL));
         //Lifter
         gamepad2.DPAD_UP.whenPressed(new SetLifterCommand(Lifter.LifterDirection.LIFTER_UP));
         gamepad2.DPAD_UP.whenReleased(new SetLifterCommand(Lifter.LifterDirection.LIFTER_STOP));
