@@ -3,7 +3,10 @@ package com.edinarobotics.zed.subsystems;
 import com.edinarobotics.utils.sensors.StringPot;
 import com.edinarobotics.utils.subsystems.Subsystem1816;
 import com.sun.squawk.util.MathUtils;
+import edu.wpi.first.wpilibj.ADXL345_I2C;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStationLCD;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Relay;
 
@@ -13,16 +16,19 @@ public class Lifter extends Subsystem1816 implements PIDSource {
     private static final double STRING_LENGTH = 1;
     private static final double STRING_POT_POSITION = 1;
     
+    public static final double PYRAMID_BACK_MIDDLE_ANGLE = 33;
+    
     private LifterDirection direction;
     private Relay lifterRelay;
-    private StringPot stringPot;
+    private ADXL345_I2C accelerometer;
     private DigitalInput upperSwitch;
     private DigitalInput lowerSwitch;
+    private DriverStationLCD textOutput = DriverStationLCD.getInstance();
     
     public Lifter(int lifterRelay, int lifterStringPot, int upperLimitSwitch, int lowerLimitSwitch) {
         super("Lifter");
         this.lifterRelay = new Relay(lifterRelay);
-        stringPot = new StringPot(lifterStringPot, MIN_VOLTAGE, MAX_VOLTAGE, STRING_LENGTH);
+        accelerometer = new ADXL345_I2C(1, ADXL345_I2C.DataFormat_Range.k2G);
         direction = LifterDirection.LIFTER_STOP;
         upperSwitch = new DigitalInput(upperLimitSwitch);
         lowerSwitch = new DigitalInput(lowerLimitSwitch);
@@ -42,7 +48,7 @@ public class Lifter extends Subsystem1816 implements PIDSource {
     }
     
     public double getShooterAngle() {
-        return Math.toDegrees(MathUtils.atan(stringPot.getStringLength() / STRING_POT_POSITION));
+        return Math.toDegrees(MathUtils.acos(accelerometer.getAcceleration(ADXL345_I2C.Axes.kX)));
     }
     
     public double pidGet() {
@@ -56,6 +62,8 @@ public class Lifter extends Subsystem1816 implements PIDSource {
             processedDirection = LifterDirection.LIFTER_STOP;
         }
         lifterRelay.set(processedDirection.getRelayValue());
+        textOutput.println(DriverStationLCD.Line.kUser4, 1, "Shoot Ang: "+getShooterAngle());
+        textOutput.updateLCD();
     }
     
     public boolean getUpperLimitSwitch(){
