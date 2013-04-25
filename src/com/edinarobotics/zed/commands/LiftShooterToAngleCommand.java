@@ -6,35 +6,43 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class LiftShooterToAngleCommand extends Command {
     private Lifter lifter;
-    private double angle;
-    private boolean isOnTarget = false;
+    private double targetAngle;
     
-    private final double TOLERANCE = 5;
+    private final double TOLERANCE;
     
-    public LiftShooterToAngleCommand(double angle) {
+    public LiftShooterToAngleCommand(double angle, double tolerance) {
         super("LiftShooterToAngle");
         this.lifter = Components.getInstance().lifter;
-        this.angle = angle;
+        this.targetAngle = angle;
+        TOLERANCE = tolerance;
+        setTimeout(8);
+    }
+    
+    public LiftShooterToAngleCommand(double angle){
+        this(angle, 2);
     }
     
     protected void initialize() {
     }
 
     protected void execute() {
-        if(angle > (lifter.getShooterAngle() - TOLERANCE)) {
-            isOnTarget = false;
-            lifter.setLifterDirection(Lifter.LifterDirection.LIFTER_UP);
-        } else if(angle < (lifter.getShooterAngle() + TOLERANCE)) {
-            isOnTarget = false;
+        double lifterAngle = lifter.getShooterAngle();
+        double liftError = lifterAngle - targetAngle;
+        if(liftError > 0){
             lifter.setLifterDirection(Lifter.LifterDirection.LIFTER_DOWN);
-        } else {
-            isOnTarget = true;
+        }
+        else if(liftError < 0){
+            lifter.setLifterDirection(Lifter.LifterDirection.LIFTER_UP);
+        }
+        else{
             lifter.setLifterDirection(Lifter.LifterDirection.LIFTER_STOP);
         }
     }
 
     protected boolean isFinished() {
-        return isOnTarget;
+        double lifterAngle = lifter.getShooterAngle();
+        double liftError = lifterAngle - targetAngle;
+        return Math.abs(liftError) <= TOLERANCE;
     }
 
     protected void end() {
