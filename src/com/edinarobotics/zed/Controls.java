@@ -22,8 +22,6 @@ public class Controls {
     
     private Controls(){
         gamepad1 = new Gamepad(1);
-        //Drivetrain Direction Toggle
-        gamepad1.DIAMOND_LEFT.whenPressed(new ToggleDrivetrainDirectionCommand());
         //Trigger Drive
         gamepad1.RIGHT_TRIGGER.whileHeld(new SetDrivetrainStrafeCommand(ONE_JOYSTICK_MAGNITUDE, 0));
         gamepad1.RIGHT_TRIGGER.whenReleased(new SetDrivetrainStrafeCommand(0, 0));
