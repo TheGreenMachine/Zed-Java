@@ -24,11 +24,11 @@ public class Controls {
         gamepad1 = new Gamepad(1);
         //Drivetrain Direction Toggle
         gamepad1.DIAMOND_LEFT.whenPressed(new ToggleDrivetrainDirectionCommand());
-        //Conveyor
-        gamepad1.LEFT_TRIGGER.whenPressed(new SetConveyorCommand(Conveyor.CONVEYOR_COLLECT_IN));
-        gamepad1.LEFT_TRIGGER.whenReleased(new SetConveyorCommand(Conveyor.CONVEYOR_STOP));
-        gamepad1.LEFT_BUMPER.whenPressed(new SetConveyorCommand(Conveyor.CONVEYOR_COLLECT_OUT));
-        gamepad1.LEFT_BUMPER.whenReleased(new SetConveyorCommand(Conveyor.CONVEYOR_STOP));
+        //Trigger Drive
+        gamepad1.RIGHT_TRIGGER.whileHeld(new SetDrivetrainStrafeCommand(ONE_JOYSTICK_MAGNITUDE, 0));
+        gamepad1.RIGHT_TRIGGER.whenReleased(new SetDrivetrainStrafeCommand(0, 0));
+        gamepad1.LEFT_TRIGGER.whileHeld(new SetDrivetrainStrafeCommand(ONE_JOYSTICK_MAGNITUDE, 180));
+        gamepad1.LEFT_TRIGGER.whenReleased(new SetDrivetrainStrafeCommand(0, 0));
         //Lifter
         gamepad1.DPAD_UP.whenPressed(new SetLifterCommand(Lifter.LifterDirection.LIFTER_UP));
         gamepad1.DPAD_UP.whenReleased(new SetLifterCommand(Lifter.LifterDirection.LIFTER_STOP));
