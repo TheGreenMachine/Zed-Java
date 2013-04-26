@@ -16,6 +16,7 @@ import com.edinarobotics.zed.commands.AugerRotateCommand;
 import com.edinarobotics.zed.commands.FixedPointVisionTrackingCommand;
 import com.edinarobotics.zed.commands.GamepadDriveRotationCommand;
 import com.edinarobotics.zed.commands.GamepadDriveStrafeCommand;
+import com.edinarobotics.zed.commands.RaiseShooterToStartCommand;
 import com.edinarobotics.zed.commands.SetConveyorCommand;
 import com.edinarobotics.zed.commands.SetShooterCommand;
 import com.edinarobotics.zed.commands.VisionTrackingCommand;
@@ -122,6 +123,7 @@ public class Zed extends IterativeRobot {
         autoCommand.addSequential(new PrintCommand("Starting autonomous"));
         autoCommand.addSequential(new WaitCommand(delayTime));
         if(shootInAuto){
+            autoCommand.addSequential(new RaiseShooterToStartCommand());
             autoCommand.addParallel(firstAugerDrop);
             autoCommand.addSequential(new SetShooterCommand(Shooter.SHOOTER_ON));
             autoCommand.addSequential(new WaitCommand(2));
@@ -129,13 +131,13 @@ public class Zed extends IterativeRobot {
             autoCommand.addSequential(new WaitCommand(1.5));
             autoCommand.addSequential(new PrintCommand("Dispensing auger"));
             autoCommand.addSequential(new AugerRotateCommand(Auger.AugerDirection.AUGER_DOWN));
-            autoCommand.addSequential(new WaitCommand(3));
+            autoCommand.addSequential(new WaitCommand(2.8));
             autoCommand.addSequential(new PrintCommand("Dispensing auger"));
             autoCommand.addSequential(new AugerRotateCommand(Auger.AugerDirection.AUGER_DOWN));
-            autoCommand.addSequential(new WaitCommand(3));
+            autoCommand.addSequential(new WaitCommand(2.8));
             autoCommand.addSequential(new PrintCommand("Dispensing auger"));
             autoCommand.addSequential(new AugerRotateCommand(Auger.AugerDirection.AUGER_DOWN));
-            autoCommand.addSequential(new WaitCommand(3));
+            autoCommand.addSequential(new WaitCommand(2.8));
             autoCommand.addSequential(new PrintCommand("Dispensing auger"));
             autoCommand.addSequential(new AugerRotateCommand(Auger.AugerDirection.AUGER_DOWN));
             autoCommand.addSequential(new WaitCommand(2.5));
