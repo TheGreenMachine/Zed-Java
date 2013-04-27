@@ -137,7 +137,7 @@ public abstract class VisionTrackingCommand extends Command {
     }
     
     protected double getYTolerance(){
-        return 0;
+        return 0.08;
     }
     
     protected TargetCollection getTargetCollection(){
