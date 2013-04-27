@@ -146,6 +146,31 @@ public class TargetCollection {
         return foundTarget;
     }
     
+    public Target getClosestTarget(double x, double y, TargetType type){
+        if(type.equals(TargetType.HIGH_GOAL)){
+            return getClosestTarget(x, y, true);
+        }
+        else if(type.equals(TargetType.MIDDLE_GOAL)){
+            return getClosestTarget(x, y, false);
+        }
+        return getClosestTarget(x, y);
+    }
+    
+    public Target[] filterByType(TargetType type){
+        if(type.equals(TargetType.HIGH_GOAL)){
+            return filterByType(true);
+        }
+        else if(type.equals(TargetType.MIDDLE_GOAL)){
+            return filterByType(false);
+        }
+        Vector workingTargets = getTargets();
+        Target[] targetArr = new Target[workingTargets.size()];
+        for(int i = 0; i < targetArr.length; i++){
+            targetArr[i] = (Target)workingTargets.elementAt(i);
+        }
+        return targetArr;
+    }
+    
     public String toString() {
         String collection = "<TargetCollection ";
         for(Enumeration e = targets.elements(); e.hasMoreElements(); ){
