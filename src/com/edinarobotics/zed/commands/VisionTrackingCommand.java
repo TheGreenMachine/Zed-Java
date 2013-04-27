@@ -6,7 +6,7 @@ import com.edinarobotics.zed.Components;
 import com.edinarobotics.zed.subsystems.DrivetrainRotation;
 import com.edinarobotics.zed.subsystems.Lifter;
 import com.edinarobotics.zed.vision.LifterTargetY;
-import com.edinarobotics.zed.vision.PIDTargetX;
+import com.edinarobotics.zed.vision.TargetXPIDSource;
 import com.edinarobotics.zed.vision.Target;
 import com.edinarobotics.zed.vision.TargetCollection;
 import edu.wpi.first.wpilibj.DriverStationLCD;
@@ -30,7 +30,7 @@ public class VisionTrackingCommand extends Command {
     
     // X Fields
     private PIDController pidControllerX;
-    private PIDTargetX pidTargetX;
+    private TargetXPIDSource pidTargetX;
     private PIDConfig xPIDConfig;
     private double xSetpoint;
     private double xTolerance;
@@ -56,7 +56,7 @@ public class VisionTrackingCommand extends Command {
         lifter = Components.getInstance().lifter;
         textOutput = DriverStationLCD.getInstance();
         
-        pidTargetX = new PIDTargetX();
+        pidTargetX = new TargetXPIDSource();
         pidControllerX = new PIDController(X_P, X_I, X_D, pidTargetX, drivetrainRotation);
         xPIDConfig = PIDTuningManager.getInstance().getPIDConfig("Vision Horizontal");
         xSetpoint = 0;

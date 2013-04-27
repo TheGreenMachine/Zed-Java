@@ -2,7 +2,7 @@ package com.edinarobotics.zed.vision;
 
 import edu.wpi.first.wpilibj.PIDSource;
 
-public class PIDTargetX implements PIDSource {
+public class TargetXPIDSource implements PIDSource {
     private double targetX;
     
     /**
