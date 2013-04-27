@@ -37,6 +37,7 @@ public abstract class VisionTrackingCommand extends Command {
         xPIDSource = new TargetXPIDSource();
         xPIDController = new PIDController(xP, xI, xD, xF, xPIDSource, drivetrainRotation);
         xPIDConfig = PIDTuningManager.getInstance().getPIDConfig("Vision Horizontal");
+        textOutput = DriverStationLCD.getInstance();
     }
     
     protected void initialize(){
@@ -49,31 +50,39 @@ public abstract class VisionTrackingCommand extends Command {
     protected void execute(){
         Target workingTarget = getTarget();
         
-        xPIDSource.setTarget(workingTarget);
-        xPIDController.setSetpoint(getXSetpoint());
-        xPIDController.setAbsoluteTolerance(getXTolerance());
-        xPIDController.setPID(xPIDConfig.getP(xP), xPIDConfig.getI(xI), xPIDConfig.getD(xD), xPIDConfig.getF(xF));
-        xPIDConfig.setSetpoint(xPIDController.getSetpoint()); //Tuning feedback
-        xPIDConfig.setValue(xPIDSource.pidGet()); //Tuning feedback
-        
-        double yError = getYError(workingTarget);
-        if(!isYOnTarget(workingTarget)){
-            //Error is too large, correct
-            if(yError > 0){
-                //Target is too high, need to move up
-                lifter.setLifterDirection(Lifter.LifterDirection.LIFTER_UP);
-                reportMotion(true);
+        if(workingTarget != null){
+            xPIDSource.setTarget(workingTarget);
+            xPIDController.setSetpoint(getXSetpoint());
+            xPIDController.setAbsoluteTolerance(getXTolerance());
+            xPIDController.setPID(xPIDConfig.getP(xP), xPIDConfig.getI(xI), xPIDConfig.getD(xD), xPIDConfig.getF(xF));
+            xPIDConfig.setSetpoint(xPIDController.getSetpoint()); //Tuning feedback
+            xPIDConfig.setValue(xPIDSource.pidGet()); //Tuning feedback
+            
+            double yError = getYError(workingTarget);
+            if(!isYOnTarget(workingTarget)){
+                //Error is too large, correct
+                if(yError > 0){
+                    //Target is too high, need to move up
+                    lifter.setLifterDirection(Lifter.LifterDirection.LIFTER_UP);
+                    reportMotion(true);
+                }
+                else if(yError < 0){
+                    //Target is too low, neeed to move down
+                    lifter.setLifterDirection(Lifter.LifterDirection.LIFTER_DOWN);
+                    reportMotion(false);
+                }
+                else{
+                    //On target
+                    lifter.setLifterDirection(Lifter.LifterDirection.LIFTER_STOP);
+                    reportStatus("WORKING");
+                }
             }
-            else if(yError < 0){
-                //Target is too low, neeed to move down
-                lifter.setLifterDirection(Lifter.LifterDirection.LIFTER_DOWN);
-                reportMotion(false);
-            }
-            else{
-                //On target
-                lifter.setLifterDirection(Lifter.LifterDirection.LIFTER_STOP);
-                reportStatus("WORKING");
-            }
+        }
+        else{
+            reportStatus("NO TARGET");
+            drivetrainRotation.mecanumPolarRotate(0);
+            xPIDController.setPID(0, 0, 0, 0);
+            lifter.setLifterDirection(Lifter.LifterDirection.LIFTER_STOP);
         }
     }
     
