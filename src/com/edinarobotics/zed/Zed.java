@@ -19,7 +19,6 @@ import com.edinarobotics.zed.commands.GamepadDriveStrafeCommand;
 import com.edinarobotics.zed.commands.RaiseShooterToStartCommand;
 import com.edinarobotics.zed.commands.SetConveyorCommand;
 import com.edinarobotics.zed.commands.SetShooterCommand;
-import com.edinarobotics.zed.commands.VisionTrackingCommand;
 import com.edinarobotics.zed.subsystems.Auger;
 import com.edinarobotics.zed.subsystems.Collector;
 import com.edinarobotics.zed.subsystems.Conveyor;
@@ -79,24 +78,10 @@ public class Zed extends IterativeRobot {
     public void autonomousInit(){
         DriverStation driverStation = DriverStation.getInstance();
         double delayTime = driverStation.getAnalogIn(1);
-        byte goalType = VisionTrackingCommand.ANY_GOAL;
         
         boolean trackHighGoal = driverStation.getDigitalIn(1);
         boolean trackMiddleGoal = driverStation.getDigitalIn(2);
         boolean shootInAuto = true;
-        
-        if(trackHighGoal && trackMiddleGoal){
-            goalType = VisionTrackingCommand.ANY_GOAL;
-        }
-        else if(trackHighGoal){
-            goalType = VisionTrackingCommand.HIGH_GOAL;
-        }
-        else if(trackMiddleGoal){
-            goalType = VisionTrackingCommand.MIDDLE_GOAL;
-        }
-        else{
-            shootInAuto = false;
-        }
         
         betweenModes();
         DrivetrainStrafe drivetrainStrafe = Components.getInstance().drivetrainStrafe;
