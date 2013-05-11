@@ -38,9 +38,13 @@ public class Components {
     //PWM constants
     //Drivetrain constants
     private static final int FRONT_LEFT_DRIVE_JAGUAR = 11;
+    private static final int FRONT_LEFT_DRIVE_JAGUAR_MINI = 11;
     private static final int FRONT_RIGHT_DRIVE_JAGUAR = 12;
+    private static final int FRONT_RIGHT_DRIVE_JAGUAR_MINI = 12;
     private static final int BACK_LEFT_DRIVE_JAGUAR = 13;
+    private static final int BACK_LEFT_DRIVE_JAGUAR_MINI = 13;
     private static final int BACK_RIGHT_DRIVE_JAGUAR = 14;
+    private static final int BACK_RIGHT_DRIVE_JAGUAR_MINI = 14;
     //Conveyor constants
     private static final int CONVEYOR_VICTOR = 9;
     //Climber constants
@@ -77,9 +81,10 @@ public class Components {
      * is only called once and handles creating all the robot subsystems.
      */
     private Components(){
-        drivetrain = new Drivetrain(FRONT_LEFT_DRIVE_JAGUAR, FRONT_RIGHT_DRIVE_JAGUAR,
-                BACK_LEFT_DRIVE_JAGUAR, BACK_RIGHT_DRIVE_JAGUAR,
-                FRONT_LEFT_A, FRONT_LEFT_B, FRONT_RIGHT_A, FRONT_RIGHT_B);
+        drivetrain = new Drivetrain(FRONT_LEFT_DRIVE_JAGUAR, FRONT_LEFT_DRIVE_JAGUAR_MINI,
+                FRONT_RIGHT_DRIVE_JAGUAR, FRONT_RIGHT_DRIVE_JAGUAR_MINI,
+                BACK_LEFT_DRIVE_JAGUAR, BACK_LEFT_DRIVE_JAGUAR_MINI,
+                BACK_RIGHT_DRIVE_JAGUAR, BACK_RIGHT_DRIVE_JAGUAR_MINI);
         drivetrainStrafe = new DrivetrainStrafe(drivetrain);
         drivetrainRotation = new DrivetrainRotation(drivetrain, GYRO);
         shooter = new Shooter(SHOOTER_JAGUAR_FIRST, SHOOTER_JAGUAR_SECOND);
