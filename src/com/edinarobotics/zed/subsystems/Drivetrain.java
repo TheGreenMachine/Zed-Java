@@ -1,8 +1,10 @@
 package com.edinarobotics.zed.subsystems;
 
+import com.edinarobotics.utils.controllers.SpeedControllerMultiplexer;
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.SpeedController;
 
 public class Drivetrain {
     private final double DISTANCE_PER_PULSE = 1;
@@ -15,8 +17,7 @@ public class Drivetrain {
     private Encoder encoder1;
     private Encoder encoder2;
     
-    public Drivetrain(int frontLeft, int frontRight, int backLeft, int backRight,
-            int encoder1A, int encoder1B, int encoder2A, int encoder2B) {
+    public Drivetrain(int frontLeft, int frontRight, int backLeft, int backRight) {
         this.robotDrive = new RobotDrive(createCANJaguar(frontLeft, NUM_RETRIES),
                 createCANJaguar(backLeft, NUM_RETRIES),
                 createCANJaguar(frontRight, NUM_RETRIES),
@@ -25,13 +26,18 @@ public class Drivetrain {
         robotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, false);
         robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
         robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, false);
-        
-        encoder1 = new Encoder(encoder1A, encoder1B);
-        encoder2 = new Encoder(encoder2A, encoder2B);
-        encoder1.setDistancePerPulse(DISTANCE_PER_PULSE);
-        encoder2.setDistancePerPulse(DISTANCE_PER_PULSE);
-        encoder1.start();
-        encoder2.start();
+    }
+    
+    public Drivetrain(int frontLeft, int frontLeftMini, int frontRight, int frontRightMini,
+            int backLeft, int backLeftMini, int backRight, int backRightMini) {
+        this.robotDrive = new RobotDrive(createMultiplexedCANJaguar(frontLeft, frontLeftMini, NUM_RETRIES),
+                createMultiplexedCANJaguar(backLeft, backLeftMini, NUM_RETRIES),
+                createMultiplexedCANJaguar(frontRight, frontRightMini, NUM_RETRIES),
+                createMultiplexedCANJaguar(backRight, backRightMini, NUM_RETRIES));
+        robotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
+        robotDrive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, false);
+        robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
+        robotDrive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, false);
     }
     
     public void mecanumPolarStrafe(double magnitude, double direction){
@@ -49,12 +55,25 @@ public class Drivetrain {
         robotDrive.mecanumDrive_Polar(magnitude, direction, rotation);
     }
     
+    /**
+     * @deprecated The encoder does not get constructed. Usage will cause exceptions!
+     */
     public double getAverageForwardVelocity() {
         /*
          * The inner 0.5 multiplier is used because mecanum drive only gives
          * a forward velocity of half the wheel's actual rate.
          */
         return ((0.5*encoder1.getRate()) + (0.5*encoder2.getRate()))/2.0;
+    }
+    
+    private SpeedController createMultiplexedCANJaguar(int id, int idMini, int numRetries){
+        CANJaguar[] canJaguar = new CANJaguar[2];
+        canJaguar[0] = createCANJaguar(id, numRetries);
+        canJaguar[1] = createCANJaguar(idMini, numRetries);
+        
+        SpeedControllerMultiplexer scMultiplexer = new SpeedControllerMultiplexer(canJaguar);
+        
+        return scMultiplexer;
     }
     
     private CANJaguar createCANJaguar(int id, int numRetries){
