@@ -37,13 +37,13 @@ public class Components {
 
     //PWM constants
     //Drivetrain constants
-    private static final int FRONT_LEFT_DRIVE_JAGUAR = 11;
-    private static final int FRONT_LEFT_DRIVE_JAGUAR_MINI = 11;
-    private static final int FRONT_RIGHT_DRIVE_JAGUAR = 12;
+    private static final int FRONT_LEFT_DRIVE_JAGUAR = 15;
+    private static final int FRONT_LEFT_DRIVE_JAGUAR_MINI = 16;
+    private static final int FRONT_RIGHT_DRIVE_JAGUAR = 11;
     private static final int FRONT_RIGHT_DRIVE_JAGUAR_MINI = 12;
-    private static final int BACK_LEFT_DRIVE_JAGUAR = 13;
-    private static final int BACK_LEFT_DRIVE_JAGUAR_MINI = 13;
-    private static final int BACK_RIGHT_DRIVE_JAGUAR = 14;
+    private static final int BACK_LEFT_DRIVE_JAGUAR = 17;
+    private static final int BACK_LEFT_DRIVE_JAGUAR_MINI = 18;
+    private static final int BACK_RIGHT_DRIVE_JAGUAR = 13;
     private static final int BACK_RIGHT_DRIVE_JAGUAR_MINI = 14;
     //Conveyor constants
     private static final int CONVEYOR_VICTOR = 9;
