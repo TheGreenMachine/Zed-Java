@@ -194,7 +194,7 @@ public class Zed extends IterativeRobot {
         Components.getInstance().conveyor.setConveyorSpeed(0);
         Components.getInstance().drivetrainRotation.mecanumPolarRotate(0);
         Components.getInstance().drivetrainStrafe.mecanumPolarStrafe(0, 0);
-        Components.getInstance().lifter.setLifterDirection(Lifter.LifterDirection.LIFTER_STOP);
+        Components.getInstance().lifter.setLifterDirection(Lifter.LIFTER_STOP);
         Components.getInstance().shooter.setShooterVelocity(0);
         Components.getInstance().climber.setClimberDeployed(false);
     }

@@ -29,13 +29,13 @@ public class LiftShooterToAngleCommand extends Command {
         double lifterAngle = lifter.getShooterAngle();
         double liftError = lifterAngle - targetAngle;
         if(liftError > 0){
-            lifter.setLifterDirection(Lifter.LifterDirection.LIFTER_DOWN);
+            lifter.setLifterDirection(Lifter.LIFTER_DOWN);
         }
         else if(liftError < 0){
-            lifter.setLifterDirection(Lifter.LifterDirection.LIFTER_UP);
+            lifter.setLifterDirection(Lifter.LIFTER_UP);
         }
         else{
-            lifter.setLifterDirection(Lifter.LifterDirection.LIFTER_STOP);
+            lifter.setLifterDirection(Lifter.LIFTER_STOP);
         }
     }
 
@@ -46,7 +46,7 @@ public class LiftShooterToAngleCommand extends Command {
     }
 
     protected void end() {
-        lifter.setLifterDirection(Lifter.LifterDirection.LIFTER_STOP);
+        lifter.setLifterDirection(Lifter.LIFTER_STOP);
     }
 
     protected void interrupted() {

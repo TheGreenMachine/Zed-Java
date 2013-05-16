@@ -29,10 +29,10 @@ public class Controls {
         gamepad1.LEFT_TRIGGER.whileHeld(new SetDrivetrainStrafeCommand(ONE_JOYSTICK_MAGNITUDE, 180));
         gamepad1.LEFT_TRIGGER.whenReleased(new SetDrivetrainStrafeCommand(0, 0));
         //Lifter
-        gamepad1.DPAD_UP.whenPressed(new SetLifterCommand(Lifter.LifterDirection.LIFTER_UP));
-        gamepad1.DPAD_UP.whenReleased(new SetLifterCommand(Lifter.LifterDirection.LIFTER_STOP));
-        gamepad1.DPAD_DOWN.whenPressed(new SetLifterCommand(Lifter.LifterDirection.LIFTER_DOWN));
-        gamepad1.DPAD_DOWN.whenReleased(new SetLifterCommand(Lifter.LifterDirection.LIFTER_STOP));
+        gamepad1.DPAD_UP.whenPressed(new SetLifterCommand(Lifter.LIFTER_UP));
+        gamepad1.DPAD_UP.whenReleased(new SetLifterCommand(Lifter.LIFTER_STOP));
+        gamepad1.DPAD_DOWN.whenPressed(new SetLifterCommand(Lifter.LIFTER_DOWN));
+        gamepad1.DPAD_DOWN.whenReleased(new SetLifterCommand(Lifter.LIFTER_STOP));
         
         gamepad2 = new Gamepad(2);
         //Conveyor
@@ -51,10 +51,10 @@ public class Controls {
         gamepad2.DIAMOND_UP.whileHeld(new FixedPointVisionTrackingCommand(FixedPointVisionTrackingCommand.PYRAMID_BACK_MIDDLE_TUNNEL, TargetType.HIGH_GOAL));
         gamepad2.DIAMOND_DOWN.whileHeld(new FixedPointVisionTrackingCommand(FixedPointVisionTrackingCommand.PYRAMID_BACK_MIDDLE_TUNNEL, TargetType.MIDDLE_GOAL));
         //Lifter
-        gamepad2.DPAD_UP.whenPressed(new SetLifterCommand(Lifter.LifterDirection.LIFTER_UP));
-        gamepad2.DPAD_UP.whenReleased(new SetLifterCommand(Lifter.LifterDirection.LIFTER_STOP));
-        gamepad2.DPAD_DOWN.whenPressed(new SetLifterCommand(Lifter.LifterDirection.LIFTER_DOWN));
-        gamepad2.DPAD_DOWN.whenReleased(new SetLifterCommand(Lifter.LifterDirection.LIFTER_STOP));
+        gamepad2.DPAD_UP.whenPressed(new SetLifterCommand(Lifter.LIFTER_UP));
+        gamepad2.DPAD_UP.whenReleased(new SetLifterCommand(Lifter.LIFTER_STOP));
+        gamepad2.DPAD_DOWN.whenPressed(new SetLifterCommand(Lifter.LIFTER_DOWN));
+        gamepad2.DPAD_DOWN.whenReleased(new SetLifterCommand(Lifter.LIFTER_STOP));
     }
     
     /**

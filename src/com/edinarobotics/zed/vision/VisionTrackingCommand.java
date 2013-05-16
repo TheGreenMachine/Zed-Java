@@ -63,17 +63,17 @@ public abstract class VisionTrackingCommand extends Command {
                 //Error is too large, correct
                 if(yError > 0){
                     //Target is too high, need to move up
-                    lifter.setLifterDirection(Lifter.LifterDirection.LIFTER_UP);
+                    lifter.setLifterDirection(Lifter.LIFTER_UP);
                     reportMotion(true);
                 }
                 else if(yError < 0){
                     //Target is too low, neeed to move down
-                    lifter.setLifterDirection(Lifter.LifterDirection.LIFTER_DOWN);
+                    lifter.setLifterDirection(Lifter.LIFTER_DOWN);
                     reportMotion(false);
                 }
                 else{
                     //On target
-                    lifter.setLifterDirection(Lifter.LifterDirection.LIFTER_STOP);
+                    lifter.setLifterDirection(Lifter.LIFTER_STOP);
                     reportStatus("WORKING");
                 }
             }
@@ -82,7 +82,7 @@ public abstract class VisionTrackingCommand extends Command {
             reportStatus("NO TARGET");
             drivetrainRotation.mecanumPolarRotate(0);
             xPIDController.setPID(0, 0, 0, 0);
-            lifter.setLifterDirection(Lifter.LifterDirection.LIFTER_STOP);
+            lifter.setLifterDirection(Lifter.LIFTER_STOP);
         }
     }
     
@@ -114,7 +114,7 @@ public abstract class VisionTrackingCommand extends Command {
     protected void end(){
         xPIDController.disable();
         xPIDController.reset();
-        lifter.setLifterDirection(Lifter.LifterDirection.LIFTER_STOP);
+        lifter.setLifterDirection(Lifter.LIFTER_STOP);
         drivetrainRotation.mecanumPolarRotate(0);
         textOutput.println(DriverStationLCD.Line.kUser1, 1, "                                                                ");
         textOutput.updateLCD();

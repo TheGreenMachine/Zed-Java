@@ -6,9 +6,9 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class SetLifterCommand extends Command {
     private Lifter lifter;
-    private Lifter.LifterDirection direction;
+    private double direction;
     
-    public SetLifterCommand(Lifter.LifterDirection direction) {
+    public SetLifterCommand(double direction) {
         super("SetLifter");
         this.lifter = Components.getInstance().lifter;
         this.direction = direction;

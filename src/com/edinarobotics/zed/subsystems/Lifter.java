@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStationLCD;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.Victor;
 
 public class Lifter extends Subsystem1816 implements PIDSource {
     private static final double MIN_VOLTAGE = 0;
@@ -16,31 +17,41 @@ public class Lifter extends Subsystem1816 implements PIDSource {
     private static final double STRING_LENGTH = 1;
     private static final double STRING_POT_POSITION = 1;
     
+    public static final double LIFTER_UP = -1;
+    public static final double LIFTER_DOWN = 1;
+    public static final double LIFTER_STOP = 0;
+    
     public static final double PYRAMID_BACK_MIDDLE_ANGLE = 33;
     
-    private LifterDirection direction;
-    private Relay lifterRelay;
+    private double velocity;
+    private Victor lifterVictor;
     private ADXL345_I2C accelerometer;
     private DigitalInput upperSwitch;
     private DigitalInput lowerSwitch;
     private DriverStationLCD textOutput = DriverStationLCD.getInstance();
     
-    public Lifter(int lifterRelay, int lifterStringPot, int upperLimitSwitch, int lowerLimitSwitch) {
+    /**
+     * 
+     * @param lifterRelay
+     * @param lifterStringPot
+     * @param upperLimitSwitch
+     * @param lowerLimitSwitch 
+     */
+    public Lifter(int lifterVictor, int lifterStringPot, int upperLimitSwitch, int lowerLimitSwitch) {
         super("Lifter");
-        this.lifterRelay = new Relay(lifterRelay);
+        this.lifterVictor = new Victor(lifterVictor);
         accelerometer = new ADXL345_I2C(1, ADXL345_I2C.DataFormat_Range.k2G);
-        direction = LifterDirection.LIFTER_STOP;
         upperSwitch = new DigitalInput(upperLimitSwitch);
         lowerSwitch = new DigitalInput(lowerLimitSwitch);
     }
     
-    public void setLifterDirection(LifterDirection direction){
-        this.direction = direction;
+    public void setLifterDirection(double velocity){
+        this.velocity = velocity;
         update();
     }
     
-    public LifterDirection getLifterDirection(){
-        return direction;
+    public double getLifterVelocity(){
+        return velocity;
     }
     
     public double getStringPotLength() {
@@ -56,14 +67,13 @@ public class Lifter extends Subsystem1816 implements PIDSource {
     }
     
     public void update() {
-        LifterDirection processedDirection = direction;
-        if((direction.equals(LifterDirection.LIFTER_UP) && getUpperLimitSwitch()) ||
-           (direction.equals(LifterDirection.LIFTER_DOWN) && getLowerLimitSwitch())){
-            processedDirection = LifterDirection.LIFTER_STOP;
+        if((signum(velocity) == signum(LIFTER_UP) && getUpperLimitSwitch()) ||
+           (signum(velocity) == signum(LIFTER_DOWN) && getLowerLimitSwitch())) {
+            lifterVictor.set(LIFTER_STOP);
         }
-        lifterRelay.set(processedDirection.getRelayValue());
-        textOutput.println(DriverStationLCD.Line.kUser4, 1, "Shoot Ang: "+getShooterAngle());
-        textOutput.updateLCD();
+        else{
+            lifterVictor.set(velocity);
+        }
     }
     
     public boolean getUpperLimitSwitch(){
@@ -74,40 +84,13 @@ public class Lifter extends Subsystem1816 implements PIDSource {
         return lowerSwitch.get();
     }
     
-    public static class LifterDirection {
-        public static final LifterDirection LIFTER_UP = new LifterDirection((byte)1);
-        public static final LifterDirection LIFTER_DOWN = new LifterDirection((byte)-1);
-        public static final LifterDirection LIFTER_STOP = new LifterDirection((byte)0);
-        
-        private byte value;
-        
-        private LifterDirection(byte value){
-            this.value = value;
+    private byte signum(double value){
+        if(value > 0){
+            return 1;
         }
-        
-        protected byte getValue(){
-            return value;
+        else if(value < 0){
+            return -1;
         }
-        
-        public boolean equals(Object other){
-            if(other instanceof LifterDirection){
-                return ((LifterDirection)other).getValue() == getValue();
-            }
-            return false;
-        }
-        
-        public int hashCode(){
-            return new Byte(getValue()).hashCode();
-        }
-        
-        public Relay.Value getRelayValue(){
-            if(equals(LIFTER_UP)){
-                return Relay.Value.kReverse;
-            }
-            else if(equals(LIFTER_DOWN)){
-                return Relay.Value.kForward;
-            }
-            return Relay.Value.kOff;
-        }
+        return 0;
     }
 }
