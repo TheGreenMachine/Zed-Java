@@ -16,7 +16,7 @@ public class Climber extends Subsystem1816 {
     public static final double CLIMBER_DEPLOYED = 1;
     
     public Climber(int climberServo){
-        this.climberServo = new Servo(climberServo);
+        //this.climberServo = new Servo(climberServo);
         position = 0;
     }
     
@@ -30,6 +30,6 @@ public class Climber extends Subsystem1816 {
     }
 
     public void update() {
-        climberServo.set(position);
+        //climberServo.set(position);
     }
 }
