@@ -37,14 +37,20 @@ public class Components {
 
     //PWM constants
     //Drivetrain constants
-    private static final int FRONT_LEFT_DRIVE_JAGUAR = 4;
-    private static final int FRONT_RIGHT_DRIVE_JAGUAR = 3;
-    private static final int BACK_LEFT_DRIVE_JAGUAR = 2;
-    private static final int BACK_RIGHT_DRIVE_JAGUAR = 1;
+    private static final int FRONT_LEFT_DRIVE_JAGUAR       = 2;
+    private static final int FRONT_LEFT_DRIVE_JAGUAR_MINI  = 5;
+    private static final int FRONT_RIGHT_DRIVE_JAGUAR      = 3;
+    private static final int FRONT_RIGHT_DRIVE_JAGUAR_MINI = 7;
+    private static final int BACK_LEFT_DRIVE_JAGUAR        = 4;
+    private static final int BACK_LEFT_DRIVE_JAGUAR_MINI   = 6;
+    private static final int BACK_RIGHT_DRIVE_JAGUAR       = 1;
+    private static final int BACK_RIGHT_DRIVE_JAGUAR_MINI  = 8;
+    //Lifter Constants
+    private static final int LIFTER_VICTOR = 10;
     //Conveyor constants
     private static final int CONVEYOR_VICTOR = 9;
     //Climber constants
-    private static final int CLIMBER_SERVO = 5;
+    private static final int CLIMBER_SERVO = 16;
     
     //CAN constants
     //Shooter constants
@@ -54,8 +60,6 @@ public class Components {
     //Relay constants
     //Auger constants
     private static final int AUGER_SPIKE = 8;
-    //Lifter constants
-    private static final int LIFTER_SPIKE = 3;
     //Collector constants
     private static final int COLLECTOR_LEFT_STAR_SPIKE = 1;
     private static final int COLLECTOR_RIGHT_STAR_SPIKE = 2;
@@ -77,13 +81,14 @@ public class Components {
      * is only called once and handles creating all the robot subsystems.
      */
     private Components(){
-        drivetrain = new Drivetrain(FRONT_LEFT_DRIVE_JAGUAR, FRONT_RIGHT_DRIVE_JAGUAR,
-                BACK_LEFT_DRIVE_JAGUAR, BACK_RIGHT_DRIVE_JAGUAR,
-                FRONT_LEFT_A, FRONT_LEFT_B, FRONT_RIGHT_A, FRONT_RIGHT_B);
+        drivetrain = new Drivetrain(FRONT_LEFT_DRIVE_JAGUAR, FRONT_LEFT_DRIVE_JAGUAR_MINI,
+            FRONT_RIGHT_DRIVE_JAGUAR, FRONT_RIGHT_DRIVE_JAGUAR_MINI,
+            BACK_LEFT_DRIVE_JAGUAR, BACK_LEFT_DRIVE_JAGUAR_MINI,
+            BACK_RIGHT_DRIVE_JAGUAR, BACK_RIGHT_DRIVE_JAGUAR_MINI);
         drivetrainStrafe = new DrivetrainStrafe(drivetrain);
         drivetrainRotation = new DrivetrainRotation(drivetrain, GYRO);
         shooter = new Shooter(SHOOTER_JAGUAR_FIRST, SHOOTER_JAGUAR_SECOND);
-        lifter = new Lifter(LIFTER_SPIKE, LIFTER_STRING_POT, LIFTER_UPPER_LIMIT_SWITCH, LIFTER_LOWER_LIMIT_SWITCH);
+        lifter = new Lifter(LIFTER_VICTOR, LIFTER_STRING_POT, LIFTER_UPPER_LIMIT_SWITCH, LIFTER_LOWER_LIMIT_SWITCH);
         collector = new Collector(COLLECTOR_LEFT_STAR_SPIKE, COLLECTOR_RIGHT_STAR_SPIKE,
                 COLLECTOR_LIFTER_SPIKE, COLLECTOR_UPPER_LIMIT_SWITCH, COLLECTOR_LOWER_LIMIT_SWITCH);
         conveyor = new Conveyor(CONVEYOR_VICTOR);
