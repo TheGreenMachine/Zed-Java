@@ -1,17 +1,15 @@
 package com.edinarobotics.zed.subsystems;
 
-import com.edinarobotics.utils.sensors.StringPot;
 import com.edinarobotics.utils.subsystems.Subsystem1816;
 import com.sun.squawk.util.MathUtils;
 import edu.wpi.first.wpilibj.ADXL345_I2C;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStationLCD;
+import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Victor;
 
-public class Lifter extends Subsystem1816 implements PIDSource {
+public class Lifter extends Subsystem1816 implements PIDSource, PIDOutput {
     private static final double MIN_VOLTAGE = 0;
     private static final double MAX_VOLTAGE = 5;
     private static final double STRING_LENGTH = 1;
@@ -92,5 +90,9 @@ public class Lifter extends Subsystem1816 implements PIDSource {
             return -1;
         }
         return 0;
+    }
+
+    public void pidWrite(double output) {
+        setLifterDirection(output);
     }
 }
