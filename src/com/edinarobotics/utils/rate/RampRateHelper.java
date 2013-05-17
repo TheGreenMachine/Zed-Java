@@ -12,7 +12,7 @@ public class RampRateHelper {
     private double target;
     private boolean rampUp;
     private boolean rampDown;
-    protected Timer timer;
+    private double previousTime;
     
     /**
      * Constructs a new RampRateHelper with a given rate limit, which will
@@ -27,7 +27,7 @@ public class RampRateHelper {
         this.valuesPerSecond = valuesPerSecond;
         this.rampUp = rampUp;
         this.rampDown = rampDown;
-        timer = new Timer();
+        previousTime = Timer.getFPGATimestamp();
     }
     
     /**
@@ -119,30 +119,27 @@ public class RampRateHelper {
      * rate.
      */
     public double getChange(double currentValue){
-        double timeDelta = timer.get();
-        double difference = getTarget() - currentValue;
+        double timeDelta = Timer.getFPGATimestamp() - previousTime;
+        previousTime = Timer.getFPGATimestamp();
+        double difference = Math.abs(getTarget() - currentValue);
+        byte direction = signum(Math.abs(target) - Math.abs(currentValue));
+        byte returnSign = signum(getTarget() - currentValue);
         double maxChange = getRampRate() * timeDelta;
-        double toReturn = 0;
-        if((difference < 0 && getRampDown()) || (difference > 0 && getRampUp())){
-            int sgn = 0;
-            if(difference < 0){
-                sgn = -1;
+        if((direction > 0 && getRampUp()) || (direction < 0 && getRampDown())){
+            if(difference < maxChange){
+                return returnSign * difference;
             }
-            else if(difference > 0){
-                sgn = 1;
-            }
-            if(Math.abs(difference) < maxChange){
-                toReturn = difference;
-            }
-            else{
-                toReturn = sgn*maxChange;
-            }
+            return returnSign * maxChange;
         }
-        else{
-            toReturn = difference;
+        return returnSign * difference;
+    }
+    
+    private byte signum(double value){
+        if (value < 0) {
+            return -1;
+        } else if (value > 0) {
+            return 1;
         }
-        timer.start();
-        timer.reset();
-        return toReturn;
+        return 0;
     }
 }
