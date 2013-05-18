@@ -13,7 +13,7 @@ public class FixedPointVisionTrackingCommand extends VisionTrackingCommand {
     private TargetType targetType;
     
     public static final Point2 ORIGIN = new Point2(0,0);
-    public static final Point2 PYRAMID_BACK_MIDDLE = new Point2(0.08125, -0.19166);
+    public static final Point2 PYRAMID_BACK_MIDDLE = new Point2(0.08125 - (0.5*PYRAMID_BACK_MIDDLE_GOAL_WIDTH), -0.19166+PYRAMID_BACK_MIDDLE_GOAL_HEIGHT);
     
     public FixedPointVisionTrackingCommand(double xSetpoint, double ySetpoint) {
         this(xSetpoint, ySetpoint, TargetType.ANY_GOAL);
