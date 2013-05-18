@@ -52,7 +52,6 @@ public class Drivetrain {
             // TO FIX THIS: currentMagnitude = targetMagnitude;
         }
         currentMagnitude += magnitudeLimit.getChange(currentMagnitude);
-        System.out.println("Target: "+magnitudeLimit.getTarget()+"       "+currentMagnitude);
         robotDrive.mecanumDrive_Polar(currentMagnitude, direction, rotation);
     }
     
