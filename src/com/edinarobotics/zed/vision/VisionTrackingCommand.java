@@ -76,6 +76,12 @@ public abstract class VisionTrackingCommand extends Command {
             xPIDConfig.setValue(xPIDSource.pidGet()); //Tuning feedback
             yPIDConfig.setSetpoint(yPIDController.getSetpoint()); //Tuning feedback
             yPIDConfig.setValue(yPIDSource.pidGet()); //Tuning feedback
+            if(signum(lifter.getLifterVelocity()) == signum(Lifter.LIFTER_UP)) {
+                reportMotion(true);
+            }
+            else {
+                reportMotion(false);
+            }
         }
         else{
             reportStatus("NO TARGET");
@@ -140,5 +146,15 @@ public abstract class VisionTrackingCommand extends Command {
     
     protected Target getTarget(){
         return getTargetCollection().getClosestTarget(getXSetpoint(), getYSetpoint());
+    }
+    
+    private byte signum(double value){
+        if(value > 0){
+            return 1;
+        }
+        else if(value < 0){
+            return -1;
+        }
+        return 0;
     }
 }
