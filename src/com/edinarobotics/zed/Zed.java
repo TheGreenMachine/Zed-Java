@@ -109,7 +109,7 @@ public class Zed extends IterativeRobot {
         autoCommand.addSequential(new PrintCommand("Starting autonomous"));
         autoCommand.addSequential(new WaitCommand(delayTime));
         if(shootInAuto){
-            autoCommand.addSequential(new FixedPointVisionTrackingCommand(FixedPointVisionTrackingCommand.PYRAMID_BACK_MIDDLE, TargetType.HIGH_GOAL), 2);
+            autoCommand.addSequential(new FixedPointVisionTrackingCommand(FixedPointVisionTrackingCommand.PYRAMID_BACK_MIDDLE, TargetType.HIGH_GOAL), 4);
             autoCommand.addParallel(firstAugerDrop);
             autoCommand.addSequential(new SetShooterCommand(Shooter.SHOOTER_ON));
             autoCommand.addSequential(new WaitCommand(2));
@@ -117,13 +117,13 @@ public class Zed extends IterativeRobot {
             autoCommand.addSequential(new WaitCommand(1));
             autoCommand.addSequential(new PrintCommand("Dispensing auger"));
             autoCommand.addSequential(new AugerRotateCommand(Auger.AugerDirection.AUGER_DOWN));
-            autoCommand.addSequential(new WaitCommand(2.40));
+            autoCommand.addSequential(new WaitCommand(1.75));
             autoCommand.addSequential(new PrintCommand("Dispensing auger"));
             autoCommand.addSequential(new AugerRotateCommand(Auger.AugerDirection.AUGER_DOWN));
-            autoCommand.addSequential(new WaitCommand(2.40));
+            autoCommand.addSequential(new WaitCommand(1.75));
             autoCommand.addSequential(new PrintCommand("Dispensing auger"));
             autoCommand.addSequential(new AugerRotateCommand(Auger.AugerDirection.AUGER_DOWN));
-            autoCommand.addSequential(new WaitCommand(2.40));
+            autoCommand.addSequential(new WaitCommand(1.75));
             autoCommand.addSequential(new PrintCommand("Dispensing auger"));
             autoCommand.addSequential(new AugerRotateCommand(Auger.AugerDirection.AUGER_DOWN));
             autoCommand.addSequential(new WaitCommand(2));
