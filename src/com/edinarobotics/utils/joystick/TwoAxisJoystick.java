@@ -1,4 +1,4 @@
-package com.edinarobotics.utils.gamepad;
+package com.edinarobotics.utils.joystick;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;

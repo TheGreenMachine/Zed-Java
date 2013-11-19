@@ -1,10 +1,10 @@
 package com.edinarobotics.zed.commands;
 
 import com.edinarobotics.utils.gamepad.FilterSet;
-import com.edinarobotics.utils.gamepad.Gamepad;
-import com.edinarobotics.utils.gamepad.GamepadResult;
+import com.edinarobotics.utils.joystick.ThreeAxisJoystick;
 import com.edinarobotics.utils.gamepad.filters.DeadzoneFilter;
 import com.edinarobotics.utils.gamepad.filters.ScalingPowerFilter;
+import com.edinarobotics.utils.joystick.JoystickResult;
 import com.edinarobotics.zed.Components;
 import com.edinarobotics.zed.subsystems.Drivetrain;
 import com.edinarobotics.zed.subsystems.DrivetrainStrafe;
@@ -20,20 +20,20 @@ public class GamepadDriveStrafeCommand extends Command{
     
     public static boolean reverseStrafe = false;
     
-    Gamepad gamepad;
+    ThreeAxisJoystick joystick;
     FilterSet filters;
     DrivetrainStrafe drivetrainStrafe;
     
     /**
      * Construct a new GamepadDriveCommand using the given gamepad, filters
      * and drivetrain.
-     * @param gamepad The Gamepad object to read for control values.
+     * @param joystick The ThreeAxisJoystick object to read for control values.
      * @param filters The set of filters to use when filtering gamepad output.
      * @param drivetrain The drivetrain object to control.
      */
-    public GamepadDriveStrafeCommand(Gamepad gamepad, FilterSet filters){
+    public GamepadDriveStrafeCommand(ThreeAxisJoystick joystick, FilterSet filters){
         super(COMMAND_NAME);
-        this.gamepad = gamepad;
+        this.joystick = joystick;
         this.filters = filters;
         this.drivetrainStrafe = Components.getInstance().drivetrainStrafe;
         requires(drivetrainStrafe);
@@ -42,15 +42,15 @@ public class GamepadDriveStrafeCommand extends Command{
     /**
      * Constructs a new GamepadDriveCommand using the given gamepad and
      * drivetrain. This command will use a default set of filters.
-     * @param gamepad The Gamepad object to read for control values.
+     * @param joystick The ThreeAxisJoystick object to read for control values.
      * @param drivetrain The drivetrain object to control.
      */
-    public GamepadDriveStrafeCommand(Gamepad gamepad){
+    public GamepadDriveStrafeCommand(ThreeAxisJoystick joystick){
         super(COMMAND_NAME);
         filters = new FilterSet();
         filters.addFilter(new DeadzoneFilter(0.15));
         filters.addFilter(new ScalingPowerFilter(2));
-        this.gamepad = gamepad;
+        this.joystick = joystick;
         this.drivetrainStrafe = Components.getInstance().drivetrainStrafe;
         requires(drivetrainStrafe);
     }
@@ -63,8 +63,8 @@ public class GamepadDriveStrafeCommand extends Command{
      * {@code drivetrain}.
      */
     protected void execute() {
-        GamepadResult gamepadState = filters.filter(gamepad.getJoysticks());
-        drivetrainStrafe.mecanumPolarStrafe(SPEED_MULTIPLIER*gamepadState.getLeftMagnitude(), gamepadState.getLeftDirection()+(reverseStrafe ? 180 : 0));
+        JoystickResult joystickState = filters.filter(joystick.getJoysticks());
+        drivetrainStrafe.mecanumPolarStrafe(SPEED_MULTIPLIER*joystickState.getJoyMagnitude(), joystickState.getJoyDirection()+(reverseStrafe ? 180 : 0));
     }
 
     protected boolean isFinished() {

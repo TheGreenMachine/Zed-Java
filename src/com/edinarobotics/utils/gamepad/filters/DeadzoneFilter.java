@@ -2,6 +2,7 @@ package com.edinarobotics.utils.gamepad.filters;
 
 import com.edinarobotics.utils.gamepad.GamepadFilter;
 import com.edinarobotics.utils.gamepad.GamepadResult;
+import com.edinarobotics.utils.joystick.JoystickResult;
 
 /**
  * This filter can be used to apply a deadzone to all the axes of a Gamepad.
@@ -27,6 +28,13 @@ public class DeadzoneFilter implements GamepadFilter{
         double rx = deadzone(toFilter.getRightX());
         double ry = deadzone(toFilter.getRightY());
         return new GamepadResult(lx,ly,rx,ry);
+    }
+
+    public JoystickResult filter(JoystickResult toFilter) {
+        double x = deadzone(toFilter.getJoyX());
+        double y = deadzone(toFilter.getJoyY());
+        double twist = deadzone(toFilter.getJoyTwist());
+        return new JoystickResult(x, y, twist);
     }
     
     private double deadzone(double value){

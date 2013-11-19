@@ -9,15 +9,14 @@ package com.edinarobotics.zed;
 
 
 import com.edinarobotics.utils.commands.MaintainStateCommand;
-import com.edinarobotics.utils.commands.RepeatCommand;
-import com.edinarobotics.utils.gamepad.Gamepad;
+import com.edinarobotics.utils.joystick.ThreeAxisJoystick;
 import com.edinarobotics.utils.pid.PIDTuningManager;
 import com.edinarobotics.zed.commands.AugerRotateCommand;
 import com.edinarobotics.zed.commands.FixedPointVisionTrackingCommand;
 import com.edinarobotics.zed.commands.GamepadDriveRotationCommand;
 import com.edinarobotics.zed.commands.GamepadDriveStrafeCommand;
-import com.edinarobotics.zed.commands.RaiseShooterToStartCommand;
 import com.edinarobotics.zed.commands.SetConveyorCommand;
+import com.edinarobotics.zed.commands.SetLifterCommand;
 import com.edinarobotics.zed.commands.SetShooterCommand;
 import com.edinarobotics.zed.subsystems.Auger;
 import com.edinarobotics.zed.subsystems.Collector;
@@ -155,10 +154,10 @@ public class Zed extends IterativeRobot {
      */
     public void teleopInit(){
         betweenModes();
-        Gamepad driveGamepad = Controls.getInstance().gamepad1;
-        Gamepad shootGamepad = Controls.getInstance().gamepad2;
-        Components.getInstance().drivetrainStrafe.setDefaultCommand(new GamepadDriveStrafeCommand(driveGamepad));
-        Components.getInstance().drivetrainRotation.setDefaultCommand(new GamepadDriveRotationCommand(driveGamepad, shootGamepad));
+        ThreeAxisJoystick joystick = Controls.getInstance().joystick;
+        Components.getInstance().drivetrainStrafe.setDefaultCommand(new GamepadDriveStrafeCommand(joystick));
+        Components.getInstance().drivetrainRotation.setDefaultCommand(new GamepadDriveRotationCommand(joystick));
+        Components.getInstance().lifter.setDefaultCommand(new SetLifterCommand(joystick));
     }
 
     /**

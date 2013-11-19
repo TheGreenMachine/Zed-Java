@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.DriverStationLCD;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.command.Command;
 
 public class Lifter extends Subsystem1816 implements PIDSource, PIDOutput {
     private static final double MIN_VOLTAGE = 0;
@@ -72,6 +73,13 @@ public class Lifter extends Subsystem1816 implements PIDSource, PIDOutput {
         else{
             lifterVictor.set(velocity);
         }
+    }
+    
+    public void setDefaultCommand(Command command){
+        if(getDefaultCommand() != null){
+            super.getDefaultCommand().cancel();
+        }
+        super.setDefaultCommand(command);
     }
     
     public boolean getUpperLimitSwitch(){

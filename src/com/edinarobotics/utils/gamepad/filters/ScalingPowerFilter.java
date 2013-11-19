@@ -2,6 +2,7 @@ package com.edinarobotics.utils.gamepad.filters;
 
 import com.edinarobotics.utils.gamepad.GamepadFilter;
 import com.edinarobotics.utils.gamepad.GamepadResult;
+import com.edinarobotics.utils.joystick.JoystickResult;
 import com.sun.squawk.util.MathUtils;
 
 /**
@@ -33,6 +34,12 @@ public class ScalingPowerFilter implements GamepadFilter{
                 filter(toFilter.getLeftY()),
                 filter(toFilter.getRightX()),
                 filter(toFilter.getRightY()));
+    }
+    
+    public JoystickResult filter(JoystickResult toFilter){
+        return new JoystickResult(filter(toFilter.getJoyX()),
+                filter(toFilter.getJoyY()),
+                filter(toFilter.getJoyTwist()));
     }
     
     /**
