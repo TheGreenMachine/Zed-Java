@@ -42,7 +42,6 @@ public class GamepadDriveRotationCommand extends Command{
         super(COMMAND_NAME);
         joystickFilters = new FilterSet();
         joystickFilters.addFilter(new DeadzoneFilter(0.15));
-        joystickFilters.addFilter(new ScalingPowerFilter(2));
         this.joystick = joystick;
         this.drivetrainRotation = Components.getInstance().drivetrainRotation;
         requires(drivetrainRotation);
