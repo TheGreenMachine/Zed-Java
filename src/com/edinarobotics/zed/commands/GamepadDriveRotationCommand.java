@@ -11,44 +11,38 @@ import com.edinarobotics.zed.subsystems.DrivetrainRotation;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * This {@link Command} allows a gamepad to control the {@link Drivetrain}.
- * It gets the current values from the gamepad and sends them to the drivetrain.
+ * This {@link Command} allows a gamepad to control the {@link Drivetrain}. It
+ * gets the current values from the gamepad and sends them to the drivetrain.
  */
-public class GamepadDriveRotationCommand extends Command{
+public class GamepadDriveRotationCommand extends Command {
+
     private static final String COMMAND_NAME = "GamepadDriveRotation";
     private ThreeAxisJoystick joystick;
-    private FilterSet joystickFilters;
     private DrivetrainRotation drivetrainRotation;
-    
-    private static double ZERO_THRESHOLD = 0.05;
-    
     public static final double SPEED_MULTIPLIER = 1;
-    
-    public GamepadDriveRotationCommand(ThreeAxisJoystick joystick, FilterSet joystickFilters){
+
+    public GamepadDriveRotationCommand(ThreeAxisJoystick joystick, FilterSet joystickFilters) {
         super(COMMAND_NAME);
         this.joystick = joystick;
-        this.joystickFilters = joystickFilters;
         this.drivetrainRotation = Components.getInstance().drivetrainRotation;
         requires(drivetrainRotation);
     }
-    
+
     /**
      * Constructs a new GamepadDriveCommand using the given gamepad and
      * drivetrain. This command will use a default set of filters.
+     *
      * @param gamepad The Gamepad object to read for control values.
      * @param gamepad2 The second gamepad object to read for control values.
      */
-    public GamepadDriveRotationCommand(ThreeAxisJoystick joystick){
+    public GamepadDriveRotationCommand(ThreeAxisJoystick joystick) {
         super(COMMAND_NAME);
-        joystickFilters = new FilterSet();
-        joystickFilters.addFilter(new DeadzoneFilter(0.15));
         this.joystick = joystick;
         this.drivetrainRotation = Components.getInstance().drivetrainRotation;
         requires(drivetrainRotation);
     }
 
     protected void initialize() {
-        
     }
 
     /**
@@ -56,10 +50,32 @@ public class GamepadDriveRotationCommand extends Command{
      * {@code drivetrain}.
      */
     protected void execute() {
-        JoystickResult joystickState = joystickFilters.filter(joystick.getJoysticks());
         //Precedence: gamepad then gamepad2
-        double joystickValue = joystickState.getJoyTwist();
-        drivetrainRotation.mecanumPolarRotate(SPEED_MULTIPLIER*joystickValue);
+        double joyTwistVal = fixRange(joystick.getJoyTwist());
+        drivetrainRotation.mecanumPolarRotate(SPEED_MULTIPLIER * joyTwistVal);
+    }
+
+    private double fixRange(double val) {
+        if (Math.abs(val) < 0.4) {
+            return 0.0;
+        }
+
+        if (signum(val) == 1) {
+            return (val - 0.4) / (1.0 - 0.4) * (1.0 - 0.0) + 0.0;
+        } else if (signum(val) == -1) {
+            return (val - (-1.0)) / (-0.4 - (-1.0)) * (0.0 - (-1.0)) - 1.0;
+        } else {
+            return val;
+        }
+    }
+
+    private byte signum(double value) {
+        if (value < 0) {
+            return -1;
+        } else if (value > 0) {
+            return 1;
+        }
+        return 0;
     }
 
     protected boolean isFinished() {
@@ -67,10 +83,8 @@ public class GamepadDriveRotationCommand extends Command{
     }
 
     protected void end() {
-        
     }
 
     protected void interrupted() {
-        
     }
 }

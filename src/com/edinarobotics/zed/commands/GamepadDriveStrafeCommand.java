@@ -49,7 +49,6 @@ public class GamepadDriveStrafeCommand extends Command{
         super(COMMAND_NAME);
         filters = new FilterSet();
         filters.addFilter(new DeadzoneFilter(0.15));
-        filters.addFilter(new ScalingPowerFilter(2));
         this.joystick = joystick;
         this.drivetrainStrafe = Components.getInstance().drivetrainStrafe;
         requires(drivetrainStrafe);

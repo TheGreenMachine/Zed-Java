@@ -61,7 +61,7 @@ public class ThreeAxisJoystick {
     }
     
     public double getHatY() {
-        return joystick.getRawAxis(6);
+        return -joystick.getRawAxis(6);
     }
     
     public JoystickResult getJoysticks(){

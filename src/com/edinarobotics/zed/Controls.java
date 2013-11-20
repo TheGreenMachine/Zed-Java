@@ -28,11 +28,11 @@ public class Controls {
         joystick.BASE_INNER_MIDDLE.whenPressed(new SetAugerCommand(Auger.AugerDirection.AUGER_STOP));
         
         // Conveyor
-        joystick.JOY_BOTTOM_RIGHT.whenPressed(new SetConveyorCommand(Conveyor.CONVEYOR_SHOOT_IN));
+        joystick.JOY_BOTTOM_RIGHT.whenPressed(new SetConveyorCommand(Conveyor.CONVEYOR_SHOOT_OUT));
         joystick.JOY_BOTTOM_RIGHT.whenReleased(new SetConveyorCommand(Conveyor.CONVEYOR_STOP));
-        joystick.JOY_TOP_RIGHT.whenPressed(new SetConveyorCommand(Conveyor.CONVEYOR_SHOOT_OUT));
+        joystick.JOY_TOP_RIGHT.whenPressed(new SetConveyorCommand(Conveyor.CONVEYOR_SHOOT_IN));
         joystick.JOY_TOP_RIGHT.whenReleased(new SetConveyorCommand(Conveyor.CONVEYOR_STOP));
-        joystick.BASE_OUTER_MIDDLE.whenPressed(new SetConveyorCommand(Conveyor.CONVEYOR_SHOOT_OUT));
+        joystick.BASE_OUTER_MIDDLE.whenPressed(new SetConveyorCommand(Conveyor.CONVEYOR_SHOOT_IN));
         joystick.BASE_OUTER_MIDDLE.whenReleased(new SetConveyorCommand(Conveyor.CONVEYOR_STOP));
         
         // Shooter
